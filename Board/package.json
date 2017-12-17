@@ -1,0 +1,28 @@
+{
+  "name": "board",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node ./bin/www",
+    "start": "forever start --minUptime 5000 --spinSleepTime 2000 ./bin/www",
+    "restart": "forever restart ./bin/www",
+    "stop": "forever stop ./bin/www"
+  },
+  "dependencies": {
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "~4.15.2",
+    "jade": "~1.11.0",
+    "mongodb": "^3.0.0-rc0",
+    "morgan": "~1.8.1",
+    "serve-favicon": "~2.4.2"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-install": "^1.1.0",
+    "gulp-jshint": "^1.12.0",
+    "gulp-nodemon": "^2.2.1",
+    "gulp-sass": "^3.1.0"
+  }
+}
