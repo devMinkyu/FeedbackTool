@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-//var mongoose = require('mongoose');
+var mongoose = require('mongoose');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -17,8 +17,8 @@ app.set('view engine', 'jade');
 
 
 // mongodb connect
-// mongoose.connect('mongodb://localhost:9336/koreanpoker');
-// mongoose.connection.on('error', console.log);
+mongoose.connect('mongodb://localhost:27017/board');
+mongoose.connection.on('error', console.log);
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
