@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+    .container
+        .row.main
+            .main-login.main-center
+                form(action='/users/register', method='POST')
+                    .form-group
+                        label.cols-sm-2.control-label(for='name') Your Name
+                        .cols-sm-10
+                            .input-group
+                                span.input-group-addon
+                                    i.fa.fa-user.fa(aria-hidden='true')
+                                input#name.form-control(type='text', name='name', placeholder='Enter your Name')
+                    .form-group
+                        label.cols-sm-2.control-label(for='email') Your Email
+                        .cols-sm-10
+                            .input-group
+                                span.input-group-addon
+                                    i.fa.fa-envelope.fa(aria-hidden='true')
+                                input#email.form-control(type='text', name='email', placeholder='Enter your Email')
+                    .form-group
+                        label.cols-sm-2.control-label(for='password') Password
+                        .cols-sm-10
+                            .input-group
+                                span.input-group-addon
+                                    i.fa.fa-lock.fa-lg(aria-hidden='true')
+                                input#password.form-control(type='password', name='password', placeholder='Enter your Password')
+                    .form-group
+                        label.cols-sm-2.control-label(for='confirm') Confirm Password
+                        .cols-sm-10
+                            .input-group
+                                span.input-group-addon
+                                    i.fa.fa-lock.fa-lg(aria-hidden='true')
+                                input#confirm.form-control(type='password', name='confirm', placeholder='Confirm your Password')
+                    .form-group
+                         button.btn.btn-lg.btn-warning.btn-block#login(type='submit') Register

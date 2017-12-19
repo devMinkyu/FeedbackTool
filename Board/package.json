@@ -9,11 +9,15 @@
     "stop": "forever stop ./bin/www"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "~1.17.1",
+    "connect-flash": "^0.1.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
+    "express-session": "^1.15.6",
     "jade": "~1.11.0",
+    "method-override": "^2.3.10",
     "mongodb": "^3.0.0-rc0",
     "mongoose": "^4.13.7",
     "mongoose-type-email": "^1.0.5",

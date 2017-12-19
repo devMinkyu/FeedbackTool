@@ -1,0 +1,14 @@
+{
+  "name": "board",
+  "description": "",
+  "main": "",
+  "authors": [
+    "minkyu9403@gmail.com"
+  ],
+  "license": "No License",
+  "homepage": "https://github.com/alsrb6954/Board",
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1"
+  }
+}

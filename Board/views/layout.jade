@@ -2,6 +2,30 @@ doctype html
 html
   head
     title= title
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, , maximum-scale=1')
+    
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap-theme.min.css')
+    link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css')
+
+    link(href='https://fonts.googleapis.com/css?family=Passion+One', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Oxygen', rel='stylesheet', type='text/css')
+
+    script(src='/javascripts/main.js') 
+    //script(type='text/javascript', src='/bower_components/jquery/dist/jquery.js')
+    //script(type='text/javascript', src='/bower_components/bootstrap/dist/js/bootstrap.js'
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js')
+    script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
   body
+    if flashMessages
+      each type, texts in flashMessages
+        .container
+          .alert(class='alert-#{type}')
+            each msg in texts
+              p= msg
+
     block content
+
+
