@@ -9,8 +9,10 @@ var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var methodOverride = require('method-override');
 
+var configAuth = require('./config/auth');
 var index = require('./routes/index');
 var users = require('./routes/users');
+var routeAuth = require('./routes/auth');
 
 var app = express();
 
@@ -43,6 +45,18 @@ app.use(session({
 
 app.use('/', index);
 app.use('/users', users);
+routeAuth(app, passport);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(function(req, res, next) {
+  res.locals.currentUser = req.user;
+  res.locals.flashMessages = req.flash();
+  next();
+});
+
+configAuth(passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
