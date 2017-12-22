@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  .container
+    h1.page-header 게시판
+
+    table.table.table-bordered
+      thead
+        tr
+          th 작성자
+          th 제목
+          th 등록시간
+          th 조회수
+          th 댓글수
+      tbody
+        tr
+        td 민규
+        td
+            a(href='#')= 된다
+        td 2017-455--44
+        td 5
+        td 4
+    a.btn.btn-primary(href='#') 게시판 작성하기

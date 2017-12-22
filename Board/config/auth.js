@@ -12,12 +12,14 @@ var LocalStrategy = require('passport-local').Strategy,
           });
         });
 
-        passport.use('local-signin', new LocalStrategy({
+        passport.use('localSignin', new LocalStrategy({
             usernameField : 'email',
             passwordField : 'password',
             passReqToCallback : true
           }, function(req, email, password, done) {
             process.nextTick(function () {
+                console.log(email);
+                console.log(password);
               User.findOne({email: email}, function(err, user) {
                 if (err) {
                   return done(err);
@@ -31,5 +33,5 @@ var LocalStrategy = require('passport-local').Strategy,
                 return done(null, user, req.flash('success', '로그인되었습니다.'));
               });
             });
-          }));
+        }));
     };

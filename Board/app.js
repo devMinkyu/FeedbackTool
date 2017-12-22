@@ -8,10 +8,12 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var flash = require('connect-flash');
 var methodOverride = require('method-override');
+var passport = require('passport');
 
 var configAuth = require('./config/auth');
 var index = require('./routes/index');
 var users = require('./routes/users');
+var board = require('./routes/board');
 var routeAuth = require('./routes/auth');
 
 var app = express();
@@ -19,7 +21,6 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-
 
 // mongodb connect
 mongoose.connect('mongodb://localhost:27017/board');
@@ -43,20 +44,21 @@ app.use(session({
   secret: 'long-long-long-secret-string-1313513tefgwdsvbjkvasd'
 }));
 
-app.use('/', index);
-app.use('/users', users);
-routeAuth(app, passport);
-
 app.use(passport.initialize());
 app.use(passport.session());
+
+configAuth(passport); 
+
+app.use('/', index);
+app.use('/users', users);
+app.use('/board', board);
+routeAuth(app, passport);
 
 app.use(function(req, res, next) {
   res.locals.currentUser = req.user;
   res.locals.flashMessages = req.flash();
   next();
 });
-
-configAuth(passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

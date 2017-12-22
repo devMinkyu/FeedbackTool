@@ -2,13 +2,21 @@ extends layout
 
 block content
   .container
-      form.form-signin(action='/signin', method='POST')
-        h2.form-signin-heading Please sign in
-        label.sr-only(for='inputEmail') Email address
-        input#inputEmail.form-control(type='email', placeholder='Email address', required='', autofocus='')
-        label.sr-only(for='inputPassword') Password
-        input#inputPassword.form-control(type='password', placeholder='Password', required='')
-        button.btn.btn-lg.btn-primary.btn-block#login(type='submit') Sign in
-        | 
-        a.btn.btn-lg.btn-danger.btn-block(href='/users/new') Sign up
-      
+    .row.main
+      .main-login.main-center
+        form.form-signin(action='/signin', method='POST')
+            h2.form-signin-heading Please sign in
+            label(for='email', class='sr-only') Email address
+            input(
+              type='email', id='email', name='email', class='form-control', 
+              placeholder='Email address', required, autofocus
+            )
+            label(for='password', class='sr-only') Password
+            input(
+              type='password', id='password', name='password', class='form-control', 
+              placeholder='Password', required, autofocus
+            )
+            button.btn.btn-lg.btn-primary.btn-block(type='submit') Sign in
+            | 
+            a.btn.btn-lg.btn-danger.btn-block(href='/users/new') Sign up
+          

@@ -49,6 +49,7 @@ router.post('/register', function(req, res, next) {
       req.flash('danger', '동일한 이메일 주소가 이미 존재합니다.');
       return res.redirect('back');
     }
+    console.log(req.body);
     var newUser = new User({
       name: req.body.name,
       email: req.body.email,
