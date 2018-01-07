@@ -2,16 +2,36 @@ extends ../layout
 
 block content
   .container
+    //- .main
+    //-   a(href='/board')
+    //-     h2 게시판임둥
+    //-   table.board_list
+    //-     tr
+    //-       th No.
+    //-       th Title
+    //-       th Writer
+    //-       th Date
+    //-       th Count
+    //-   .pagination
+    //-   .btn_group
+    //-     a(onclick='displayWriteForm();')
+    //-       .write_btn 새 글
+    //-     .search
+    //-       form#searchAction(action='/boards/search', method='get', name='searchAction')
+    //-         input#searchWord.search_word(type='text', name='searchWord')
+    //-         a(href='#', onclick='searchContent();')
+    //-           .search_btn 검색
+
     h1.page-header 게시판
 
     table.table.table-bordered
       thead
         tr
-          th 작성자
-          th 제목
-          th 등록시간
-          th 조회수
-          th 댓글수
+          th No.
+          th Title
+          th Writer
+          th Date
+          th Count
       tbody
         tr
         td 민규
@@ -20,4 +40,4 @@ block content
         td 2017-455--44
         td 5
         td 4
-    a.btn.btn-primary(href='#') 게시판 작성하기
+    a.btn.btn-primary(href='/board/new') 게시판 작성하기
