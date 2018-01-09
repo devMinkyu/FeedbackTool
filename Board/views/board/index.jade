@@ -33,11 +33,12 @@ block content
           th Date
           th Count
       tbody
-        tr
-        td 민규
-        td
-            a(href='#')= 된다
-        td 2017-455--44
-        td 5
-        td 4
+        each board in boards
+          tr
+            td= board._id
+            td
+              a(href='/boards/#{board._id}')= board.title
+            td= board.writer
+            td= board.date
+            td= board.count
     a.btn.btn-primary(href='/board/new') 게시판 작성하기

@@ -9,16 +9,11 @@ block content
       textarea#addContents.textContents(name='addContents', rows='20', cols='80')
       input#UploadFile.inputFile(type='file', name='UploadFile', multiple='')
     #new.addBtngroup
-      a(onclick='submitContents();') SUBMIT
-      a(onclick="cancelWriteForm('cancel');") CANCEL
+      button.btn.btn-primary(onclick='submitContents();') SUBMIT
+      a.btn.btn-default(href='javascript:window.history.back();') CANCEL
 
   
     script(type='text/javascript').
-       function cancelWriteForm(option) {
-            if(option == 'cancel') $('.write_form').fadeOut();
-            if(option == 'ok') $('.content_box').fadeOut();
-        }
-
         function submitContents() {
             var title = $('#addContentSubject').val();
             var content = $('#addContents').val();

@@ -4,7 +4,7 @@ block content
     .container
         .row.main
             .main-login.main-center
-                form(action='/users/register', method='POST')
+                form#registerAction(action='/users/register', method='POST')
                     .form-group
                         label.cols-sm-2.control-label(for='name') Your Name
                         .cols-sm-10
@@ -33,5 +33,27 @@ block content
                                 span.input-group-addon
                                     i.fa.fa-lock.fa-lg(aria-hidden='true')
                                 input#confirm.form-control(type='password', name='confirm', placeholder='Confirm your Password')
-                    .form-group
-                         button.btn.btn-lg.btn-warning.btn-block#login(type='submit') Register
+                .form-group
+                        button.btn.btn-lg.btn-warning.btn-block#login(onclick='submitContents();') Register
+
+    script(type='text/javascript').
+       function cancelWriteForm(option) {
+
+        function submitContents() {
+            var name = $('#name').val();
+            var email = $('#email').val();
+            var password = $('#password').val();
+            var confirm = $('#confirm').val();
+
+            // 새 글 등록 시
+            if(name == '' || email == '' || password == '' || confirm == '') {
+                alert("빈칸을 채워주세요.");
+                return;
+            } if else(password != confirm){
+                alert("비밀번호가 일치하지 않습니다.");
+                return;
+            }
+            else {
+                $('#registerAction').submit();
+            }
+        }

@@ -6,10 +6,23 @@ var upload = multer({dest:'./tmp/'});
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
-    res.render('board/index');
+    if(!req.user){
+        res.redirect('/');
+        return;
+    }
+    Board.find({}, function(err,boards){
+        if (err) {
+            return next(err);
+        }
+        res.render('board/index',{boards:boards});
+    });
 });
 
 router.get('/new', function(req, res, next) {
+    if(!req.user){
+        res.redirect('/');
+        return;
+    }
     res.render('board/new');
 });
 
@@ -21,9 +34,14 @@ router.post('/', upload.array('UploadFile'),function(req, res){
     var addNewPassword = req.body.addContentPassword;
     var addNewContent = req.body.addContents;
     var upFile = req.files; // 업로드 된 파일을 받아옴
+    if(!isPDF(upFile)){
+        req.flash('info', "PDF 파일이 아닙니다.");
+        res.redirect('/board/new');
+        return;
+    }
     if(mode == 'add') {
         if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
-            addBoard(addNewTitle, addNewWriter, addNewContent, addNewPassword, upFile);
+            addBoard(addNewTitle, addNewWriter, addNewContent, addNewPassword, upFile, req.user._id);
             res.redirect('/board');
         } else {
           console.log("파일이 저장되지 않았습니다!");
@@ -33,7 +51,7 @@ router.post('/', upload.array('UploadFile'),function(req, res){
 
 module.exports = router;
 
-function addBoard(title, writer, content, password, upFile){
+function addBoard(title, writer, content, password, upFile, userId){
     var newContent = content.replace(/\r\n/gi, "\\r\\n");
 
     var newBoardContents = new Board();
@@ -41,6 +59,7 @@ function addBoard(title, writer, content, password, upFile){
     newBoardContents.title = title;
     newBoardContents.contents = newContent;
     newBoardContents.password = password;
+    newBoardContents.user_Id = userId;
 
     newBoardContents.save(function (err) {
         if (err) throw err;
@@ -67,6 +86,17 @@ function addBoard(title, writer, content, password, upFile){
             }
         });
     });
+}
+
+function isPDF(upFile){
+    var newFile = upFile; // 새로 들어 온 파일
+    var tmpType = newFile[0].mimetype.split('/')[1];
+    console.log(tmpType);
+    if(tmpType == 'pdf'){
+        return true;
+    }else{
+        return false;
+    }
 }
 
 function getFileDate(date) {

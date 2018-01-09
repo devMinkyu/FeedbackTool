@@ -6,6 +6,7 @@ var schema = new Schema({
     password: String,
     title: String,
     contents: String,
+    user_Id: String,
     comments: [{
         name: String,
         memo: String,
