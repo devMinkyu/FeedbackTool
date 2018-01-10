@@ -1,0 +1,172 @@
+doctype html
+html
+    head
+        title= title
+        meta(charset='utf-8')
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        // Bootstrap core CSS
+        link(href='vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+        // Custom fonts for this template
+        link(href='vendor/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+        link(href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800', rel='stylesheet', type='text/css')
+        link(href='https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic', rel='stylesheet', type='text/css')
+        // Plugin CSS
+        link(href='vendor/magnific-popup/magnific-popup.css', rel='stylesheet')
+        // Custom styles for this template
+        link(href='/stylesheets/creative.min.css', rel='stylesheet')
+
+      body#page-top
+        // Navigation
+        nav#mainNav.navbar.navbar-expand-lg.navbar-light.fixed-top
+            .container
+                a.navbar-brand.js-scroll-trigger(href='#page-top') FeedBack
+                button.navbar-toggler.navbar-toggler-right(type='button', data-toggle='collapse', data-target='#navbarResponsive', aria-controls='navbarResponsive', aria-expanded='false', aria-label='Toggle navigation')
+                    span.navbar-toggler-icon
+                #navbarResponsive.collapse.navbar-collapse
+                    ul.navbar-nav.ml-auto
+                        li.nav-item
+                            a.nav-link.js-scroll-trigger(href='#about') 사전훈련
+                        li.nav-item
+                            a.nav-link.js-scroll-trigger(href='#services') 서비스
+                        li.nav-item
+                            a.nav-link.js-scroll-trigger(href='#portfolio') 게시판
+                        li.nav-item
+                            a.nav-link.js-scroll-trigger(href='#contact') Q&A
+        header.masthead.text-center.text-white.d-flex
+            .container.my-auto
+                .row
+                    .col-lg-10.mx-auto
+                        h1.text-uppercase
+                            strong Your Favorite Source of Free Bootstrap Themes
+                        hr
+                    .col-lg-8.mx-auto
+                        p.text-faded.mb-5
+                            | Start Bootstrap can help you build better websites using the Bootstrap CSS framework! Just download your template and start going, no strings attached!
+                        a.btn.btn-primary.btn-xl.js-scroll-trigger(href='#about') Find Out More
+        section#about.bg-primary
+            .container
+                .row
+                    .col-lg-8.mx-auto.text-center
+                        h2.section-heading.text-white 문제를 작성하기 위한 사전훈련
+                        hr.light.my-4
+                        p.text-faded.mb-4
+                            | Start Bootstrap has everything you need to get your new website up and running in no time! All of the templates and themes on Start Bootstrap are open source, free to download, and easy to use. No strings attached!
+                        a.btn.btn-light.btn-xl.js-scroll-trigger(href='#services') Get Started!
+        section#services
+            .container
+                .row
+                    .col-lg-12.text-center
+                        h2.section-heading 서비스
+                        hr.my-4
+            .container
+                .row
+                    .col-lg-3.col-md-6.text-center
+                        .service-box.mt-5.mx-auto
+                            a.fa.fa-4x.fa-diamond.text-primary.mb-3.sr-icons
+                            h3.mb-3 프로필
+                            p.text-muted.mb-0 나의 개인정보를 보고 싶고 관리하고 싶다!
+                    .col-lg-3.col-md-6.text-center
+                        .service-box.mt-5.mx-auto
+                            a.fa.fa-4x.fa-paper-plane.text-primary.mb-3.sr-icons
+                            h3.mb-3 채팅
+                            p.text-muted.mb-0 같은 수업을 듣는 학생들과의 의사소통을 하고 정보 교환!
+                    .col-lg-3.col-md-6.text-center
+                        .service-box.mt-5.mx-auto
+                            a.fa.fa-4x.fa-newspaper-o.text-primary.mb-3.sr-icons
+                            h3.mb-3 일정
+                            p.text-muted.mb-0 우리 수업의 일정을 알아보고 계획을 계획 해보자!
+                    .col-lg-3.col-md-6.text-center
+                        .service-box.mt-5.mx-auto
+                            a.fa.fa-4x.fa-heart.text-primary.mb-3.sr-icons
+                            h3.mb-3 로그아웃
+                            p.text-muted.mb-0 이제 그만!! 이 사이트를 안전히 종료하고 싶다!
+        section#portfolio.p-0
+            .container-fluid.p-0
+                .row.no-gutters.popup-gallery
+                    .col-lg-4.col-sm-6
+                        a.portfolio-box(href='img/portfolio/fullsize/1.jpg')
+                            img.img-fluid(src='img/portfolio/thumbnails/1.jpg', alt='')
+                            .portfolio-box-caption
+                                .portfolio-box-caption-content
+                                    .project-category.text-faded
+                                        | Category
+                                    .project-name
+                                        | Project Name
+                    .col-lg-4.col-sm-6
+                        a.portfolio-box(href='img/portfolio/fullsize/2.jpg')
+                            img.img-fluid(src='img/portfolio/thumbnails/2.jpg', alt='')
+                            .portfolio-box-caption
+                                .portfolio-box-caption-content
+                                    .project-category.text-faded
+                                        | Category
+                                    .project-name
+                                        | Project Name
+                    .col-lg-4.col-sm-6
+                        a.portfolio-box(href='img/portfolio/fullsize/3.jpg')
+                            img.img-fluid(src='img/portfolio/thumbnails/3.jpg', alt='')
+                            .portfolio-box-caption
+                                .portfolio-box-caption-content
+                                    .project-category.text-faded
+                                        | Category
+                                    .project-name
+                                        | Project Name
+                    .col-lg-4.col-sm-6
+                        a.portfolio-box(href='img/portfolio/fullsize/4.jpg')
+                            img.img-fluid(src='img/portfolio/thumbnails/4.jpg', alt='')
+                            .portfolio-box-caption
+                                .portfolio-box-caption-content
+                                    .project-category.text-faded
+                                        | Category
+                                    .project-name
+                                        | Project Name
+                    .col-lg-4.col-sm-6
+                        a.portfolio-box(href='img/portfolio/fullsize/5.jpg')
+                            img.img-fluid(src='img/portfolio/thumbnails/5.jpg', alt='')
+                            .portfolio-box-caption
+                                .portfolio-box-caption-content
+                                    .project-category.text-faded
+                                        | Category
+                                    .project-name
+                                        | Project Name
+                    .col-lg-4.col-sm-6
+                        a.portfolio-box(href='img/portfolio/fullsize/6.jpg')
+                            img.img-fluid(src='img/portfolio/thumbnails/6.jpg', alt='')
+                            .portfolio-box-caption
+                                .portfolio-box-caption-content
+                                    .project-category.text-faded
+                                        | Category
+                                    .project-name
+                                        | Project Name
+        section.bg-dark.text-white
+            .container.text-center
+                h2.mb-4 궁금한 점을 물어보세요!! 
+                a.btn.btn-light.btn-xl.sr-button(href='') Q&A!
+        section#contact
+            .container
+                .row
+                    .col-lg-8.mx-auto.text-center
+                        h2.section-heading 언제든지 물어보세요!
+                        hr.my-4
+                        p.mb-5
+                            | 수업과 과제의 대해서 Q&A의 물어보기 힘든 학생은 교수님한테 직접 물어보세요!
+                .row
+                    .col-lg-4.ml-auto.text-center
+                        i.fa.fa-phone.fa-3x.mb-3.sr-contact
+                        p 123-456-6789
+                    .col-lg-4.mr-auto.text-center
+                        i.fa.fa-envelope-o.fa-3x.mb-3.sr-contact
+                        p feedback@startbootstrap.com
+
+
+    // Bootstrap core JavaScript
+    script(src='vendor/jquery/jquery.min.js')
+    script(src='vendor/bootstrap/js/bootstrap.bundle.min.js')
+    // Plugin JavaScript
+    script(src='vendor/jquery-easing/jquery.easing.min.js')
+    script(src='vendor/scrollreveal/scrollreveal.min.js')
+    script(src='vendor/magnific-popup/jquery.magnific-popup.min.js')
+    // Custom scripts for this template
+    script(src='javascripts/creative.min.js')
+
+    

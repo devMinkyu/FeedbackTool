@@ -1,6 +1,6 @@
 module.exports = function(app, passport) {
     app.post('/signin', passport.authenticate('localSignin', {
-        successRedirect : '/board', 
+        successRedirect : '/main', 
         failureRedirect : '/', 
         failureFlash : true 
       }));
