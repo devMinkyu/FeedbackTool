@@ -17,6 +17,7 @@ var board = require('./routes/board');
 var routeAuth = require('./routes/auth');
 
 var app = express();
+app.io = require('socket.io')();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -46,6 +47,13 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(function(req, res, next) {
+  console.log("+++=========================================");
+  console.log("REQ USER : ", req.user);
+  res.locals.currentUser = req.user;
+  res.locals.flashMessages = req.flash();
+  next();
+});
 
 configAuth(passport); 
 
@@ -54,11 +62,6 @@ app.use('/users', users);
 app.use('/board', board);
 routeAuth(app, passport);
 
-app.use(function(req, res, next) {
-  res.locals.currentUser = req.user;
-  res.locals.flashMessages = req.flash();
-  next();
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -76,6 +79,26 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+app.io.on('connection', function(socket){
+  socket.on('connection_send', function(roomName, user){
+    socket.join(roomName);
+    socket.roomName = roomName;
+    socket.user = user;
+
+    var message = socket.user  + ' 입장했습니다.';
+    app.io.sockets.in(socket.roomName).emit('message_receive', message);
+  });
+  socket.on('message_send', function(text){
+    var message = socket.user  + ' : ' + text;
+    app.io.sockets.in(socket.roomName).emit('message_receive', message);
+  });
+  socket.on('leave_send', function(){
+    var message = socket.user  + ' 나갔습니다.'
+    app.io.sockets.in(socket.roomName).emit('message_receive', message);
+    socket.leave(socket.roomName);
+  });
 });
 
 module.exports = app;

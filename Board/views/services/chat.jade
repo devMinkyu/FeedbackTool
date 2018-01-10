@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+    .container
+        .arrow_box
+            div
+                textarea#chatLog.chat_log(readonly=true)
+            form#chat
+                h5#playerName=currentUser.name
+                input#message.message(type='text')
+
+    script(src='/javascripts/chat.js').
