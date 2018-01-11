@@ -7,7 +7,6 @@ module.exports = function(app, passport) {
     
       app.get('/signout', function(req, res) {
         req.logout();
-        req.flash('success', '로그아웃 되었습니다.');
         res.redirect('/');
       });
 };

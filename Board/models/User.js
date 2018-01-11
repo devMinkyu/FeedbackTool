@@ -5,8 +5,10 @@ var mongoose = require('mongoose'),
 var schema = new Schema({
   name: {type: String, required: true, trim: true},
   email: {type: String, required: true, index: true, unique: true, trim: true},
+  phone: {type: String},
+  photoURL : {type: String},
   password: {type: String},
-  adim: {type: Number}
+  admin: {type: Number}
 }, {
   toJSON: { virtuals: true},
   toObject: {virtuals: true}

@@ -48,8 +48,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(function(req, res, next) {
-  console.log("+++=========================================");
-  console.log("REQ USER : ", req.user);
   res.locals.currentUser = req.user;
   res.locals.flashMessages = req.flash();
   next();
@@ -95,7 +93,7 @@ app.io.on('connection', function(socket){
     app.io.sockets.in(socket.roomName).emit('message_receive', message);
   });
   socket.on('leave_send', function(){
-    var message = socket.user  + ' 나갔습니다.'
+    var message = socket.user  + ' 나갔습니다.';
     app.io.sockets.in(socket.roomName).emit('message_receive', message);
     socket.leave(socket.roomName);
   });

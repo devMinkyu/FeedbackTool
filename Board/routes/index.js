@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+Board = require('../models/Board');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -11,11 +12,24 @@ router.get('/main', function(req, res, next) {
       res.redirect('/');
       return;
   }
-  res.render('main');
+  if(req.user.admin == 0){
+    Board.find({}, function(err,boards){
+        if (err) {
+            return next(err);
+        }
+        res.render('board/index',{boards:boards});
+    });
+  }else{
+    res.render('main');
+  }
 });
 
 router.get('/chat', function(req, res, next) {
   res.render('services/chat');
+});
+
+router.get('/plan', function(req, res, next) {
+  res.render('services/plan');
 });
 
 module.exports = router;
