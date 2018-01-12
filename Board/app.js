@@ -14,6 +14,7 @@ var configAuth = require('./config/auth');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var board = require('./routes/board');
+var training = require('./routes/training');
 var routeAuth = require('./routes/auth');
 
 var app = express();
@@ -33,6 +34,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use('/user', express.static('tmp')); // 내가 저장한 파일을 보기위해서 설정
 app.use(flash());
 app.use(methodOverride('_method', {methods: ['POST', 'GET']}));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -58,6 +60,7 @@ configAuth(passport);
 app.use('/', index);
 app.use('/users', users);
 app.use('/board', board);
+app.use('/training', training);
 routeAuth(app, passport);
 
 

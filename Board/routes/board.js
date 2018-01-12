@@ -121,7 +121,6 @@ function renameUploadFile(itemId,upFile){
     var index = [];
     var rename = [];
     var fileName = [];
-    var fullName = []; // 다운로드 시 보여줄 이름 필요하니까 원래 이름까지 같이 저장하자!
     var fsName = [];
 
     for (var i = 0; i < newFile.length; i++) {
@@ -130,13 +129,12 @@ function renameUploadFile(itemId,upFile){
         index[i] = tmpPath[i].split('/').length;
         rename[i] = tmpPath[i].split('/')[index[i] - 1];
         fileName [i] = itemId + "_" + getFileDate(new Date()) + "_" + rename[i] + "." + tmpType[i]; // 파일 확장자 명까지 같이 가는 이름 "글아이디_날짜_파일명.확장자"
-        fullName [i] = fileName[i] + ":" + newFile[i].originalname.split('.')[0]; // 원래 이름까지 같이 가는 이름 "글아이디_날짜_파일명.확장자:보여줄 이름"
         fsName [i] = getDirname(1)+"upload/"+fileName[i]; // fs.rename 용 이름 "./upload/글아이디_날짜_파일명.확장자"
     }
 
     renameForUpload.tmpname = tmpPath;
     renameForUpload.filename = fileName;
-    renameForUpload.fullname = fullName;
+    renameForUpload.fullname = rename;
     renameForUpload.fsname = fsName;
 
     return renameForUpload;
