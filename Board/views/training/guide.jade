@@ -1,17 +1,31 @@
 extends ../layout
 
 block content
-    h1 가이드
-    div
-        button#prev Previous
-        button#next Next
-        span
-            | Page: 
-            span#page_num
-            |  / 
-            span#page_count
-    canvas#the-canvas
+  .container
+    .row.main
+      .main-pdf
+        h1 가이드
+        div
+            button#prev Previous
+            button#next Next
+            span.pagenumber
+                | Page: 
+                span#page_num
+                |  / 
+                span#page_count
+            a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("자기소개서+작성법.pdf");')
+        canvas#the-canvas
+        a.btn.btn-lg.btn-danger(href='javascript:window.history.back();') 종료
 
 
     script(src='//mozilla.github.io/pdf.js/build/pdf.js')
     script(src='/javascripts/pdfShow.js')
+
+    script(type='text/javascript').
+
+      function downloadFiles(filepath) {
+        var path = filepath;
+        if(confirm("파일이 다운로드 됩니다.") == true) {
+            location.href = "/board/download/" + path;
+        }
+      }

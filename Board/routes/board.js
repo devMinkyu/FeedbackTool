@@ -2,7 +2,15 @@ var express = require('express');
     Board = require('../models/Board');
 var multer = require('multer');
 var fs = require('fs');
-var upload = multer({dest:'./tmp/'});
+var _storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './tmp');
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname)
+    }
+  })
+var upload = multer({storage: _storage});
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -47,6 +55,13 @@ router.post('/', upload.array('UploadFile'),function(req, res){
           console.log("파일이 저장되지 않았습니다!");
         }
     }
+});
+
+router.get('/download/:path', function(req, res){
+    // file download
+    var path = req.params.path;
+    res.download('./tmp/'+path, path);
+    console.log(path);
 });
 
 module.exports = router;
