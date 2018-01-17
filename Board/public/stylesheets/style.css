@@ -322,6 +322,17 @@ text-align: center;
     margin-bottom: 10px;
     margin-top: 10px;
   }
+  .reply{
+    width: 20%;
+  }
+  .replyContents{
+    width: 88%;
+  }
+  .replyButton{
+    width: 10%;
+    float: right;
+    height: 65px;
+  }
   .addBtngroup{
     left: 80%;
     position: relative;

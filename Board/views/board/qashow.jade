@@ -5,13 +5,80 @@ block content
     .row.main
       .main-pdf
         .content_detail
+            -function dateFormatChange(date) {
+                -var newdate = new Date(date);
+                -var options = { weekday: "short", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"};
+                -return newdate.toLocaleTimeString("ko-KR", options);
+            -}
             h3.content-title=question.title
-            .content-info #{question.date} / #{question.writer}
+            .content-info #{dateFormatChange(question.date)} / #{question.writer}
             .content-text=question.contents
             .addBtngroup
                 if(question.user_Id == currentUser._id)
-                    a.btn.btn-warning(href='#') 수정
-                    a.btn.btn-warning(href='#') 삭제
+                    a.btn.btn-warning(href='/question/modify?id=#{question._id}') 수정
+                    a.btn.btn-warning(href='/question/delete?_method=DELETE&id=#{question._id}') 삭제
                 a.btn.btn-warning(href='javascript:window.history.back();') 확인
 
             h3 댓글
+            table.table.table-striped
+                thead
+                    tr
+                        th.reply 작성자
+                        th 내용
+                tbody.reply_list
+                    if(question.comments.length>0)
+                        -var j = 0;
+                        each comment in question.comments
+                            if(j<5)
+                                tr
+                                    th= comment.name
+                                    th #{comment.memo} / #{dateFormatChange(comment.date)}
+                                        if(question.user_Id == currentUser._id)
+                                            a(href="/question/reply/delete") [삭제]
+                                -j++;
+                    else
+                        tr
+                            th 댓글이 없습니다.
+             form#writeAction(action='/question/reply?id=#{question._id}', method='post')
+                .form-group
+                    textarea.replyContents(name='addContents', rows='3')
+                    button.btn.btn-warning.replyButton(href='submit') 확인
+             nav
+                ul.pagination
+                    -for(var i = 1; i<=replyPage;i++)
+                        li
+                            a(onclick="changePage(#{i});")=i
+
+
+    script(type='text/javascript').
+        function changePage(page) {
+            $.get('/question/reply?id=#{question._id}&page='+page+"&max=#{question.comments.length}", function(replyList) {
+                var output = '';
+                for(var i=0;i<replyList.length;i++) {
+                    output += '<tr class="reply_list"><th>'+replyList[i].name+'</th>'
+                    output += '<th>'+replyList[i].memo.replace(/\\r\\n/gi, " ")+' / '+ dateFormatChangeScript(replyList[i].date)+'</th></tr>';
+                }
+                $('.reply_list').html(output);
+            });
+
+            $.ajax({
+                url: '/question/reply?id=#{question._id}&page='+page+"&max=#{question.comments.length}",
+                type: "get",
+                success: function(data) {
+                    var output = '';
+                    for(var i=0;i<data.length;i++) {
+                        output += '<tr class="reply_list"><th>'+data[i].name+'</th>'
+                        output += '<th>'+data[i].memo.replace(/\\r\\n/gi, " ")+' / '+ dateFormatChangeScript(data[i].date)+'</th></tr>';
+                    }
+                    $('.reply_list').html(output);
+                }
+            });
+        }
+
+        function dateFormatChangeScript(date) {
+            var newdate = new Date(date);
+
+            var options = { weekday: "short", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"};
+
+            return newdate.toLocaleTimeString("ko-KR", options);
+        }
