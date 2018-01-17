@@ -1,0 +1,45 @@
+extends ../layout
+
+block content
+  .container
+    .row.main
+      .main-pdf
+        h1 Q&A
+        table.type09
+            if(questions.length > 0)
+                thead
+                    tr
+                        th(scope='cols') 번호
+                        th(scope='cols') 제목
+                        th(scope='cols') 작성자
+                tbody
+                        each question in questions
+                            tr
+                                th(scope='row')=question.number
+                                td(class="title")
+                                    a(href="/question/show?id=#{question.id}") #{question.title} [#{question.count}]
+                                td=question.writer
+            else
+                tr
+                    td(class="title") 게시물이 없습니다.
+                
+        a.btn.btn-default(href="/question/new") 질문하기
+
+        nav
+        ul.pagination
+            li
+                a(href='#', aria-label='Previous')
+                    span(aria-hidden='true') «
+            li
+                a(href='#') 1
+            li
+                a(href='#') 2
+            li
+                a(href='#') 3
+            li
+                a(href='#') 4
+            li
+                a(href='#') 5
+            li
+                a(href='#', aria-label='Next')
+                    span(aria-hidden='true') »

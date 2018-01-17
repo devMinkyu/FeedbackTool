@@ -34,6 +34,7 @@ router.get('/new', function(req, res, next) {
     res.render('board/new');
 });
 
+
 router.post('/', upload.array('UploadFile'),function(req, res){
     //field name은 form의 input file의 name과 같아야함
     var mode = req.param('mode');

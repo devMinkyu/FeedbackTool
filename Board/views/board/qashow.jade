@@ -1,0 +1,17 @@
+extends ../layout
+
+block content
+  .container
+    .row.main
+      .main-pdf
+        .content_detail
+            h3.content-title=question.title
+            .content-info #{question.date} / #{question.writer}
+            .content-text=question.contents
+            .addBtngroup
+                if(question.user_Id == currentUser._id)
+                    a.btn.btn-warning(href='#') 수정
+                    a.btn.btn-warning(href='#') 삭제
+                a.btn.btn-warning(href='javascript:window.history.back();') 확인
+
+            h3 댓글

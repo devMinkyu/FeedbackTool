@@ -15,6 +15,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var board = require('./routes/board');
 var training = require('./routes/training');
+var question = require('./routes/question');
 var routeAuth = require('./routes/auth');
 
 var app = express();
@@ -61,6 +62,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/board', board);
 app.use('/training', training);
+app.use('/question', question);
 routeAuth(app, passport);
 
 
