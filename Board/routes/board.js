@@ -7,9 +7,9 @@ var _storage = multer.diskStorage({
         cb(null, './tmp');
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname)
+      cb(null, file.originalname);
     }
-  })
+  });
 var upload = multer({storage: _storage});
 var router = express.Router();
 

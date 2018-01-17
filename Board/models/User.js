@@ -8,7 +8,8 @@ var schema = new Schema({
   phone: {type: String},
   photoURL : {type: String},
   password: {type: String},
-  admin: {type: Number}
+  admin: {type: Number},
+  feedback:[String]
 }, {
   toJSON: { virtuals: true},
   toObject: {virtuals: true}

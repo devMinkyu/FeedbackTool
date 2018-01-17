@@ -31,24 +31,28 @@ block content
                                     li ~ 을 추가하면 좋을 것 같습니다. 등                            
                 button.btn.btn-lg.btn-primary.btn-block(onclick = "trainingFeedBack();") 연습하기
             br
-            a.btn.btn-lg.btn-danger(href='javascript:window.history.back();') 종료
+            a.btn.btn-lg.btn-danger.btn-exit(href='javascript:window.history.back();') 종료
 
     script#pdfTrainingView(type='text/template').
-        <button class= "btn btn-lg btn-warning", onclick="oneExam();">1번</button>
-        <button class= "btn btn-lg btn-danger" onclick="twoExam();">2번</button>
-        <button class= "btn btn-lg btn-primary" onclick="threeExam();">3번</button>
+        <button class= "btn btn-lg btn-warning", onclick="exam();">1번</button>
+        <button class= "btn btn-lg btn-danger" onclick="exam();">2번</button>
+        <button class= "btn btn-lg btn-primary" onclick="exam();">3번</button>
     script#pdfTrainingViewExam(type='text/template').
         <div class="main-exam">
             <h1>피드백 작성 문제</h1>
-            <button class= "btn btn-lg btn-warning", onclick="oneExam();">1번</button>
-            <button class= "btn btn-lg btn-danger" onclick="twoExam();">2번</button>
-            <button class= "btn btn-lg btn-primary" onclick="threeExam();">3번</button>
+            <ul class="tabs">
+                <li class="tab-link current"  id="tab1" onclick="currentButton1();">1번</li>
+                <li class="tab-link" id="tab2" onclick="currentButton2();">2번</li>
+                <li class="tab-link" id="tab3" onclick="currentButton3();">3번</li>
+            </ul>
+            <div class="ex1"></div>
+            <form action="/training", method='POST', id="solutionAction">
+                <textarea class="form-control current", id="tab_1", name="solution1" rows="10"></textarea>
+                <textarea class="form-control", id="tab_2", name="solution2" rows="10"></textarea>
+                <textarea class="form-control", id="tab_3", name="solution3" rows="10"></textarea>
+            </form>
+            <button class= "btn btn-lg btn-info", onclick="submitSolution();" >완료</button>
         </div>
-    script(type='text/javascript').
-        function oneExam() {
-            var divs = document.querySelectorAll(".main-training div");
-            divs[0].className = "c1";
-            setTimeout(function() {
-                $(".main-training").append($('#pdfTrainingViewExam').html());    
-            }, 2000);
-        }
+    
+    script(src='/javascripts/training.js')
+       
