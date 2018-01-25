@@ -85,7 +85,7 @@ html
             .container-fluid.p-0
                 .row.no-gutters.popup-gallery
                     .col-lg-4.col-sm-6
-                        a.portfolio-box(href='img/portfolio/fullsize/1.jpg')
+                        a.portfolio-box#project1(href='/feedbacks')
                             img.img-fluid(src='img/portfolio/thumbnails/1.jpg', alt='')
                             .portfolio-box-caption
                                 .portfolio-box-caption-content
@@ -94,7 +94,7 @@ html
                                     .project-name
                                         | Project 1
                     .col-lg-4.col-sm-6
-                        a.portfolio-box(href='img/portfolio/fullsize/2.jpg')
+                        a.portfolio-box#project2(href='img/portfolio/fullsize/2.jpg')
                             img.img-fluid(src='img/portfolio/thumbnails/2.jpg', alt='')
                             .portfolio-box-caption
                                 .portfolio-box-caption-content
@@ -141,5 +141,6 @@ html
     script(src='vendor/magnific-popup/jquery.magnific-popup.min.js')
     // Custom scripts for this template
     script(src='javascripts/creative.min.js')
+    script(src='javascripts/main.js')
 
     

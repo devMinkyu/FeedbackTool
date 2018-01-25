@@ -25,7 +25,6 @@ function renderPage(num) {
     var viewport = page.getViewport(scale);
     canvas.height = viewport.height;
     canvas.width = viewport.width;
-
     // Render PDF page into canvas context
     var renderContext = {
       canvasContext: ctx,
@@ -45,7 +44,7 @@ function renderPage(num) {
   });
 
   // Update page counters
-  document.getElementById('page_num').textContent = num;
+  document.getElementById('page_num').textContent = num; // 현재 페이지 수
 }
 
 /**
@@ -89,7 +88,7 @@ document.getElementById('next').addEventListener('click', onNextPage);
  */
 PDFJS.getDocument(url).then(function(pdfDoc_) {
   pdfDoc = pdfDoc_;
-  document.getElementById('page_count').textContent = pdfDoc.numPages;
+  document.getElementById('page_count').textContent = pdfDoc.numPages; // 전체 페이지 수
 
   // Initial/first page rendering
   renderPage(pageNum);

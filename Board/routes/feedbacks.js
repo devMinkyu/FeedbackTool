@@ -1,5 +1,5 @@
 var express = require('express');
-    Board = require('../models/Board');
+Feedback = require('../models/Feedback');
 var multer = require('multer');
 var fs = require('fs');
 var _storage = multer.diskStorage({
@@ -13,67 +13,64 @@ var _storage = multer.diskStorage({
 var upload = multer({storage: _storage});
 var router = express.Router();
 
+
 router.get('/', function(req, res, next) {
-    if(!req.user){
-        res.redirect('/');
-        return;
-    }
-    Board.find({}, function(err,boards){
-        if (err) {
-            return next(err);
-        }
-        res.render('board/index',{boards:boards});
-    });
-});
-
+    res.render('feedbacks/index');
+  });
 router.get('/new', function(req, res, next) {
-    if(!req.user){
-        res.redirect('/');
-        return;
-    }
-    res.render('board/new');
+    res.render('feedbacks/new');
 });
-
+router.get('/offer', function(req, res, next) {
+    res.render('feedbacks/offerFeedback');
+});
+router.get('/comment', function(req, res) {
+    // 댓글 ajax로 페이징 하는 부분
+    
+});
 
 router.post('/', upload.array('UploadFile'),function(req, res){
     //field name은 form의 input file의 name과 같아야함
     var mode = req.param('mode');
     var addNewTitle = req.body.addContentSubject;
-    var addNewWriter = req.body.addContentWriter;
-    var addNewPassword = req.body.addContentPassword;
+    var addNewWriter = req.user.name;
     var addNewContent = req.body.addContents;
     var upFile = req.files; // 업로드 된 파일을 받아옴
     if(!isPDF(upFile)){
         req.flash('info', "PDF 파일이 아닙니다.");
-        res.redirect('/board/new');
+        res.redirect('/feedbacks/new');
         return;
     }
     if(mode == 'add') {
         if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
-            addBoard(addNewTitle, addNewWriter, addNewContent, addNewPassword, upFile, req.user._id);
-            res.redirect('/board');
+            addBoard(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team);
+            res.redirect('/feedbacks');
         } else {
           console.log("파일이 저장되지 않았습니다!");
         }
     }
 });
 
+router.get('/download/:path', function(req, res){
+    // file download
+    var path = req.params.path;
+    res.download('./tmp/'+path, path);
+    console.log(path);
+});
 
 module.exports = router;
 
-function addBoard(title, writer, content, password, upFile, userId){
+function addBoard(title, writer, content, upFile, userTeam){
     var newContent = content.replace(/\r\n/gi, "\\r\\n");
 
-    var newBoardContents = new Board();
+    var newBoardContents = new Feedback();
     newBoardContents.writer = writer;
     newBoardContents.title = title;
     newBoardContents.contents = newContent;
-    newBoardContents.password = password;
-    newBoardContents.user_Id = userId;
+    newBoardContents.user_Id = userTeam;
 
     newBoardContents.save(function (err) {
         if (err) throw err;
-        Board.findOne({_id: newBoardContents._id}, {_id: 1}, function (err, newBoardId) {
+        Feedback.findOne({_id: newBoardContents._id}, {_id: 1}, function (err, newBoardId) {
             if (err) throw err;
 
             if (upFile != null) {
@@ -89,7 +86,7 @@ function addBoard(title, writer, content, password, upFile, userId){
                 }
 
                 for (var j = 0; j < upFile.length; j++) {
-                    Board.update({_id: newBoardId.id}, {$push: {fileUp: renaming.fullname[j]}}, function (err) {
+                    Feedback.update({_id: newBoardId.id}, {$push: {fileUp: renaming.fullname[j]}}, function (err) {
                         if (err) throw err;
                     });
                 }
@@ -184,4 +181,3 @@ function isSaved(upFile) {
         return true;
     }
 }
-

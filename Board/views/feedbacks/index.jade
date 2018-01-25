@@ -1,0 +1,28 @@
+extends ../layout
+
+block content
+  .container
+    .row.main
+      .main-pdf
+        h1 프로젝트학습 1단계
+        table.type09
+            thead
+                tr
+                    th(scope='cols') 번호
+                    th(scope='cols') 제목
+                    th(scope='cols') 작성자
+            tbody
+                    tr
+                        th(scope='row') 4
+                        td(class="title")
+                            a(href="/feedbacks/offer") 팀D프로젝트 개용
+                        td 김민규
+            
+        a.btn.btn-default(href='/main') 뒤로가기
+        a.btn.btn-default(href="/feedbacks/new") 작성하기
+
+        nav
+        ul.pagination
+            -for(var i= 1; i<=pagination; i++)
+                li
+                    a(href="/feedbacks?page=#{i}")=i

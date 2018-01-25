@@ -6,6 +6,7 @@ var schema = new Schema({
   name: {type: String, required: true, trim: true},
   email: {type: String, required: true, index: true, unique: true, trim: true},
   phone: {type: String},
+  team: {type: String},
   photoURL : {type: String},
   password: {type: String},
   admin: {type: Number},

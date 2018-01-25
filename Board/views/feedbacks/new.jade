@@ -1,0 +1,33 @@
+extends ../layout
+
+block content
+  .container
+    .row.main
+      .main-qa
+        h1 프로젝트 제출하기
+        .write_form
+            form#writeAction(action='/feedbacks?mode=add', method='post')
+                .form-group
+                    input#addContentSubject.inputSubject(type='text', name='addContentSubject', placeholder='제목')
+                .form-group
+                    textarea#addContents.textContents(name='addContents', rows='20', cols='80')
+                .form-group
+                    input#UploadFile.inputFile(type='file', name='UploadFile', multiple='')
+            #new.addBtngroup
+                button.btn.btn-primary(onclick='submitContents();') SUBMIT
+                a.btn.btn-default(href='javascript:window.history.back();') CANCEL
+
+  
+    script(type='text/javascript').
+        function submitContents() {
+            var title = $('#addContentSubject').val();
+            var content = $('#addContents').val();
+
+            // 새 글 등록 시
+            if(title == '' || content == '') {
+                alert("제목과 내용 모두 있어야합니다.");
+                return;
+            } else {
+                $('#writeAction').submit();
+            }
+        }

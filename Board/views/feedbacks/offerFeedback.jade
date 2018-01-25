@@ -1,0 +1,57 @@
+extends ../layout
+
+block content
+  .container
+    .main-feedback
+        div
+            button#prev Previous
+            button#next Next
+            span.pagenumber
+                | Page: 
+                span#page_num
+                |  / 
+                span#page_count
+            a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("자기소개서+작성법.pdf");')
+        canvas#the-canvas
+        a.btn.btn-lg.btn-danger.btn-exit(href='javascript:window.history.back();') 종료
+    .main-offerfeedback
+        div
+            h1 Feedback 
+            .comment
+                textarea.form-control#feedbackComment(rows="10", cols="45")
+            br
+            a.btn.btn-primary(onclick='changePage()') 게시
+
+
+
+    script(src='//mozilla.github.io/pdf.js/build/pdf.js')
+    script(src='/javascripts/pdfShow.js')
+    script(src='/javascripts/main.js')
+
+    script(type='text/javascript').
+        var page_count = document.getElementById("page_count").innerHTML;
+        function changePage() {
+            var page_num = document.getElementById("page_num").innerHTML;
+            var feedbackComment = document.getElementById("feedbackComment").value;
+            //- $.get('/feedbacks/comment', function(comment) {
+            //-     var output = '';
+            //-     for(var i=0;i<replyList.length;i++) {
+            //-         output += '<tr class="reply_list"><th>'+replyList[i].name+'</th>'
+            //-         output += '<th>'+replyList[i].memo.replace(/\\r\\n/gi, " ")+' / '+ dateFormatChangeScript(replyList[i].date)+'</th></tr>';
+            //-     }
+            //-     $('.comment').html(output);
+            //- });
+
+            //- $.ajax({
+            //-     url: '/feedbacks/comment',
+            //-     type: "get",
+            //-     success: function(comment) {
+            //-         var output = '';
+            //-         for(var i=0;i<data.length;i++) {
+            //-             output += '<tr class="reply_list"><th>'+data[i].name+'</th>'
+            //-             output += '<th>'+data[i].memo.replace(/\\r\\n/gi, " ")+' / '+ dateFormatChangeScript(data[i].date)+'</th></tr>';
+            //-         }
+            //-         $('.comment').html(output);
+            //-     }
+            //- });
+        }

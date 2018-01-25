@@ -15,6 +15,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var board = require('./routes/board');
 var training = require('./routes/training');
+var feedbacks = require('./routes/feedbacks');
 var question = require('./routes/question');
 var routeAuth = require('./routes/auth');
 
@@ -63,6 +64,7 @@ app.use('/users', users);
 app.use('/board', board);
 app.use('/training', training);
 app.use('/question', question);
+app.use('/feedbacks', feedbacks);
 routeAuth(app, passport);
 
 
