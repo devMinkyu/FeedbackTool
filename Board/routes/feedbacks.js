@@ -15,26 +15,77 @@ var router = express.Router();
 
 
 router.get('/', function(req, res, next) {
-    res.render('feedbacks/index');
+        Feedback.find({user_Team:req.user.team}, function(err, feedbacks){
+            if(err) throw err;
+            res.render('feedbacks/index', {feedbacks:feedbacks});
+        });
+    
   });
 router.get('/new', function(req, res, next) {
     res.render('feedbacks/new');
 });
 router.get('/offer', function(req, res, next) {
-    res.render('feedbacks/offerFeedback');
+    var id = req.param('id');
+    var mod = req.param('mod');
+    Feedback.findOne({_id:id}, function(err, feedback){
+        if(err) throw err;
+        if(mod == 'show'){
+            res.render('feedbacks/offerFeedback', {feedback:feedback});
+        }else if(mod == 'offer'){
+            res.render('feedbacks/offerFeedback', {feedback:feedback});
+        }else if(mod == 'give'){
+            res.render('feedbacks/showFeedback', {feedback:feedback});
+        }
+    });
+
 });
 router.get('/comment', function(req, res) {
-    // 댓글 ajax로 페이징 하는 부분
-    
+    // comment ajax로 페이징 하는 부분
+    var id = req.param('id');
+    var page_num = req.param('page_num');
+    var comment = req.param('feedbackComment'); // 피드백 내용
+    var count = 0;
+    Feedback.findOne({_id: id}, function(err, feedback){
+        if(err) throw err;
+        for(var i =0;i<feedback.comments.length;i++){
+            if(page_num == feedback.comments[i].page){
+                feedback.comments.pull({ _id: feedback.comments[i]._id});   
+                feedback.save(function(err){
+                    if(err) throw err;
+                });
+                break;
+            }
+        }
+        console.log("왱!!");
+        feedback.comments.unshift({name:req.user.name, userId:req.user._id, memo: comment, page:page_num});
+        feedback.save(function(err){
+            if(err) throw err;
+        });
+    });
 });
-
-router.post('/', upload.array('UploadFile'),function(req, res){
+router.get('/page', function(req, res) {
+    // comment 내용을 ajax로 페이징 하는 부분
+    var id = req.param('id');
+    var page_num = req.param('page_num');
+    Feedback.findOne({_id: id}, function(err, feedback){
+        if(err) throw err;
+        for(var i =0;i<feedback.comments.length;i++){
+            if(page_num == feedback.comments[i].page){
+                res.send(feedback.comments[i].memo);
+                return;
+            }
+        }
+        res.send();
+    });
+});
+router.post('/', upload.array('UploadFeedback'),function(req, res){
     //field name은 form의 input file의 name과 같아야함
     var mode = req.param('mode');
     var addNewTitle = req.body.addContentSubject;
     var addNewWriter = req.user.name;
     var addNewContent = req.body.addContents;
     var upFile = req.files; // 업로드 된 파일을 받아옴
+    console.log(upFile);
     if(!isPDF(upFile)){
         req.flash('info', "PDF 파일이 아닙니다.");
         res.redirect('/feedbacks/new');
@@ -66,7 +117,7 @@ function addBoard(title, writer, content, upFile, userTeam){
     newBoardContents.writer = writer;
     newBoardContents.title = title;
     newBoardContents.contents = newContent;
-    newBoardContents.user_Id = userTeam;
+    newBoardContents.user_Team = userTeam;
 
     newBoardContents.save(function (err) {
         if (err) throw err;
@@ -97,8 +148,8 @@ function addBoard(title, writer, content, upFile, userTeam){
 
 function isPDF(upFile){
     var newFile = upFile; // 새로 들어 온 파일
+    console.log(newFile);
     var tmpType = newFile[0].mimetype.split('/')[1];
-    console.log(tmpType);
     if(tmpType == 'pdf'){
         return true;
     }else{
@@ -181,3 +232,4 @@ function isSaved(upFile) {
         return true;
     }
 }
+

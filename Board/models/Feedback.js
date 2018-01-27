@@ -8,8 +8,10 @@ var schema = new Schema({
     user_Team: String,
     comments: [{
         name: String,
+        userId: String,
         memo: String,
-        date: {type: Date, default: Date.now}
+        date: {type: Date, default: Date.now},
+        page: String
     }],
     count: {type:Number, default: 0},
     date: {type: Date, default: Date.now},

@@ -1,8 +1,12 @@
 // If absolute URL from the remote server is provided, configure the CORS
 // header on that server.
 //var url = '//cdn.mozilla.net/pdfjs/tracemonkey.pdf';
-var url = '/user/자기소개서+작성법.pdf';
-
+var pdfName = document.getElementById("pdfName").innerHTML;
+//var url = '/user/자기소개서+작성법.pdf';
+var url = '';
+url += '/user/';
+url += pdfName;
+// alert(url);
 // The workerSrc property shall be specified.
 PDFJS.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 

@@ -6,13 +6,13 @@ block content
       .main-qa
         h1 프로젝트 제출하기
         .write_form
-            form#writeAction(action='/feedbacks?mode=add', method='post')
+            form#writeAction(action='/feedbacks?mode=add', method='post', enctype='multipart/form-data')
                 .form-group
                     input#addContentSubject.inputSubject(type='text', name='addContentSubject', placeholder='제목')
                 .form-group
                     textarea#addContents.textContents(name='addContents', rows='20', cols='80')
                 .form-group
-                    input#UploadFile.inputFile(type='file', name='UploadFile', multiple='')
+                    input#UploadFeedback.inputFile(type='file', name='UploadFeedback', multiple='')
             #new.addBtngroup
                 button.btn.btn-primary(onclick='submitContents();') SUBMIT
                 a.btn.btn-default(href='javascript:window.history.back();') CANCEL

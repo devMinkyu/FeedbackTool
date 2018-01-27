@@ -6,17 +6,22 @@ block content
       .main-pdf
         h1 프로젝트학습 1단계
         table.type09
-            thead
-                tr
-                    th(scope='cols') 번호
-                    th(scope='cols') 제목
-                    th(scope='cols') 작성자
-            tbody
+            if(feedbacks.length > 0)
+                thead
                     tr
-                        th(scope='row') 4
-                        td(class="title")
-                            a(href="/feedbacks/offer") 팀D프로젝트 개용
-                        td 김민규
+                        th(scope='cols') 팀번호
+                        th(scope='cols') 제목
+                        th(scope='cols') 작성자
+                tbody
+                        each feedback in feedbacks
+                            tr
+                                th(scope='row')=feedback.user_Team
+                                td(class="title")
+                                    a(href="/feedbacks/offer?id=#{feedback.id}&mod=show") #{feedback.title} [#{feedback.count}]
+                                td=feedback.writer
+            else
+                tr
+                    td(class="title") 게시물이 없습니다.
             
         a.btn.btn-default(href='/main') 뒤로가기
         a.btn.btn-default(href="/feedbacks/new") 작성하기

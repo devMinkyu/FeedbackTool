@@ -357,7 +357,9 @@ text-align: center;
     margin-bottom: 10px;
     margin-top: 10px;
   }
-
+#pdfName{
+  display: none; 
+}
   .main-training .c1{
     -webkit-transform:  translateX(-60%);
     -webkit-transition-timing-function: linear;
