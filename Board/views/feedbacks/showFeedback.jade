@@ -1,0 +1,156 @@
+extends ../layout
+
+block content
+  .container
+    .main-feedback
+        div 
+            #pdfName=feedback.fileUp
+            button#prev(onclick='prevFeedback();') Previous
+            button#next(onclick='nextFeedback();') Next
+            span.pagenumber
+                | Page: 
+                span#page_num
+                |  / 
+                span#page_count
+            a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("#{feedback.fileUp}");')
+        canvas#the-canvas
+        br
+        a.btn.btn-lg.btn-primary.btn-exit(href='javascript:window.history.back();') 완료
+    .main-offerfeedback
+        div
+            h1 Feedback 
+            table.type09
+                if(feedback.comments.length > 0)
+                    tbody.comment
+                        each comment in feedback.comments
+                            if comment.page == "1"
+                                tr
+                                    th(scope='row')=comment.name
+                                    td(class="title")=comment.memo
+                else
+                    tr
+                        td(class="title") 피드백이 없습니다.
+
+
+
+    script(src='//mozilla.github.io/pdf.js/build/pdf.js')
+    script(src='/javascripts/pdfShow.js')
+    script(src='/javascripts/main.js')
+
+    script(type='text/javascript').
+        function nextFeedback() {
+            var page_num = document.getElementById("page_num").innerHTML;
+            var page = ++page_num;
+            $.get('/feedbacks/feedback?id=#{feedback._id}', function(comment) { 
+                var output = '';
+                var count = 0;
+                if(comment.length>0){
+                    $('.comment').empty();
+                    for(var i=0;i<comment.length;i++) {
+                        if(comment[i].page == page){
+                            count++;
+                            output += '<tr><th>'+comment[i].name+'</th>'
+                            output += '<td class="title">'+comment[i].memo+'</td></tr>';
+                            $('.comment').html(output);
+                        }
+                    }
+                    if(count == 0){
+                        $('.comment').empty();
+                        output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
+                        $('.comment').html(output);
+                    }
+                }else{
+                    $('.comment').empty();
+                    output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
+                    $('.comment').html(output);
+                }
+            });
+
+            $.ajax({
+                url: '/feedbacks/feedback?id=#{feedback._id}',
+                type: "get",
+                success: function(comment) {
+                var output = '';
+                var count = 0;
+                if(comment.length>0){
+                        $('.comment').empty();
+                        for(var i=0;i<comment.length;i++) {
+                            if(comment[i].page == page){
+                                count++;
+                                output += '<tr><th>'+comment[i].name+'</th>'
+                                output += '<td class="title">'+comment[i].memo+'</td></tr>';
+                                $('.comment').html(output);
+                            }
+                        }
+                        if(count == 0){
+                            $('.comment').empty();
+                            output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
+                            $('.comment').html(output);
+                        }
+                    }else{
+                        $('.comment').empty();
+                        output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
+                        $('.comment').html(output);
+                    }
+                }
+            });
+        }
+        function prevFeedback() {
+            var page_num = document.getElementById("page_num").innerHTML;
+            if(page_num==1) return;
+            var page = page_num-1;
+            $.get('/feedbacks/feedback?id=#{feedback._id}', function(comment) { 
+                var output = '';
+                var count = 0;
+                if(comment.length>0){
+                    $('.comment').empty();
+                    for(var i=0;i<comment.length;i++) {
+                        if(comment[i].page == page){
+                            count++;
+                            output += '<tr><th>'+comment[i].name+'</th>'
+                            output += '<td class="title">'+comment[i].memo+'</td></tr>';
+                            $('.comment').html(output);
+                        }
+                    }
+                    if(count == 0){
+                        $('.comment').empty();
+                        output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
+                        $('.comment').html(output);
+                    }
+                }else{
+                    $('.comment').empty();
+                    output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
+                    $('.comment').html(output);
+                }
+            });
+
+            $.ajax({
+                url: '/feedbacks/feedback?id=#{feedback._id}',
+                type: "get",
+                success: function(comment) {
+                var output = '';
+                var count = 0;
+                if(comment.length>0){
+                        $('.comment').empty();
+                        for(var i=0;i<comment.length;i++) {
+                            if(comment[i].page == page){
+                                count++;
+                                output += '<tr><th>'+comment[i].name+'</th>'
+                                output += '<td class="title">'+comment[i].memo+'</td></tr>';
+                                $('.comment').html(output);
+                            }
+                        }
+                        if(count == 0){
+                            $('.comment').empty();
+                            output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
+                            $('.comment').html(output);
+                        }
+                    }else{
+                        $('.comment').empty();
+                        output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
+                        $('.comment').html(output);
+                    }
+                }
+            });
+            
+        }

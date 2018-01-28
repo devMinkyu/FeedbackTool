@@ -30,7 +30,7 @@ router.get('/offer', function(req, res, next) {
     Feedback.findOne({_id:id}, function(err, feedback){
         if(err) throw err;
         if(mod == 'show'){
-            res.render('feedbacks/offerFeedback', {feedback:feedback});
+            res.render('feedbacks/showFeedback', {feedback:feedback});
         }else if(mod == 'offer'){
             res.render('feedbacks/offerFeedback', {feedback:feedback});
         }else if(mod == 'give'){
@@ -48,7 +48,7 @@ router.get('/comment', function(req, res) {
     Feedback.findOne({_id: id}, function(err, feedback){
         if(err) throw err;
         for(var i =0;i<feedback.comments.length;i++){
-            if(page_num == feedback.comments[i].page){
+            if(page_num == feedback.comments[i].page && feedback.comments[i].userId == req.user._id){
                 feedback.comments.pull({ _id: feedback.comments[i]._id});   
                 feedback.save(function(err){
                     if(err) throw err;
@@ -70,12 +70,20 @@ router.get('/page', function(req, res) {
     Feedback.findOne({_id: id}, function(err, feedback){
         if(err) throw err;
         for(var i =0;i<feedback.comments.length;i++){
-            if(page_num == feedback.comments[i].page){
+            if(page_num == feedback.comments[i].page && feedback.comments[i].userId == req.user._id){
                 res.send(feedback.comments[i].memo);
                 return;
             }
         }
         res.send();
+    });
+});
+router.get('/feedback', function(req, res) {
+    // comment 내용을 ajax로 페이징 하는 부분
+    var id = req.param('id');
+    Feedback.findOne({_id: id}, function(err, feedback){
+        if(err) throw err;
+        res.send(feedback.comments);
     });
 });
 router.post('/', upload.array('UploadFeedback'),function(req, res){

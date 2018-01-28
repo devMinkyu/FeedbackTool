@@ -81,6 +81,7 @@ block content
         }
         function prevChange() {
             var page_num = document.getElementById("page_num").innerHTML;
+            if(page_num==1) return;
             var page = page_num-1;
             $.get('/feedbacks/page?id=#{feedback._id}&page_num='+page, function(comment) { 
                 if(comment.length>0){

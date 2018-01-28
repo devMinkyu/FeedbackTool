@@ -26,7 +26,7 @@ router.post('/register', function(req, res, next) {
       name: req.body.name,
       email: req.body.email,
       phone: req.body.phone,
-      team:2,
+      team:1,
       //admin: 0
       admin: 1, // 0이면 관리자. 1이면 일반 유저
     });
