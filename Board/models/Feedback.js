@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var schema = new Schema({
+    projectNumber: String,
     writer: String,
     title: String,
     contents: String,
@@ -11,7 +12,8 @@ var schema = new Schema({
         userId: String,
         memo: String,
         date: {type: Date, default: Date.now},
-        page: String
+        page: String,
+        result: String
     }],
     count: {type:Number, default: 0},
     date: {type: Date, default: Date.now},

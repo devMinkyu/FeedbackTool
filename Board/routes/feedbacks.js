@@ -29,8 +29,12 @@ router.get('/offer', function(req, res, next) {
     var mod = req.param('mod');
     Feedback.findOne({_id:id}, function(err, feedback){
         if(err) throw err;
+        feedback.count++;
+        feedback.save(function(err){
+            if(err) throw err;
+        });
         if(mod == 'show'){
-            res.render('feedbacks/showFeedback', {feedback:feedback});
+            res.render('feedbacks/show', {feedback:feedback});
         }else if(mod == 'offer'){
             res.render('feedbacks/offerFeedback', {feedback:feedback});
         }else if(mod == 'give'){
@@ -56,7 +60,6 @@ router.get('/comment', function(req, res) {
                 break;
             }
         }
-        console.log("왱!!");
         feedback.comments.unshift({name:req.user.name, userId:req.user._id, memo: comment, page:page_num});
         feedback.save(function(err){
             if(err) throw err;
@@ -88,6 +91,7 @@ router.get('/feedback', function(req, res) {
 });
 router.post('/', upload.array('UploadFeedback'),function(req, res){
     //field name은 form의 input file의 name과 같아야함
+    // projectNumber -> 관리자 구현할 때 관리자
     var mode = req.param('mode');
     var addNewTitle = req.body.addContentSubject;
     var addNewWriter = req.user.name;
