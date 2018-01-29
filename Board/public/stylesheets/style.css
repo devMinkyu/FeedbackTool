@@ -319,6 +319,9 @@ text-align: center;
   table.type09 .title {
     width: 65% !important;
   }
+  table.type09 .userComment {
+    width: 50% !important;
+  }
   table.type09 td {
     padding: 10px;
     vertical-align: top;

@@ -15,12 +15,24 @@ var router = express.Router();
 
 
 router.get('/', function(req, res, next) {
+    var mod = req.param('mod');
+    if(mod == 'nomal'){
         Feedback.find({user_Team:req.user.team}, function(err, feedbacks){
             if(err) throw err;
-            res.render('feedbacks/index', {feedbacks:feedbacks});
+            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
         });
-    
-  });
+    }else if(mod == 'offer'){
+        Feedback.find({user_Team : {$ne:req.user.team}}).limit(2).exec(function(err, feedbacks) {
+            if(err) throw err;
+            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
+        });
+    }else if(mod == 'show'){
+        Feedback.find({user_Team:req.user.team}, function(err, feedbacks){
+            if(err) throw err;
+            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
+        });
+    }
+});
 router.get('/new', function(req, res, next) {
     res.render('feedbacks/new');
 });
@@ -33,11 +45,11 @@ router.get('/offer', function(req, res, next) {
         feedback.save(function(err){
             if(err) throw err;
         });
-        if(mod == 'show'){
+        if(mod == 'nomal'){
             res.render('feedbacks/show', {feedback:feedback});
         }else if(mod == 'offer'){
             res.render('feedbacks/offerFeedback', {feedback:feedback});
-        }else if(mod == 'give'){
+        }else if(mod == 'show'){
             res.render('feedbacks/showFeedback', {feedback:feedback});
         }
     });
@@ -106,7 +118,7 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
     if(mode == 'add') {
         if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
             addBoard(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team);
-            res.redirect('/feedbacks');
+            res.redirect('/feedbacks?mod=nomal');
         } else {
           console.log("파일이 저장되지 않았습니다!");
         }

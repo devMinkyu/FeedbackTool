@@ -26,7 +26,20 @@ block content
                             if comment.page == "1"
                                 tr
                                     th(scope='row')=comment.name
-                                    td(class="title")=comment.memo
+                                    td(class="userComment")=comment.memo
+                                    td
+                                        .dropdown
+                                            button#dropdownMenu1.btn.btn-default.dropdown-toggle(type='button', data-toggle='dropdown', aria-expanded='true')
+                                                | 반영
+                                                span.caret
+                                            ul.dropdown-menu(role='menu', aria-labelledby='dropdownMenu1')
+                                                li(role='presentation')
+                                                    a(role='menuitem', tabindex='-1', onclick='commentResult("수용");') 수용
+                                                li(role='presentation')
+                                                    a(role='menuitem', tabindex='-1', onclick='commentResult("부분수용");') 부분수용
+                                                li(role='presentation')
+                                                    a(role='menuitem', tabindex='-1', onclick='commentResult("거부");') 거부
+
                 else
                     tr
                         td(class="title") 피드백이 없습니다.
@@ -38,6 +51,9 @@ block content
     script(src='/javascripts/main.js')
 
     script(type='text/javascript').
+        function commentResult(name) {
+            alert(name)
+        }
         function nextFeedback() {
             var page_num = document.getElementById("page_num").innerHTML;
             var page = ++page_num;
@@ -49,8 +65,13 @@ block content
                     for(var i=0;i<comment.length;i++) {
                         if(comment[i].page == page){
                             count++;
-                            output += '<tr><th>'+comment[i].name+'</th>'
-                            output += '<td class="title">'+comment[i].memo+'</td></tr>';
+                            output += '<tr><th>'+comment[i].name+'</th>';
+                            output += '<td class="userComment">'+comment[i].memo+'</td>';
+                            output += '<td><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">반영';
+                            output += '<span class="caret"></span></button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">';
+                            output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("수용");">수용</a></li>';
+                            output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("부분수용");">부분수용</a></li>';
+                            output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("거부");">거부</a></li></ul></div></td></tr>';
                             $('.comment').html(output);
                         }
                     }
@@ -77,8 +98,13 @@ block content
                         for(var i=0;i<comment.length;i++) {
                             if(comment[i].page == page){
                                 count++;
-                                output += '<tr><th>'+comment[i].name+'</th>'
-                                output += '<td class="title">'+comment[i].memo+'</td></tr>';
+                                output += '<tr><th>'+comment[i].name+'</th>';
+                                output += '<td class="userComment">'+comment[i].memo+'</td>';
+                                output += '<td><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">반영';
+                                output += '<span class="caret"></span></button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">';
+                                output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("수용");">수용</a></li>';
+                                output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("부분수용");">부분수용</a></li>';
+                                output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("거부");">거부</a></li></ul></div></td></tr>';
                                 $('.comment').html(output);
                             }
                         }
@@ -107,8 +133,13 @@ block content
                     for(var i=0;i<comment.length;i++) {
                         if(comment[i].page == page){
                             count++;
-                            output += '<tr><th>'+comment[i].name+'</th>'
-                            output += '<td class="title">'+comment[i].memo+'</td></tr>';
+                            output += '<tr><th>'+comment[i].name+'</th>';
+                            output += '<td class="userComment">'+comment[i].memo+'</td>';
+                            output += '<td><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">반영';
+                            output += '<span class="caret"></span></button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">';
+                            output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("수용");">수용</a></li>';
+                            output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("부분수용");">부분수용</a></li>';
+                            output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("거부");">거부</a></li></ul></div></td></tr>';
                             $('.comment').html(output);
                         }
                     }
@@ -135,8 +166,13 @@ block content
                         for(var i=0;i<comment.length;i++) {
                             if(comment[i].page == page){
                                 count++;
-                                output += '<tr><th>'+comment[i].name+'</th>'
-                                output += '<td class="title">'+comment[i].memo+'</td></tr>';
+                                output += '<tr><th>'+comment[i].name+'</th>';
+                                output += '<td class="userComment">'+comment[i].memo+'</td>';
+                                output += '<td><div class="dropdown"><button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">반영';
+                                output += '<span class="caret"></span></button><ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">';
+                                output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("수용");">수용</a></li>';
+                                output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("부분수용");">부분수용</a></li>';
+                                output += '<li role="presentation"><a role="menuitem" tabindex="-1" onclick="commentResult("거부");">거부</a></li></ul></div></td></tr>';
                                 $('.comment').html(output);
                             }
                         }
