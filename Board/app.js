@@ -20,7 +20,6 @@ var question = require('./routes/question');
 var routeAuth = require('./routes/auth');
 
 var app = express();
-app.io = require('socket.io')();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -84,26 +83,6 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
-});
-
-app.io.on('connection', function(socket){
-  socket.on('connection_send', function(roomName, user){
-    socket.join(roomName);
-    socket.roomName = roomName;
-    socket.user = user;
-
-    var message = socket.user  + ' 입장했습니다.';
-    app.io.sockets.in(socket.roomName).emit('message_receive', message);
-  });
-  socket.on('message_send', function(text){
-    var message = socket.user  + ' : ' + text;
-    app.io.sockets.in(socket.roomName).emit('message_receive', message);
-  });
-  socket.on('leave_send', function(){
-    var message = socket.user  + ' 나갔습니다.';
-    app.io.sockets.in(socket.roomName).emit('message_receive', message);
-    socket.leave(socket.roomName);
-  });
 });
 
 module.exports = app;

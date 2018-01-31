@@ -8,10 +8,6 @@ router.get('/new', function(req, res, next) {
   res.render('users/register');
 });
 
-router.get('/profile', function(req, res, next) {
-  res.render('services/profile');
-});
-
 router.post('/register', function(req, res, next) {
   User.findOne({email: req.body.email}, function(err, user) {
     if (err) {

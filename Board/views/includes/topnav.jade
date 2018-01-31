@@ -1,0 +1,60 @@
+.navbar.navbar-inverse.navbar-fixed-top
+  .container
+    .navbar-header
+        button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            span.sr-only Toggle navigation
+            span.icon-bar
+            span.icon-bar
+            span.icon-bar
+        a.navbar-brand(href='/') 
+            i.fa.fa-home
+    #navbar.collapse.navbar-collapse
+        if (currentUser) 
+            ul.nav.navbar-nav
+                li.dropdown
+                    a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                        | 사전훈련 
+                        span.caret
+                    ul.dropdown-menu(role='menu')
+                        li
+                            a(href='/training/guide') 가이드 라인
+                        li
+                            a(href='/training/sample') 피드백 샘플
+                        li
+                            a(href='/training/training') 피드백 작성 훈련
+                li.dropdown
+                    a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                        | 팀 활동 
+                        span.caret
+                    ul.dropdown-menu(role='menu')
+                        li
+                            a(href='#') 프로젝트1
+                        li
+                            a(href='#') 프로젝트2
+                li.dropdown
+                    a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                        | 개인 활동 
+                        span.caret
+                    ul.dropdown-menu(role='menu')
+                        li
+                            a(href='/feedbacks?mod=offer&projectNumber=1') 프로젝트1
+                        li
+                            a(href='/feedbacks?mod=offer&projectNumber=2') 프로젝트2
+        ul.nav.navbar-nav.navbar-right
+            if (currentUser) 
+                li
+                    a(href='#') 공지사항
+                li
+                    a(href='/question') Q&A
+                li
+                    a(href='/users/#{currentUser._id}') Profile
+                li
+                    a(href='/signout') 로그아웃
+            else
+                li
+                    a(href='/signin') 로그인
+                li
+                    a(href='#') 공지사항
+                li
+                    a(href='/question') Q&A
+        

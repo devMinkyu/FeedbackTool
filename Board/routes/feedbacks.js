@@ -16,6 +16,7 @@ var router = express.Router();
 
 router.get('/', function(req, res, next) {
     var mod = req.param('mod');
+    var projectNumber = req.param('projectNumber');
     if(mod == 'nomal'){
         Feedback.find({user_Team:req.user.team}, function(err, feedbacks){
             if(err) throw err;
@@ -27,7 +28,7 @@ router.get('/', function(req, res, next) {
             res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
         });
     }else if(mod == 'show'){
-        Feedback.find({user_Team:req.user.team}, function(err, feedbacks){
+        Feedback.find({ $and: [ {user_Team:req.user.team}, { projectNumber: projectNumber } ] }, function(err, feedbacks){
             if(err) throw err;
             res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
         });

@@ -6,27 +6,27 @@ Board = require('../models/Board');
 router.get('/', function(req, res, next) {
   res.render('index');
 });
-
-router.get('/main', function(req, res, next) {
-  if(!req.user){
-      res.redirect('/');
-      return;
-  }
-  if(req.user.admin == 0){
-    Board.find({}, function(err,boards){
-        if (err) {
-            return next(err);
-        }
-        res.render('board/index',{boards:boards});
-    });
-  }else{
-    res.render('main');
-  }
+router.get('/signin', function(req, res, next) {
+  res.render('signin');
 });
 
-router.get('/chat', function(req, res, next) {
-  res.render('services/chat');
-});
+// router.get('/main', function(req, res, next) {
+//   if(!req.user){
+//       res.redirect('/');
+//       return;
+//   }
+//   if(req.user.admin == 0){
+//     Board.find({}, function(err,boards){
+//         if (err) {
+//             return next(err);
+//         }
+//         res.render('board/index',{boards:boards});
+//     });
+//   }else{
+//     res.render('main');
+//   }
+// });
+
 
 router.get('/plan', function(req, res, next) {
   res.render('services/plan');

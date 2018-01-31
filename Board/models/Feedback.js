@@ -12,8 +12,7 @@ var schema = new Schema({
         userId: String,
         memo: String,
         date: {type: Date, default: Date.now},
-        page: String,
-        result: String
+        page: String
     }],
     count: {type:Number, default: 0},
     date: {type: Date, default: Date.now},
