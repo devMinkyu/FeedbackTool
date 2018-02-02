@@ -17,13 +17,8 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     var mod = req.param('mod');
     var projectNumber = req.param('projectNumber');
-    if(mod == 'nomal'){
-        Feedback.find({user_Team:req.user.team}, function(err, feedbacks){
-            if(err) throw err;
-            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
-        });
-    }else if(mod == 'offer'){
-        Feedback.find({user_Team : {$ne:req.user.team}}).limit(2).exec(function(err, feedbacks) {
+    if(mod == 'offer'){
+        Feedback.find({$and: [ {user_Team : {$ne:req.user.team}}, { projectNumber: projectNumber } ] } ).limit(2).exec(function(err, feedbacks) {
             if(err) throw err;
             res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
         });
@@ -35,7 +30,12 @@ router.get('/', function(req, res, next) {
     }
 });
 router.get('/new', function(req, res, next) {
-    res.render('feedbacks/new');
+    var projectNumber = req.param('projectNumber');
+    res.render('feedbacks/new',{projectNumber:projectNumber});
+});
+router.get('/choose', function(req, res, next) {
+    var projectNumber = req.param('projectNumber');
+    res.render('feedbacks/choose',{projectNumber:projectNumber});
 });
 router.get('/offer', function(req, res, next) {
     var id = req.param('id');
@@ -46,9 +46,7 @@ router.get('/offer', function(req, res, next) {
         feedback.save(function(err){
             if(err) throw err;
         });
-        if(mod == 'nomal'){
-            res.render('feedbacks/show', {feedback:feedback});
-        }else if(mod == 'offer'){
+        if(mod == 'offer'){
             res.render('feedbacks/offerFeedback', {feedback:feedback});
         }else if(mod == 'show'){
             res.render('feedbacks/showFeedback', {feedback:feedback});
@@ -104,8 +102,8 @@ router.get('/feedback', function(req, res) {
 });
 router.post('/', upload.array('UploadFeedback'),function(req, res){
     //field name은 form의 input file의 name과 같아야함
-    // projectNumber -> 관리자 구현할 때 관리자
     var mode = req.param('mode');
+    var projectNumber = req.param('projectNumber');
     var addNewTitle = req.body.addContentSubject;
     var addNewWriter = req.user.name;
     var addNewContent = req.body.addContents;
@@ -118,8 +116,8 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
     }
     if(mode == 'add') {
         if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
-            addBoard(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team);
-            res.redirect('/feedbacks?mod=nomal');
+            addProject(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team,projectNumber);
+            res.redirect('/feedbacks/choose?projectNumber='+projectNumber);
         } else {
           console.log("파일이 저장되지 않았습니다!");
         }
@@ -135,7 +133,7 @@ router.get('/download/:path', function(req, res){
 
 module.exports = router;
 
-function addBoard(title, writer, content, upFile, userTeam){
+function addProject(title, writer, content, upFile, userTeam,projectNumber){
     var newContent = content.replace(/\r\n/gi, "\\r\\n");
 
     var newBoardContents = new Feedback();
@@ -143,6 +141,7 @@ function addBoard(title, writer, content, upFile, userTeam){
     newBoardContents.title = title;
     newBoardContents.contents = newContent;
     newBoardContents.user_Team = userTeam;
+    newBoardContents.projectNumber = projectNumber;
 
     newBoardContents.save(function (err) {
         if (err) throw err;
