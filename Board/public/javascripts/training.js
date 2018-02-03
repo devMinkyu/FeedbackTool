@@ -1,12 +1,9 @@
 var feedbackProblem =["교수님설계안에 제시한 대상에 대해 강화적 피드백을 제공해보세요.", "교수님설계안에 제시한 대상에 대해 제안적 피드백을 제공해보세요.", "교수님설계안에 제시한 대상에 대해 교정적 피드백을 제공해보세요."];
-function exam() {
-    var divs = document.querySelectorAll(".main-training div");
-    divs[0].className = "c1";
-    $ (".main-exam").remove();
-    setTimeout(function() {
-        $(".main-training").append($('#pdfTrainingViewExam').html());  
-        $(".ex1").append(feedbackProblem[0]);  
-    }, 2000);
+function trainingFeedBack(){
+    $('.exam').remove();
+    $('.c1').removeClass('hidden');
+    $(".main-training").append($('#pdfTrainingViewExam').html());  
+    $(".ex1").append(feedbackProblem[0]);  
 }
 function submitSolution() {
     var solution1 = $('#tab-1').val();

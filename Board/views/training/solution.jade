@@ -3,5 +3,25 @@ extends ../layout
 block content
   .container
     .row.main
-        .main-solution
-        .main-user-solution
+      .main-pdf
+        if(solution)
+          h1 피드백 샘플
+          div
+              #pdfName=solution
+              button#prev Previous
+              button#next Next
+              span.pagenumber
+                  | Page: 
+                  span#page_num
+                  |  / 
+                  span#page_count
+              a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("#{solution}"");')
+          canvas#the-canvas
+        else
+            h1 파일이 없습니다.
+        a.btn.btn-lg.btn-danger.btn-exit(href='/') 종료
+
+
+    script(src='//mozilla.github.io/pdf.js/build/pdf.js')
+    script(src='/javascripts/pdfShow.js')
+    script(src='/javascripts/main.js')

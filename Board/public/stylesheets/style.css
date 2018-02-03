@@ -213,9 +213,9 @@ background:#FFF;
     color: #000;
   text-shadow: none;
 box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
--webkit-transition-duration: 2s;  
 }
 .main-exam{
+  margin-top: 30px;
   position: relative;
   left: 50%;
   -webkit-transform:  translateY(-200px);
@@ -365,4 +365,7 @@ text-align: center;
   .main-training .c1{
     -webkit-transform:  translateX(-60%);
     -webkit-transition-timing-function: linear;
+  }
+  .main-training .c1 .hidden{
+    display: none; 
   }

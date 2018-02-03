@@ -4,18 +4,22 @@ block content
   .container
     .row.main
       .main-pdf
-        h1 가이드
-        div
-            button#prev Previous
-            button#next Next
-            span.pagenumber
-                | Page: 
-                span#page_num
-                |  / 
-                span#page_count
-            a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("자기소개서+작성법.pdf");')
-        canvas#the-canvas
-        a.btn.btn-lg.btn-danger.btn-exit(href='javascript:window.history.back();') 종료
+        if(guide)
+            h1 가이드
+            div
+                #pdfName=guide
+                button#prev Previous
+                button#next Next
+                span.pagenumber
+                    | Page: 
+                    span#page_num
+                    |  / 
+                    span#page_count
+                a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("#{guide}");')
+            canvas#the-canvas
+        else
+            h1 파일이 없습니다.
+        a.btn.btn-lg.btn-danger.btn-exit(href='/') 종료
 
 
     script(src='//mozilla.github.io/pdf.js/build/pdf.js')

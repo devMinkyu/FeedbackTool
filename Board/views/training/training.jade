@@ -3,40 +3,52 @@ extends ../layout
 block content
   .container
     .row.main
-      .main-training
-        div
-            h1 피드백 작성 연습
-            div#exam
-                table.table
-                    tbody
-                        tr 친구에게 제공할 수 있는 피드백 유형은 다음과 같습니다.
-                        tr
-                            td 강화적 피드백
-                            td
-                                ul
-                                    li ~ 부분은 ~ 이유로 좋은 것 같아요.
-                                    li 이렇게 하면 효과적으로 전달될 것 같아요. 등
-                                    li 단순히 '좋아요'라고 작성하는 것이 아니라, 좋은 이유를 작성해야 함
-                        tr
-                            td 제안적 피드백
-                            td
-                                ul
-                                    li ~ 부분은 ~ 이런 식으로 수정해야 할 것 같습니다. 등
-                        tr
-                            td 교정적 피드백
-                            td
-                                ul
-                                    li ~ 하는 것이 더 좋을 것 같습니다.
-                                    li ~ 부분이 필요한 것 같습니다.
-                                    li ~ 을 추가하면 좋을 것 같습니다. 등                            
-                button.btn.btn-lg.btn-primary.btn-block(onclick = "trainingFeedBack();") 연습하기
-            br
-            a.btn.btn-lg.btn-danger.btn-exit(href='javascript:window.history.back();') 종료
-
-    script#pdfTrainingView(type='text/template').
-        <button class= "btn btn-lg btn-warning", onclick="exam();">1번</button>
-        <button class= "btn btn-lg btn-danger" onclick="exam();">2번</button>
-        <button class= "btn btn-lg btn-primary" onclick="exam();">3번</button>
+        .main-training.exam
+            div
+                h1 피드백 작성 연습
+                div
+                    table.table
+                        tbody
+                            tr 친구에게 제공할 수 있는 피드백 유형은 다음과 같습니다.
+                            tr
+                                td 강화적 피드백
+                                td
+                                    ul
+                                        li ~ 부분은 ~ 이유로 좋은 것 같아요.
+                                        li 이렇게 하면 효과적으로 전달될 것 같아요. 등
+                                        li 단순히 '좋아요'라고 작성하는 것이 아니라, 좋은 이유를 작성해야 함
+                            tr
+                                td 제안적 피드백
+                                td
+                                    ul
+                                        li ~ 부분은 ~ 이런 식으로 수정해야 할 것 같습니다. 등
+                            tr
+                                td 교정적 피드백
+                                td
+                                    ul
+                                        li ~ 하는 것이 더 좋을 것 같습니다.
+                                        li ~ 부분이 필요한 것 같습니다.
+                                        li ~ 을 추가하면 좋을 것 같습니다. 등                            
+                    button.btn.btn-lg.btn-primary.btn-block(onclick = "trainingFeedBack();") 연습하기
+                br
+                a.btn.btn-lg.btn-danger.btn-exit(href='href='/'') 종료
+        .main-training.c1.hidden
+            if(solution)
+                h1 피드백 샘플
+                div
+                    #pdfName=solution
+                    button#prev Previous
+                    button#next Next
+                    span.pagenumber
+                        | Page: 
+                        span#page_num
+                        |  / 
+                        span#page_count
+                    a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("#{solution}"");')
+                canvas#the-canvas
+            else
+                h1 파일이 없습니다.
+            a.btn.btn-lg.btn-danger.btn-exit(href='/') 종료
     script#pdfTrainingViewExam(type='text/template').
         <div class="main-exam">
             <h1>피드백 작성 문제</h1>
@@ -55,4 +67,5 @@ block content
         </div>
     
     script(src='/javascripts/training.js')
-       
+    script(src='//mozilla.github.io/pdf.js/build/pdf.js')
+    script(src='/javascripts/pdfShow.js')

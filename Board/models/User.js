@@ -9,7 +9,12 @@ var schema = new Schema({
   team: {type: String},
   photoURL : {type: String},
   password: {type: String},
-  admin: {type: Number},
+  admin:{type: Number},// 0 이면 관리자, 1 이면 일반유저
+  example: {
+    guide:{type: String},
+    solution:{type: String},
+    training:{type: String}
+  },
   feedback:[String]
 }, {
   toJSON: { virtuals: true},
