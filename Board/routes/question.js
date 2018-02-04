@@ -25,19 +25,19 @@ router.get('/', function(req, res, next) {
          pageNum = Math.ceil(totalCount/limitSize);
          Question.find({}).sort({date:-1}).skip(skipSize).limit(limitSize).exec(function(err, pageContents) {
              if(err) throw err;
-             res.render('board/qaindex', {questions: pageContents, pagination: pageNum});
+             res.render('notice/qaindex', {questions: pageContents, pagination: pageNum});
          });
      });
 });
 router.get('/new', function(req, res, next) {
-    res.render('board/qanew');
+    res.render('notice/qanew');
 });
 router.get('/show', function(req, res, next) {
     Question.findOne({_id:req.param('id')}, function(err, question){
         if(err) throw err;
 
         var reply_pg = Math.ceil(question.comments.length/5);
-        res.render('board/qashow', {question:question, replyPage: reply_pg});
+        res.render('notice/qashow', {question:question, replyPage: reply_pg});
     });
 });
 // 수정 추후
@@ -45,7 +45,7 @@ router.get('/modify', function(req, res, next) {
     Question.findOne({_id:req.param('id')}, function(err, question){
         if(err) throw err;
 
-        res.render('board/qanew', {question:question, replyPage: reply_pg});
+        res.render('notice/qanew', {question:question, replyPage: reply_pg});
     });
 });
 router.post('/', function(req, res){

@@ -1,0 +1,32 @@
+extends ../layout
+
+block content
+  .container
+    .row.main
+      .main-pdf
+        h1 공지사항
+        table.type09
+            if(notices.length > 0)
+                thead
+                    tr
+                        th(scope='cols') 번호
+                        th(scope='cols') 제목
+                tbody
+                        each notice in notices
+                            tr
+                                th(scope='row')=notice.number
+                                td(class="title")
+                                    a(href="/notice/show?id=#{notice.id}") #{notice.title} [#{notice.count}]
+            else
+                tr
+                    td(class="title") 공지사항이 없습니다.
+                
+        a.btn.btn-default(href='/') 뒤로가기
+        if (currentUser.admin == 0)
+          a.btn.btn-default(href="/notice/new") 게시하기
+
+        nav
+        ul.pagination
+            -for(var i= 1; i<=pagination; i++)
+                li
+                    a(href="/notice?page=#{i}")=i

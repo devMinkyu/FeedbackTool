@@ -32,7 +32,7 @@ block content
                             if(j<5)
                                 tr
                                     th= comment.name
-                                    th #{comment.memo} / #{dateFormatChange(comment.date)}
+                                    th #{comment.memo} / #{comment.date}
                                         if(question.user_Id == currentUser._id)
                                             a(href="/question/reply/delete") [삭제]
                                 -j++;
@@ -82,3 +82,6 @@ block content
 
             return newdate.toLocaleTimeString("ko-KR", options);
         }
+        (function () {
+            changePage(1);
+        })()

@@ -13,7 +13,7 @@ var passport = require('passport');
 var configAuth = require('./config/auth');
 var index = require('./routes/index');
 var users = require('./routes/users');
-var board = require('./routes/board');
+var notice = require('./routes/notice');
 var training = require('./routes/training');
 var feedbacks = require('./routes/feedbacks');
 var question = require('./routes/question');
@@ -60,7 +60,7 @@ configAuth(passport);
 
 app.use('/', index);
 app.use('/users', users);
-app.use('/board', board);
+app.use('/notice', notice);
 app.use('/training', training);
 app.use('/question', question);
 app.use('/feedbacks', feedbacks);

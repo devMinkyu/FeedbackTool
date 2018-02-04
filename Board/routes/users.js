@@ -7,7 +7,13 @@ var router = express.Router();
 router.get('/new', function(req, res, next) {
   res.render('users/register');
 });
-
+router.get('/userlists', function(req, res, next) {
+  res.render('users/userlist');
+});
+router.get('/profile', function(req, res, next) {
+  var id = req.param('id');
+  res.render('users/profile');
+});
 router.post('/register', function(req, res, next) {
   User.findOne({email: req.body.email}, function(err, user) {
     if (err) {

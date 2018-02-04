@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+  .container
+    .row.main
+      .main-pdf
+        .content_detail
+            -function dateFormatChange(date) {
+                -var newdate = new Date(date);
+                -var options = { weekday: "short", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit"};
+                -return newdate.toLocaleTimeString("ko-KR", options);
+            -}
+            h3.content-title=notice.title
+            .content-info #{dateFormatChange(notice.date)} 
+            .content-text=notice.contents
+            .addBtngroup
+                if(0== currentUser.admin)
+                    a.btn.btn-warning(href='/notice/modify?id=#{notice._id}') 수정
+                    a.btn.btn-warning(href='/notice/delete?_method=DELETE&id=#{notice._id}') 삭제
+                a.btn.btn-warning(href='/') 확인
