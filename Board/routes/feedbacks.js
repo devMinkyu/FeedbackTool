@@ -18,7 +18,8 @@ router.get('/', function(req, res, next) {
     var mod = req.param('mod');
     var projectNumber = req.param('projectNumber');
     if(mod == 'offer'){
-        Feedback.find({$and: [ {user_Team : {$ne:req.user.team}}, { projectNumber: projectNumber } ] } ).limit(2).exec(function(err, feedbacks) {
+        Feedback.find({$or: [{$and: [ {user_Team :req.user.feedbackTeam1}, { projectNumber: projectNumber } ] },{$and: [ {user_Team :req.user.feedbackTeam2}, { projectNumber: projectNumber } ] }]}
+            , function(err, feedbacks) {
             if(err) throw err;
             res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
         });
@@ -108,20 +109,30 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
     var addNewWriter = req.user.name;
     var addNewContent = req.body.addContents;
     var upFile = req.files; // 업로드 된 파일을 받아옴
-    console.log(upFile);
-    if(!isPDF(upFile)){
-        req.flash('info', "PDF 파일이 아닙니다.");
-        res.redirect('/feedbacks/new');
-        return;
-    }
-    if(mode == 'add') {
-        if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
-            addProject(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team,projectNumber);
-            res.redirect('/feedbacks/choose?projectNumber='+projectNumber);
-        } else {
-          console.log("파일이 저장되지 않았습니다!");
+
+    Feedback.findOne({ $and: [ {user_Team:req.user.team}, { projectNumber: projectNumber } ] }, function(err, feedback) {
+        if (err) {
+          return next(err);
         }
-    }
+        if (feedback) {
+          req.flash('danger', '팀 피드백이 이미 존재합니다.');
+          res.redirect('/feedbacks/choose?projectNumber='+projectNumber);
+          return; 
+        }
+        if(!isPDF(upFile)){
+            req.flash('info', "PDF 파일이 아닙니다.");
+            res.redirect('/feedbacks/new');
+            return;
+        }
+        if(mode == 'add') {
+            if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
+                addProject(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team,projectNumber);
+                res.redirect('/feedbacks/choose?projectNumber='+projectNumber);
+            } else {
+              console.log("파일이 저장되지 않았습니다!");
+            }
+        }
+    });
 });
 
 router.get('/download/:path', function(req, res){

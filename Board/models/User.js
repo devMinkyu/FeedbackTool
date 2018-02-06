@@ -15,7 +15,9 @@ var schema = new Schema({
     solution:{type: String},
     training:{type: String}
   },
-  feedback:[String]
+  feedback:[String],
+  feedbackTeam1: {type: String},
+  feedbackTeam2: {type: String}
 }, {
   toJSON: { virtuals: true},
   toObject: {virtuals: true}
