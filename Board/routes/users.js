@@ -40,11 +40,11 @@ router.put('/feedbackTeam', function(req, res, next) {
         }
       }
     }else{
-      var feedbackCount = ((users.length-1)*2)/teamCount
-      var feedbackRemainder = ((users.length-1)*2)%teamCount
+      var feedbackCount = ((users.length-1)*2)/teamCount;
+      var feedbackRemainder = ((users.length-1)*2)%teamCount;
       var team = new Array();
-      for(var i = 0; i<teamCount;i++){
-        team[i] = 0;
+      for(var j = 0; j<teamCount;j++){
+        team[j] = 0;
       }
       var max = ++teamCount;
       for(var i = 0; i<users.length;i++){
@@ -54,7 +54,7 @@ router.put('/feedbackTeam', function(req, res, next) {
             var feedbackTeam = Math.floor(Math.random() * ((max) - 1)) + 1;
             if(team[feedbackTeam-1] < (feedbackCount+feedbackRemainder-1) && users[i].team != feedbackTeam){
               team[feedbackTeam-1]++;
-              users[i].feedbackTeam1 = feedbackTeam
+              users[i].feedbackTeam1 = feedbackTeam;
               users[i].save(function (err) {
                 if (err) throw err;
               });
@@ -65,7 +65,7 @@ router.put('/feedbackTeam', function(req, res, next) {
             var feedbackTeam = Math.floor(Math.random() * ((max) - 1)) + 1;
             if(team[feedbackTeam-1] < (feedbackCount+feedbackRemainder-1) && users[i].team != feedbackTeam && users[i].feedbackTeam1 != feedbackTeam){
               team[feedbackTeam-1]++;
-              users[i].feedbackTeam2 = feedbackTeam
+              users[i].feedbackTeam2 = feedbackTeam;
               users[i].save(function (err) {
                 if (err) throw err;
               });

@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
     var projectNumber = req.param('projectNumber');
     if(mod == 'offer'){
         Feedback.find({$or: [{$and: [ {user_Team :req.user.feedbackTeam1}, { projectNumber: projectNumber } ] },{$and: [ {user_Team :req.user.feedbackTeam2}, { projectNumber: projectNumber } ] }]}
-            , function(err, feedbacks) {
+            ,function(err, feedbacks) {
             if(err) throw err;
             res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
         });
@@ -134,7 +134,15 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
         }
     });
 });
-
+router.delete('/delete', function(req, res, next) {
+    Feedback.findOneAndRemove({_id: req.param('id')}, function(err) {
+      if (err) {
+        return next(err);
+      }
+      req.flash('success', "피드백이 성공적으로 삭제 되었습니다.");
+      res.redirect('/');
+    });
+  });
 router.get('/download/:path', function(req, res){
     // file download
     var path = req.params.path;

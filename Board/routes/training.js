@@ -30,7 +30,6 @@ router.get('/solution', function(req, res, next) {
         res.render('training/upload',{mod:"solution"});
     }else{
         User.findOne({admin:0}, function(err, user) {
-            console.log(user)
             if (err) {
                 return next(err);
             }

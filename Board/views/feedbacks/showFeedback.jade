@@ -15,7 +15,9 @@ block content
             a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("#{feedback.fileUp}");')
         canvas#the-canvas
         br
-        a.btn.btn-lg.btn-primary.btn-exit(href='javascript:window.history.back();') 완료
+        .addBtngroup
+            a.btn.btn-warning(href='/feedbacks/delete?_method=DELETE&id=#{feedback._id}') 삭제
+            a.btn.btn-primary(href='javascript:window.history.back();') 완료
     .main-offerfeedback
         div
             h1 Feedback 

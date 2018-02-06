@@ -21,7 +21,8 @@ block content
             .comment
                 textarea.form-control#feedbackComment(rows="10", cols="45")
             br
-            a.btn.btn-primary(onclick='saveComment();') 게시
+            button.btn.btn-primary(onclick='saveComment();')
+                span#notice 게시
 
 
 
@@ -31,15 +32,18 @@ block content
 
     script(type='text/javascript').
         function saveComment() {
+            //var notice = document.getElementById("notice");
             var page_num = document.getElementById("page_num").innerHTML;
             var feedbackComment = document.getElementById("feedbackComment").value;
             $.get('/feedbacks/comment?id=#{feedback._id}&page_num='+page_num+'&feedbackComment='+feedbackComment, function() { 
+                //notice.html("수정");
             });
 
             $.ajax({
                 url: '/feedbacks/comment?id=#{feedback._id}&page_num='+page_num+'&feedbackComment='+feedbackComment,
                 type: "get",
                 success: function() {
+                    //notice.html("수정");
                 }
             });
         }
