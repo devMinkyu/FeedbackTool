@@ -13,9 +13,12 @@ var schema = new Schema({
   example: {
     guide:{type: String},
     solution:{type: String},
-    training:{type: String}
+    training:{type: String},
+    sampleAnswer1:{type: String},
+    sampleAnswer2:{type: String},
+    trainingExample:{type: String}
   },
-  feedback:[String],
+  feedback:{type: String},
   feedbackTeam1: {type: String},
   feedbackTeam2: {type: String}
 }, {

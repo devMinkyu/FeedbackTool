@@ -39,9 +39,14 @@ router.get('/solution', function(req, res, next) {
 });
 router.get('/training', function(req, res, next) {
     if(req.user.admin == 0){
-        res.render('training/upload',{mod:"training"});
+        res.render('training/trainingUpload',{mod:"training"});
     }else{
-        res.render('training/training');
+        User.findOne({admin:0}, function(err, user) {
+            if (err) {
+                return next(err);
+            }
+            res.render('training/training', {training:user.example});
+        });
     }
 });
 router.post('/', function(req, res, next){
@@ -49,32 +54,40 @@ router.post('/', function(req, res, next){
         if (err) {
           return next(err);
         }
-        User.update({_id: user._id}, {$unset: {feedback: true}}, function (err) {
-            if (err) throw err;
+        var solution;
+        solution = req.body.solution; 
+        // User.update({_id: user._id}, {$unset: {feedback: true}}, function (err) {
+        //     if (err) throw err;
+        // });
+        // for (var j = 0; j < 3; j++) {
+        //     User.update({_id: user._id}, {$push: {feedback: solution[j]}}, function (err) {
+        //         if (err) throw err;
+        //     });
+        // }
+        user.feedback = solution;
+        user.save(function (err) {
+          if (err) throw err;
         });
-        var solution = [];
-        solution[0] = req.body.solution1; 
-        solution[1] = req.body.solution2; 
-        solution[2] = req.body.solution3; 
-        for (var j = 0; j < 3; j++) {
-            User.update({_id: user._id}, {$push: {feedback: solution[j]}}, function (err) {
-                if (err) throw err;
-            });
-        }
     });
-    res.redirect('/training/solution');
+    res.redirect('/');
 });
 router.post('/example', upload.array('UploadExample'),function(req, res){
     //field name은 form의 input file의 name과 같아야함
     var mod = req.param('mod');
     var upFile = req.files; // 업로드 된 파일을 받아옴
+    var exam;
+    exam = req.body.exam; 
     if(!isPDF(upFile)){
         req.flash('info', "PDF 파일이 아닙니다.");
         res.redirect('/feedbacks/new');
         return;
     }
     if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
-        addExample(upFile, mod,req.user._id);
+        if(exam){
+            addExample(upFile, mod,req.user._id, exam);
+        }else{
+            addExample(upFile, mod,req.user._id, "");
+        }
         req.flash('success', "파일이 성공적으로 등록 되었습니다.");
         res.redirect('/');
     } else {
@@ -83,10 +96,9 @@ router.post('/example', upload.array('UploadExample'),function(req, res){
     
 });
 module.exports = router;
-function addExample(upFile, mod,userId){
+function addExample(upFile, mod,userId,exam){
     User.findOne({_id: userId}, function (err, user) {
         if (err) throw err;
-
         if (upFile != null) {
             var renaming = renameUploadFile(userId,upFile);
 
@@ -105,6 +117,17 @@ function addExample(upFile, mod,userId){
                 });
             }else if(mod == "solution"){
                 user.example.solution = renaming.fullname[0];
+                user.save(function (err) {
+                    if (err) throw err;
+                });
+            }else if(mod == "training"){
+                if(exam == ""){}
+                else{
+                    user.example.trainingExample = exam;
+                }
+                user.example.training = renaming.fullname[0];
+                user.example.sampleAnswer1 = renaming.fullname[1];
+                user.example.sampleAnswer2 = renaming.fullname[2];
                 user.save(function (err) {
                     if (err) throw err;
                 });

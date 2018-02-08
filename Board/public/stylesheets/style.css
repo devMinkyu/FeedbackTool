@@ -208,7 +208,7 @@ box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
   margin-top: 30px;
   padding: 10px 40px;
   margin: 0 auto;
-  max-width: 50%;
+  max-width: 60%;
 background:#FFF;
     color: #000;
   text-shadow: none;
@@ -216,15 +216,13 @@ box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
 }
 .main-exam{
   margin-top: 30px;
-  position: relative;
-  left: 50%;
-  -webkit-transform:  translateY(-200px);
-  margin: 0 0 !important;
+  position: absolute;
+  left: 70%;
+  top: 30%;
+  margin: 0 auto;
   padding: 10px 40px !important;
 background:#E0E0E0 !important;
     color: #000 !important;
-  text-shadow: none !important;
-box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31) !important;
 }
 .main-exam >form> .current{
   display:block !important; 
@@ -359,13 +357,21 @@ text-align: center;
     margin-bottom: 10px;
     margin-top: 10px;
   }
-#pdfName{
+#pdfName, #trainingExample{
   display: none; 
 }
-  .main-training .c1{
-    -webkit-transform:  translateX(-60%);
-    -webkit-transition-timing-function: linear;
-  }
-  .main-training .c1 .hidden{
-    display: none; 
-  }
+.main-sample > div{
+  margin-top: 30px;
+  padding: 10px 40px;
+  margin: 0 auto;
+  max-width: 60%;
+  background:#FFF;
+  color: #000;
+  text-shadow: none;
+  box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+  -webkit-transform:  translateX(-50%) !important;
+  -webkit-transition-timing-function: linear !important;
+}
+.main-training .hidden{
+  display: none; 
+}

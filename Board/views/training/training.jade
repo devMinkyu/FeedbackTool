@@ -32,36 +32,31 @@ block content
                     button.btn.btn-lg.btn-primary.btn-block(onclick = "trainingFeedBack();") 연습하기
                 br
                 a.btn.btn-lg.btn-danger.btn-exit(href='href='/'') 종료
-        .main-training.c1.hidden
-            if(solution)
-                h1 피드백 샘플
-                div
-                    #pdfName=solution
-                    button#prev Previous
-                    button#next Next
-                    span.pagenumber
-                        | Page: 
-                        span#page_num
-                        |  / 
-                        span#page_count
-                    a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("#{solution}"");')
-                canvas#the-canvas
-            else
-                h1 파일이 없습니다.
-            a.btn.btn-lg.btn-danger.btn-exit(href='/') 종료
+        .main-sample.hidden
+            div
+                if(training.training)
+                    h1 피드백 샘플
+                    div
+                        #pdfName=training.training
+                        #trainingExample=training.trainingExample
+                        button#prev Previous
+                        button#next Next
+                        span.pagenumber
+                            | Page: 
+                            span#page_num
+                            |  / 
+                            span#page_count
+                        a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("#{training.training}"");')
+                    canvas#the-canvas
+                else
+                    h1 파일이 없습니다.
+                a.btn.btn-lg.btn-danger.btn-exit(href='/') 종료
     script#pdfTrainingViewExam(type='text/template').
         <div class="main-exam">
             <h1>피드백 작성 문제</h1>
-            <ul class="tabs">
-                <li class="tab-link current"  id="tab1" onclick="currentButton1();">1번</li>
-                <li class="tab-link" id="tab2" onclick="currentButton2();">2번</li>
-                <li class="tab-link" id="tab3" onclick="currentButton3();">3번</li>
-            </ul>
             <div class="ex1"></div>
             <form action="/training", method='POST', id="solutionAction">
-                <textarea class="form-control current", id="tab_1", name="solution1" rows="10"></textarea>
-                <textarea class="form-control", id="tab_2", name="solution2" rows="10"></textarea>
-                <textarea class="form-control", id="tab_3", name="solution3" rows="10"></textarea>
+                <textarea class="form-control current", id="tab_1", name="solution" rows="10" ></textarea>
             </form>
             <button class= "btn btn-lg btn-info", onclick="submitSolution();" >완료</button>
         </div>
