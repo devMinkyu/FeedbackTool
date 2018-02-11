@@ -68,35 +68,6 @@ block content
                     $('.comment').html(output);
                 }
             });
-
-            $.ajax({
-                url: '/feedbacks/feedback?id=#{feedback._id}',
-                type: "get",
-                success: function(comment) {
-                var output = '';
-                var count = 0;
-                if(comment.length>0){
-                        $('.comment').empty();
-                        for(var i=0;i<comment.length;i++) {
-                            if(comment[i].page == page){
-                                count++;
-                                output += '<tr><th>'+comment[i].name+'</th>';
-                                output += '<td class="userComment">'+comment[i].memo+'</td></tr>';
-                                $('.comment').html(output);
-                            }
-                        }
-                        if(count == 0){
-                            $('.comment').empty();
-                            output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
-                            $('.comment').html(output);
-                        }
-                    }else{
-                        $('.comment').empty();
-                        output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
-                        $('.comment').html(output);
-                    }
-                }
-            });
         }
         function prevFeedback() {
             var page_num = document.getElementById("page_num").innerHTML;
@@ -126,34 +97,4 @@ block content
                     $('.comment').html(output);
                 }
             });
-
-            $.ajax({
-                url: '/feedbacks/feedback?id=#{feedback._id}',
-                type: "get",
-                success: function(comment) {
-                var output = '';
-                var count = 0;
-                if(comment.length>0){
-                        $('.comment').empty();
-                        for(var i=0;i<comment.length;i++) {
-                            if(comment[i].page == page){
-                                count++;
-                                output += '<tr><th>'+comment[i].name+'</th>';
-                                output += '<td class="userComment">'+comment[i].memo+'</td></tr>';
-                                $('.comment').html(output);
-                            }
-                        }
-                        if(count == 0){
-                            $('.comment').empty();
-                            output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
-                            $('.comment').html(output);
-                        }
-                    }else{
-                        $('.comment').empty();
-                        output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
-                        $('.comment').html(output);
-                    }
-                }
-            });
-            
         }

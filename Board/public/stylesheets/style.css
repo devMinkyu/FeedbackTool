@@ -176,6 +176,17 @@ background:#FFF;
   text-shadow: none;
 box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
 }
+.main-profile{
+  margin-top: 30px;
+  padding: 10px 40px;
+  margin: 0 auto;
+  max-width: 100%;
+background:#FFF;
+    color: #000;
+  text-shadow: none;
+box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
+
+}
 .main-feedback{
   margin-top: 30px;
   padding: 10px 10px;
@@ -316,6 +327,12 @@ text-align: center;
   table.type09 .title {
     width: 65% !important;
   }
+  table.type09 .feedback {
+    width: 50% !important;
+  }
+  table.type09 .name {
+    width: 25% !important;
+  }
   table.type09 .userComment {
     width: 50% !important;
   }
@@ -357,7 +374,7 @@ text-align: center;
     margin-bottom: 10px;
     margin-top: 10px;
   }
-#pdfName, #trainingExample{
+#pdfName, #trainingExample, #pdfName2{
   display: none; 
 }
 .main-sample > div{
@@ -371,6 +388,16 @@ text-align: center;
   box-shadow: 0px 3px 5px 0px rgba(0,0,0,0.31);
   -webkit-transform:  translateX(-50%) !important;
   -webkit-transition-timing-function: linear !important;
+}
+.main-sample2{
+  margin-top: 30px;
+  position: absolute;
+  left: 70%;
+  top: 30%;
+  margin: 0 auto;
+  padding: 10px 40px !important;
+background:#E0E0E0 !important;
+    color: #000 !important;
 }
 .main-training .hidden{
   display: none; 

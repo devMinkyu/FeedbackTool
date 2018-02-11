@@ -21,8 +21,8 @@ block content
             .comment
                 textarea.form-control#feedbackComment(rows="10", cols="45")
             br
-            button.btn.btn-primary(onclick='saveComment();')
-                span#notice 게시
+            button.btn.btn-primary#notice(onclick='saveComment();') 
+                span 게시
 
 
 
@@ -32,19 +32,11 @@ block content
 
     script(type='text/javascript').
         function saveComment() {
-            //var notice = document.getElementById("notice");
             var page_num = document.getElementById("page_num").innerHTML;
             var feedbackComment = document.getElementById("feedbackComment").value;
+            alert("피드백이 저장 되었습니다.");
+            $("#notice span").text("수정");
             $.get('/feedbacks/comment?id=#{feedback._id}&page_num='+page_num+'&feedbackComment='+feedbackComment, function() { 
-                //notice.html("수정");
-            });
-
-            $.ajax({
-                url: '/feedbacks/comment?id=#{feedback._id}&page_num='+page_num+'&feedbackComment='+feedbackComment,
-                type: "get",
-                success: function() {
-                    //notice.html("수정");
-                }
             });
         }
         function nextChange() {
@@ -56,29 +48,13 @@ block content
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+comment+'</textarea>'
                     $('.comment').html(output);
+                    $("#notice span").text("수정");
                 }else{
                     var output = '';
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
                     $('.comment').html(output);
-                }
-            });
-
-            $.ajax({
-                url: '/feedbacks/page?id=#{feedback._id}&page_num='+page,
-                type: "get",
-                success: function(comment) {
-                   if(comment.length>0){
-                        var output = '';
-                        $('.comment').empty();
-                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+comment+'</textarea>'
-                        $('.comment').html(output);
-                    }else{
-                        var output = '';
-                        $('.comment').empty();
-                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
-                        $('.comment').html(output);
-                    }
+                    $("#notice span").text("게시");
                 }
             });
         }
@@ -92,30 +68,30 @@ block content
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+comment+'</textarea>'
                     $('.comment').html(output);
+                    $("#notice span").text("수정");
                 }else{
                     var output = '';
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
                     $('.comment').html(output);
+                    $("#notice span").text("게시");
                 }
             });
-
-            $.ajax({
-                url: '/feedbacks/page?id=#{feedback._id}&page_num='+page,
-                type: "get",
-                success: function(comment) {
-                   if(comment.length>0){
-                        var output = '';
-                        $('.comment').empty();
-                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+comment+'</textarea>'
-                        $('.comment').html(output);
-                    }else{
-                        var output = '';
-                        $('.comment').empty();
-                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
-                        $('.comment').html(output);
-                    }
-                }
-            });
-            
         }
+        (function () {
+            $.get('/feedbacks/page?id=#{feedback._id}&page_num=1', function(comment) { 
+                if(comment.length>0){
+                    var output = '';
+                    $('.comment').empty();
+                    output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+comment+'</textarea>'
+                    $('.comment').html(output);
+                    $("#notice span").text("수정");
+                }else{
+                    var output = '';
+                    $('.comment').empty();
+                    output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
+                    $('.comment').html(output);
+                    $("#notice span").text("게시");
+                }
+            });
+        })()

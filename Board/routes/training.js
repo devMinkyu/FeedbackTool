@@ -49,6 +49,19 @@ router.get('/training', function(req, res, next) {
         });
     }
 });
+router.get('/modelAnswer', function(req, res, next) {
+    User.findOne({admin:0}, function(err, user) {
+        if (err) {
+            return next(err);
+        }
+        User.findOne({_id:req.user._id}, function(err, myUser) {
+            if (err) {
+                return next(err);
+            }
+            res.render('training/modelAnswer', {training:user.example, myUser:myUser});
+        });
+    });
+});
 router.post('/', function(req, res, next){
     User.findOne({email:req.user.email}, function(err, user) {
         if (err) {
@@ -69,7 +82,7 @@ router.post('/', function(req, res, next){
           if (err) throw err;
         });
     });
-    res.redirect('/');
+    res.redirect('/training/modelAnswer');
 });
 router.post('/example', upload.array('UploadExample'),function(req, res){
     //field name은 form의 input file의 name과 같아야함
@@ -127,7 +140,6 @@ function addExample(upFile, mod,userId,exam){
                 }
                 user.example.training = renaming.fullname[0];
                 user.example.sampleAnswer1 = renaming.fullname[1];
-                user.example.sampleAnswer2 = renaming.fullname[2];
                 user.save(function (err) {
                     if (err) throw err;
                 });

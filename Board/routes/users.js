@@ -1,6 +1,6 @@
 var express = require('express');
     User = require('../models/User');
-
+    Feedback = require('../models/Feedback');
 var router = express.Router();
 
 /* GET users listing. */
@@ -17,7 +17,19 @@ router.get('/userlists', function(req, res, next) {
 });
 router.get('/profile', function(req, res, next) {
   var id = req.param('id');
-  res.render('users/profile');
+  User.findOne({_id: id}, function(err, user){
+    if(err) throw err;
+    User.find({team:user.team}, function(err, users){
+      if(err) throw err;
+      Feedback.find({user_Team:user.team},function(err, showFeedbacks){
+        if(err) throw err;
+        Feedback.find({$or: [{user_Team :user.feedbackTeam1} ,{user_Team :user.feedbackTeam2} ] },function(err, offerFeedbacks) {
+          if(err) throw err;
+          res.render('users/profile',{user:user, users:users, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks});
+        });
+      });
+    });
+  });
 });
 router.put('/feedbackTeam', function(req, res, next) {
   var teamCount = req.param('teamCount');

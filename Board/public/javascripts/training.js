@@ -1,4 +1,4 @@
-var feedbackProblem =["교수님설계안에 제시한 대상에 대해 강화적 피드백을 제공해보세요.", "교수님설계안에 제시한 대상에 대해 제안적 피드백을 제공해보세요.", "교수님설계안에 제시한 대상에 대해 교정적 피드백을 제공해보세요."];
+//var feedbackProblem =["교수님설계안에 제시한 대상에 대해 강화적 피드백을 제공해보세요.", "교수님설계안에 제시한 대상에 대해 제안적 피드백을 제공해보세요.", "교수님설계안에 제시한 대상에 대해 교정적 피드백을 제공해보세요."];
 var trainingExample = document.getElementById("trainingExample").innerHTML;
 
 function trainingFeedBack(){

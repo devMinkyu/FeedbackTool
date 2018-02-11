@@ -1,0 +1,30 @@
+extends ../layout
+
+block content
+  .container
+    .row.main
+        .main-sample
+            div
+                if(training)
+                    h1 모법답안1
+                    div
+                        #pdfName=training.sampleAnswer1
+                        button#prev Previous
+                        button#next Next
+                        span.pagenumber
+                            | Page: 
+                            span#page_num
+                            |  / 
+                            span#page_count
+                        a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("#{training.sampleAnswer1}"");')
+                    canvas#the-canvas
+                else
+                    h1 파일이 없습니다.
+            .main-sample2
+                h1 내가 쓴 답안
+                .ex1=training.trainingExample
+                h1
+                    .ex1=myUser.feedback
+                a.btn.btn-lg.btn-danger(href='/') 종료
+    script(src='//mozilla.github.io/pdf.js/build/pdf.js')
+    script(src='/javascripts/pdfShow.js')

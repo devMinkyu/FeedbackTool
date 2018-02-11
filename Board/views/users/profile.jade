@@ -1,0 +1,122 @@
+extends ../layout
+
+block content
+  .container
+    .row.main
+      .main-profile
+        h1 My Page
+        br
+        .ex1
+            h2 My Profile
+            .row
+                .col-sm-6.col-md-4
+                    .thumbnail
+                        .caption
+                            h3 프로필
+                            p 이름: #{user.name}
+                            p 팀: #{user.team}
+                            p 피드백 팀: #{user.feedbackTeam1}, #{user.feedbackTeam2}
+                .col-sm-6.col-md-4
+                    .thumbnail
+                        .caption
+                            h3 팀원
+                            each teamUser in users
+                                p 이름: #{teamUser.name}
+                .col-sm-6.col-md-4
+                    .thumbnail
+                        .caption
+                            h3 사전 훈련
+                            p 답안: #{user.feedback}
+        each feedback in showFeedbacks
+            if(feedback.projectNumber == "1")
+                br
+                .ex1
+                    h2 Project1
+                    .row
+                        .col-sm-6.col-md-4
+                            .thumbnail
+                                .caption
+                                    h3 과제
+                                    p 
+                                        a(href="/feedbacks/offer?id=#{feedback.id}&mod=show")=feedback.title
+                        .col-sm-6.col-md-4
+                            .thumbnail
+                                .caption
+                                    h3 제공한 피드백
+                                    table.type09
+                                        thead
+                                            tr
+                                                th(scope='cols') 페이지
+                                                th(scope='cols') 제공한 피드백
+                                                th(scope='cols') 팀
+                                        tbody
+                                            each offerFeedback in offerFeedbacks
+                                                if(offerFeedback.projectNumber == "1")
+                                                    each offerComment in offerFeedback.comments
+                                                        if(offerComment.userId == user._id)
+                                                            tr
+                                                                th(scope='row')=offerComment.page
+                                                                td(class="feedback")=offerComment.memo
+                                                                td(class="name")=offerFeedback.user_Team
+                        .col-sm-6.col-md-4
+                            .thumbnail
+                                .caption
+                                    h3 제공 받은 피드백
+                                    table.type09
+                                        thead
+                                            tr
+                                                th(scope='cols') 페이지
+                                                th(scope='cols') 피드백
+                                                th(scope='cols') 작성자
+                                        tbody
+                                            each comment in feedback.comments
+                                                tr
+                                                    th(scope='row')=comment.page
+                                                    td(class="feedback")=comment.memo
+                                                    td(class="name")=comment.name
+            else if(feedback.projectNumber == "2")
+                br
+                .ex1
+                    h2 Project2
+                    .row
+                        .col-sm-6.col-md-4
+                            .thumbnail
+                                .caption
+                                    h3 과제
+                                    p 
+                                        a(href="/feedbacks/offer?id=#{feedback.id}&mod=show")=feedback.title
+                        .col-sm-6.col-md-4
+                            .thumbnail
+                                .caption
+                                    h3 제공한 피드백
+                                    table.type09
+                                        thead
+                                            tr
+                                                th(scope='cols') 페이지
+                                                th(scope='cols') 제공한 피드백
+                                                th(scope='cols') 팀
+                                        tbody
+                                            each offerFeedback in offerFeedbacks
+                                                if(offerFeedback.projectNumber == "2")
+                                                    each offerComment in offerFeedback.comments
+                                                        if(offerComment.userId == user._id)
+                                                            tr
+                                                                th(scope='row')=offerComment.page
+                                                                td(class="feedback")=offerComment.memo
+                                                                td(class="name")=offerFeedback.user_Team
+                        .col-sm-6.col-md-4
+                            .thumbnail
+                                .caption
+                                    h3 제공 받은 피드백
+                                    table.type09
+                                        thead
+                                            tr
+                                                th(scope='cols') 페이지
+                                                th(scope='cols') 피드백
+                                                th(scope='cols') 작성자
+                                        tbody
+                                            each comment in feedback.comments
+                                                tr
+                                                    th(scope='row')=comment.page
+                                                    td(class="feedback")=comment.memo
+                                                    td(class="name")=comment.name
