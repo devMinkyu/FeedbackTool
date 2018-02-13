@@ -4,6 +4,7 @@ block content
   .container
     .row.main
       .main-qa
+        include ../includes/nav
         h1=mod
         .write_form
             form#writeAction(action='/training/example?mod='+mod, method='post', enctype='multipart/form-data')

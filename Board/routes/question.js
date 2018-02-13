@@ -25,19 +25,19 @@ router.get('/', function(req, res, next) {
          pageNum = Math.ceil(totalCount/limitSize);
          Question.find({}).sort({date:-1}).skip(skipSize).limit(limitSize).exec(function(err, pageContents) {
              if(err) throw err;
-             res.render('notice/qaindex', {questions: pageContents, pagination: pageNum});
+             res.render('notice/qaindex', {questions: pageContents, pagination: pageNum, navs:["Q&A"]});
          });
      });
 });
 router.get('/new', function(req, res, next) {
-    res.render('notice/qanew');
+    res.render('notice/qanew',{navs:["Q&A", "작성하기"]});
 });
 router.get('/show', function(req, res, next) {
     Question.findOne({_id:req.param('id')}, function(err, question){
         if(err) throw err;
 
         var reply_pg = Math.ceil(question.comments.length/5);
-        res.render('notice/qashow', {question:question, replyPage: reply_pg});
+        res.render('notice/qashow', {question:question, replyPage: reply_pg, navs:["Q&A", "질문보기"]});
     });
 });
 // 수정 추후

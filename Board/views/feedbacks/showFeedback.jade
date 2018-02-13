@@ -3,6 +3,7 @@ extends ../layout
 block content
   .container
     .main-feedback
+        include ../includes/nav
         div 
             #pdfName=feedback.fileUp
             button#prev(onclick='prevFeedback();') Previous

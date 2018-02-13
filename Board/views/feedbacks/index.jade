@@ -4,7 +4,18 @@ block content
   .container
     .row.main
       .main-pdf
-        h1 프로젝트학습
+        include ../includes/nav
+        if(mod == "show")
+            if(projectNumber == "1")
+                h1 1차 산출물 게시 및 피드백 받기
+            else if(projectNumber == "2")
+                h1 2차 산출물 게시 및 피드백 받기
+        else if(mod == "offer")
+            if(projectNumber == "1")
+                h1 1차 산출물 피드백 제공하기
+            else if(projectNumber == "2")
+                h1 2차 산출물 피드백 제공하기
+
         table.type09
             if(feedbacks.length > 0)
                 thead
@@ -17,13 +28,15 @@ block content
                             tr
                                 th(scope='row')=feedback.user_Team
                                 td(class="title")
-                                    a(href="/feedbacks/offer?id=#{feedback.id}&mod=#{mod}") #{feedback.title} [#{feedback.count}]
+                                    a(href="/feedbacks/offer?id=#{feedback.id}&mod=#{mod}&projectNumber=#{projectNumber}") #{feedback.title} [#{feedback.count}]
                                 td=feedback.writer
             else
                 tr
                     td(class="title") 게시물이 없습니다.
             
         a.btn.btn-default(href='/') 뒤로가기
+        if(mod == "show")
+            a.btn.btn-default(href="/feedbacks/new?projectNumber=#{projectNumber}") 게시하기
 
         nav
         ul.pagination

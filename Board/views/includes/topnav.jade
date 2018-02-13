@@ -28,18 +28,18 @@
                         span.caret
                     ul.dropdown-menu(role='menu')
                         li
-                            a(href='/feedbacks/choose?projectNumber=1') 프로젝트1
+                            a(href='/feedbacks?mod=show&projectNumber=1') 1차 산출물
                         li
-                            a(href='/feedbacks/choose?projectNumber=2') 프로젝트2
+                            a(href='/feedbacks?mod=show&projectNumber=2') 2차 산출물
                 li.dropdown
                     a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
                         | 개인 활동 
                         span.caret
                     ul.dropdown-menu(role='menu')
                         li
-                            a(href='/feedbacks?mod=offer&projectNumber=1') 프로젝트1
+                            a(href='/feedbacks?mod=offer&projectNumber=1') 1차 산출물
                         li
-                            a(href='/feedbacks?mod=offer&projectNumber=2') 프로젝트2
+                            a(href='/feedbacks?mod=offer&projectNumber=2') 2차 산출물
         ul.nav.navbar-nav.navbar-right
             if (currentUser) 
                 li

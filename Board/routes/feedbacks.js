@@ -21,26 +21,24 @@ router.get('/', function(req, res, next) {
         Feedback.find({$or: [{$and: [ {user_Team :req.user.feedbackTeam1}, { projectNumber: projectNumber } ] },{$and: [ {user_Team :req.user.feedbackTeam2}, { projectNumber: projectNumber } ] }]}
             ,function(err, feedbacks) {
             if(err) throw err;
-            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
+            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:[projectNumber+"차 산출물 피드백 제공하기"]});
         });
     }else if(mod == 'show'){
         Feedback.find({ $and: [ {user_Team:req.user.team}, { projectNumber: projectNumber } ] }, function(err, feedbacks){
             if(err) throw err;
-            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod});
+            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기"]});
         });
     }
 });
 router.get('/new', function(req, res, next) {
     var projectNumber = req.param('projectNumber');
-    res.render('feedbacks/new',{projectNumber:projectNumber});
+    res.render('feedbacks/new',{projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "게시하기"]});
 });
-router.get('/choose', function(req, res, next) {
-    var projectNumber = req.param('projectNumber');
-    res.render('feedbacks/choose',{projectNumber:projectNumber});
-});
+
 router.get('/offer', function(req, res, next) {
     var id = req.param('id');
     var mod = req.param('mod');
+    var projectNumber = req.param('projectNumber');
     Feedback.findOne({_id:id}, function(err, feedback){
         if(err) throw err;
         feedback.count++;
@@ -48,9 +46,9 @@ router.get('/offer', function(req, res, next) {
             if(err) throw err;
         });
         if(mod == 'offer'){
-            res.render('feedbacks/offerFeedback', {feedback:feedback});
+            res.render('feedbacks/offerFeedback', {feedback:feedback, navs:[projectNumber+"차 산출물 피드백 제공하기", "피드백 제공하기"]});
         }else if(mod == 'show'){
-            res.render('feedbacks/showFeedback', {feedback:feedback});
+            res.render('feedbacks/showFeedback', {feedback:feedback, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "피드백 받기"]});
         }
     });
 

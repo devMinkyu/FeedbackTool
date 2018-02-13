@@ -15,37 +15,37 @@ var router = express.Router();
 
 router.get('/guide', function(req, res, next) {
     if(req.user.admin == 0){
-        res.render('training/upload',{mod:"guide"});
+        res.render('training/upload',{mod:"guide", navs:["가이드 라인"]});
     }else{
         User.findOne({admin:0}, function(err, user) {
             if (err) {
               return next(err);
             }
-            res.render('training/guide',{guide:user.example.guide});
+            res.render('training/guide',{guide:user.example.guide, navs:["가이드 라인"]});
         });
     }  
 });
 router.get('/solution', function(req, res, next) {
     if(req.user.admin == 0){
-        res.render('training/upload',{mod:"solution"});
+        res.render('training/upload',{mod:"solution", navs:["피드백 샘플"]});
     }else{
         User.findOne({admin:0}, function(err, user) {
             if (err) {
                 return next(err);
             }
-            res.render('training/solution', {solution:user.example.solution});
+            res.render('training/solution', {solution:user.example.solution, navs:["피드백 샘플"]});
         });
     }
 });
 router.get('/training', function(req, res, next) {
     if(req.user.admin == 0){
-        res.render('training/trainingUpload',{mod:"training"});
+        res.render('training/trainingUpload',{mod:"training", navs:["피드백 작성 훈련"]});
     }else{
         User.findOne({admin:0}, function(err, user) {
             if (err) {
                 return next(err);
             }
-            res.render('training/training', {training:user.example});
+            res.render('training/training', {training:user.example, navs:["피드백 작성 훈련"]});
         });
     }
 });
@@ -58,7 +58,7 @@ router.get('/modelAnswer', function(req, res, next) {
             if (err) {
                 return next(err);
             }
-            res.render('training/modelAnswer', {training:user.example, myUser:myUser});
+            res.render('training/modelAnswer', {training:user.example, myUser:myUser, navs:["피드백 작성 훈련", "모범 답안"]});
         });
     });
 });
@@ -69,14 +69,6 @@ router.post('/', function(req, res, next){
         }
         var solution;
         solution = req.body.solution; 
-        // User.update({_id: user._id}, {$unset: {feedback: true}}, function (err) {
-        //     if (err) throw err;
-        // });
-        // for (var j = 0; j < 3; j++) {
-        //     User.update({_id: user._id}, {$push: {feedback: solution[j]}}, function (err) {
-        //         if (err) throw err;
-        //     });
-        // }
         user.feedback = solution;
         user.save(function (err) {
           if (err) throw err;

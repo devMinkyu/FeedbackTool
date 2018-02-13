@@ -4,6 +4,7 @@ block content
   .container
     .row.main
       .main-qa
+        include ../includes/nav
         h1 Q&A 작성하기
         .write_form
             form#writeAction(action='/question?mode=add', method='post')

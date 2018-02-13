@@ -36,7 +36,7 @@ router.get('/', function(req, res, next) {
          pageNum = Math.ceil(totalCount/limitSize);
          Notice.find({}).sort({date:-1}).skip(skipSize).limit(limitSize).exec(function(err, pageContents) {
              if(err) throw err;
-             res.render('notice/index', {notices: pageContents, pagination: pageNum});
+             res.render('notice/index', {notices: pageContents, pagination: pageNum, navs:["공지사항"]});
          });
      });
 });
@@ -45,7 +45,7 @@ router.get('/new', function(req, res, next) {
         res.redirect('/');
         return;
     }
-    res.render('notice/new');
+    res.render('notice/new',{navs:["공지사항", "작성하기"]});
 });
 router.get('/show', function(req, res, next) {
     var id = req.param('id');
@@ -55,9 +55,10 @@ router.get('/show', function(req, res, next) {
         notice.save(function(err){
             if(err) throw err;
         });
-        res.render('notice/show',{notice:notice});
+        res.render('notice/show',{notice:notice, navs:["공지사항", "공지사항보기"]});
     });
 });
+//추후
 router.get('/modify', function(req, res, next) {
     Notice.findOne({_id:req.param('id')}, function(err, notice){
         if(err) throw err;

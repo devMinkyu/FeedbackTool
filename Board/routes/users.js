@@ -12,7 +12,7 @@ router.get('/userlists', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.render('users/userlist',{users:users});
+    res.render('users/userlist',{users:users, navs:["유저 목록"]});
   });
 });
 router.get('/profile', function(req, res, next) {
@@ -25,7 +25,7 @@ router.get('/profile', function(req, res, next) {
         if(err) throw err;
         Feedback.find({$or: [{user_Team :user.feedbackTeam1} ,{user_Team :user.feedbackTeam2} ] },function(err, offerFeedbacks) {
           if(err) throw err;
-          res.render('users/profile',{user:user, users:users, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks});
+          res.render('users/profile',{user:user, users:users, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks, navs:["프로필"]});
         });
       });
     });
