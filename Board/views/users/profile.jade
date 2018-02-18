@@ -50,15 +50,23 @@ block content
                                                 th(scope='cols') 페이지
                                                 th(scope='cols') 제공한 피드백
                                                 th(scope='cols') 팀
-                                        tbody
+                                        tbody#offerProject1
                                             each offerFeedback in offerFeedbacks
                                                 if(offerFeedback.projectNumber == "1")
+                                                    -var j = 0;
                                                     each offerComment in offerFeedback.comments
                                                         if(offerComment.userId == user._id)
-                                                            tr
-                                                                th(scope='row')=offerComment.page
-                                                                td(class="feedback")=offerComment.memo
-                                                                td(class="name")=offerFeedback.user_Team
+                                                            if(j<5)
+                                                                tr
+                                                                    th(scope='row')=offerComment.page
+                                                                    td(class="feedback")=offerComment.memo
+                                                                    td(class="name")=offerFeedback.user_Team
+                                                                -j++;
+                                    nav
+                                        ul.pagination
+                                            -for(var i = 1; i<=replyPage[2];i++)
+                                                li
+                                                    a(onclick="chagefeedback(#{i});")=i
                         .col-sm-6.col-md-4
                             .thumbnail
                                 .caption
@@ -69,13 +77,21 @@ block content
                                                 th(scope='cols') 페이지
                                                 th(scope='cols') 피드백
                                                 th(scope='cols') 작성자
-                                        tbody
+                                        tbody#showProject1
+                                            -var j = 0;
                                             each comment in feedback.comments
-                                                tr
-                                                    th(scope='row')=comment.page
-                                                    td(class="feedback")=comment.memo
-                                                    td(class="name")=comment.name
-            else if(feedback.projectNumber == "2")
+                                                if(j<5)
+                                                    tr
+                                                        th(scope='row')=comment.page
+                                                        td(class="feedback")=comment.memo
+                                                        td(class="name")=comment.name
+                                                    -j++;
+                                    nav
+                                        ul.pagination
+                                            -for(var i = 1; i<=replyPage[0];i++)
+                                                li
+                                                    a(onclick="chagefeedback('#{feedback._id}',1,'show',#{i},#{feedback.comments.length});")=i
+            else
                 br
                 .ex1
                     h2 2차 산출물
@@ -96,15 +112,23 @@ block content
                                                 th(scope='cols') 페이지
                                                 th(scope='cols') 제공한 피드백
                                                 th(scope='cols') 팀
-                                        tbody
+                                        tbody#offerProject2
                                             each offerFeedback in offerFeedbacks
                                                 if(offerFeedback.projectNumber == "2")
+                                                    -var j = 0;
                                                     each offerComment in offerFeedback.comments
                                                         if(offerComment.userId == user._id)
-                                                            tr
-                                                                th(scope='row')=offerComment.page
-                                                                td(class="feedback")=offerComment.memo
-                                                                td(class="name")=offerFeedback.user_Team
+                                                            if(j<5)
+                                                                tr
+                                                                    th(scope='row')=offerComment.page
+                                                                    td(class="feedback")=offerComment.memo
+                                                                    td(class="name")=offerFeedback.user_Team
+                                                                -j++;
+                                    nav
+                                        ul.pagination
+                                            -for(var i = 1; i<=replyPage[3];i++)
+                                                li
+                                                    a(onclick="chagefeedback(#{i});")=i
                         .col-sm-6.col-md-4
                             .thumbnail
                                 .caption
@@ -115,9 +139,34 @@ block content
                                                 th(scope='cols') 페이지
                                                 th(scope='cols') 피드백
                                                 th(scope='cols') 작성자
-                                        tbody
+                                        tbody#showProject2
+                                            -var j = 0;
                                             each comment in feedback.comments
-                                                tr
-                                                    th(scope='row')=comment.page
-                                                    td(class="feedback")=comment.memo
-                                                    td(class="name")=comment.name
+                                                if(j<5)
+                                                    tr
+                                                        th(scope='row')=comment.page
+                                                        td(class="feedback")=comment.memo
+                                                        td(class="name")=comment.name
+                                                    -j++;
+                                    nav
+                                        ul.pagination
+                                            -for(var i = 1; i<=replyPage[1];i++)
+                                                li
+                                                    a(onclick="chagefeedback('#{feedback._id}',2,'show',#{i},#{feedback.comments.length});")=i
+
+    script(type='text/javascript').
+        function chagefeedback(id, projectNumber,mod,page,max) {
+            $.get('/users/feedback?id='+id+'&page='+page+"&max="+max, function(replyList) {
+                var output = '';
+                for(var i=0;i<replyList.length;i++) {
+                    output += '<tr"><th>'+replyList[i].page+'</th>'
+                    output += '<td class="feedback">'+replyList[i].memo+'</td>';
+                    output += '<td class="name">'+replyList[i].name+'</td></tr>';
+                }
+                if(projectNumber == 1){
+                    $('#showProject1').html(output);
+                }else if(projectNumber == 2){
+                    $('#showProject2').html(output);
+                }
+            });
+        }

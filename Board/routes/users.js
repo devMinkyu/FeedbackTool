@@ -19,16 +19,48 @@ router.get('/profile', function(req, res, next) {
   var id = req.param('id');
   User.findOne({_id: id}, function(err, user){
     if(err) throw err;
-    User.find({team:user.team}, function(err, users){
+    User.find({team:user.team}).sort({projectNumber:-1}).exec(function(err, users){
       if(err) throw err;
-      Feedback.find({user_Team:user.team},function(err, showFeedbacks){
+      Feedback.find({user_Team:user.team} ,function(err, showFeedbacks){
+        console.log("=============================")
+        console.log(showFeedbacks)
+        console.log("=============================")
         if(err) throw err;
-        Feedback.find({$or: [{user_Team :user.feedbackTeam1} ,{user_Team :user.feedbackTeam2} ] },function(err, offerFeedbacks) {
+        var reply_pg = []
+        var a = showFeedbacks;
+        for(var i = 0;i<showFeedbacks.length;i++){
+          reply_pg[i] = Math.ceil(showFeedbacks[i].comments.length/5);
+          a[i].comments = quickSort(showFeedbacks[i].comments);
+        }
+        Feedback.find({$or: [{user_Team :user.feedbackTeam1} ,{user_Team :user.feedbackTeam2} ] }).sort({projectNumber:-1}).exec(function(err, offerFeedbacks) {
           if(err) throw err;
-          res.render('users/profile',{user:user, users:users, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks, navs:["프로필"]});
+          var b = offerFeedbacks;
+          for(var j = 0;j<offerFeedbacks.length;j++){
+            reply_pg[j+2] = Math.ceil(offerFeedbacks[j].comments.length/5);
+            b[j].comments = quickSort(offerFeedbacks[j].comments);
+          }
+          console.log("==============sda===============")
+          console.log(reply_pg)
+          console.log("=============================")
+          res.render('users/profile',{user:user, users:users,replyPage: reply_pg, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks, navs:["프로필"]});
         });
       });
     });
+  });
+});
+router.get('/feedback', function(req, res) {
+  // feedbakc ajax로 페이징 하는 부분
+  var id = req.param('id');
+  var page = req.param('page');
+  var max = req.param('max'); // 댓글 총 갯수 확인
+  var skipSize = (page-1)*5;
+  var limitSize = skipSize + 5;
+
+  if(max < skipSize+5) {limitSize = max*1;} // 댓글 갯수 보다 넘어가는 경우는 댓글 수로 맞춰줌 (몽고디비 쿼리에서 limit은 양의 정수여야함)
+
+  Feedback.findOne({_id: id}, {comments: {$slice: [skipSize, limitSize]}} , function(err, pageReply){
+      if(err) throw err;
+      res.send(pageReply.comments);
   });
 });
 router.put('/feedbackTeam', function(req, res, next) {
@@ -138,3 +170,17 @@ router.post('/register', function(req, res, next) {
 });
 
 module.exports = router;
+
+function quickSort(arr){
+  if(arr.length < 2)
+      return arr;
+
+  var pivot = arr[Math.floor(arr.length/2)].page;
+  pivot *= 1;
+  var middle = arr.filter(function (data) {return data.page == pivot;});
+  var lows = quickSort(arr.filter(function (data) {return data.page < pivot;}));
+  var highs = quickSort(arr.filter(function (data) {return data.page > pivot;}));
+  
+  return lows.concat(middle).concat(highs);
+}
+

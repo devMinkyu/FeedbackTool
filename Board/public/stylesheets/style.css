@@ -187,7 +187,7 @@ background:#FFF;
   float: left;
 }
 .main-offerfeedback{
-  margin-top: 150px;
+  margin-top: 30px;
   padding: 5px 40px;
   max-width: 35%;
 background:#FFF;
@@ -314,21 +314,22 @@ text-align: center;
     border-bottom: 1px solid #ccc;
     background: #f3f6f7;
   }
-  table.type09 .title {
+  table.type09 tbody .title {
     width: 65% !important;
   }
-  table.type09 .feedback {
-    width: 50% !important;
+  table.type09 tbody .feedback {
+    width: 55% !important;
   }
-  table.type09 .name {
+  table.type09 tbody .name {
     width: 25% !important;
   }
-  table.type09 .userComment {
-    width: 50% !important;
+  table.type09 tbody .userComment {
+    width: 75% !important;
   }
   table.type09 td {
     padding: 10px;
     vertical-align: top;
+    word-break: break-all;
     border-bottom: 1px solid #ccc;
   }
   .content-text{

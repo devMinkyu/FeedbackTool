@@ -56,7 +56,7 @@ block content
             $.get('/question/reply?id=#{question._id}&page='+page+"&max=#{question.comments.length}", function(replyList) {
                 var output = '';
                 for(var i=0;i<replyList.length;i++) {
-                    output += '<tr class="reply_list"><th>'+replyList[i].name+'</th>'
+                    output += '<tr><th>'+replyList[i].name+'</th>'
                     output += '<th>'+replyList[i].memo.replace(/\\r\\n/gi, " ")+' / '+ dateFormatChangeScript(replyList[i].date)+'</th></tr>';
                 }
                 $('.reply_list').html(output);
@@ -68,7 +68,7 @@ block content
                 success: function(data) {
                     var output = '';
                     for(var i=0;i<data.length;i++) {
-                        output += '<tr class="reply_list"><th>'+data[i].name+'</th>'
+                        output += '<tr><th>'+data[i].name+'</th>'
                         output += '<th>'+data[i].memo.replace(/\\r\\n/gi, " ")+' / '+ dateFormatChangeScript(data[i].date)+'</th></tr>';
                     }
                     $('.reply_list').html(output);

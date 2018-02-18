@@ -4,8 +4,8 @@ block content
   .container
     .main-feedback
         include ../includes/nav
-        br
         div 
+            br
             #pdfName=feedback.fileUp
             button#prev(onclick='prevChange();') Previous
             button#next(onclick='nextChange();') Next
@@ -18,8 +18,12 @@ block content
         br
         a.btn.btn-lg.btn-danger.btn-exit(href='javascript:window.history.back();') 종료
     .main-offerfeedback
+        br
         div
-            h1 Feedback 
+            table.type09
+                tbody.beforefeedback
+        div
+            h1 제공하기
             .comment
                 textarea.form-control#feedbackComment(rows="10", cols="45")
             br
