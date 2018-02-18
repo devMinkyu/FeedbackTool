@@ -19,48 +19,92 @@ router.get('/profile', function(req, res, next) {
   var id = req.param('id');
   User.findOne({_id: id}, function(err, user){
     if(err) throw err;
-    User.find({team:user.team}).sort({projectNumber:-1}).exec(function(err, users){
+    User.find({team:user.team},function(err, users){
       if(err) throw err;
-      Feedback.find({user_Team:user.team} ,function(err, showFeedbacks){
-        console.log("=============================")
-        console.log(showFeedbacks)
-        console.log("=============================")
+      Feedback.find({user_Team:user.team}).sort({projectNumber:1}).exec(function(err, showFeedbacks){
         if(err) throw err;
-        var reply_pg = []
+        var reply_pg = [];
         var a = showFeedbacks;
         for(var i = 0;i<showFeedbacks.length;i++){
-          reply_pg[i] = Math.ceil(showFeedbacks[i].comments.length/5);
+          reply_pg[i*2] = Math.ceil(showFeedbacks[i].comments.length/5);
           a[i].comments = quickSort(showFeedbacks[i].comments);
         }
-        Feedback.find({$or: [{user_Team :user.feedbackTeam1} ,{user_Team :user.feedbackTeam2} ] }).sort({projectNumber:-1}).exec(function(err, offerFeedbacks) {
+        Feedback.find({$or: [{user_Team :user.feedbackTeam1} ,{user_Team :user.feedbackTeam2} ] }).sort({projectNumber:1}).exec(function(err, offerFeedbacks) {
           if(err) throw err;
           var b = offerFeedbacks;
+          var count = [0, 0];
           for(var j = 0;j<offerFeedbacks.length;j++){
-            reply_pg[j+2] = Math.ceil(offerFeedbacks[j].comments.length/5);
             b[j].comments = quickSort(offerFeedbacks[j].comments);
+            for(var k = 0;k<offerFeedbacks[j].comments.length;k++){
+              if(offerFeedbacks[j].comments[k].userId==user._id && offerFeedbacks[j].projectNumber == "1"){
+                count[0]++;
+              }else if(offerFeedbacks[j].comments[k].userId==user._id && offerFeedbacks[j].projectNumber == "2"){
+                count[1]++;
+              }
+            }
           }
-          console.log("==============sda===============")
-          console.log(reply_pg)
-          console.log("=============================")
-          res.render('users/profile',{user:user, users:users,replyPage: reply_pg, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks, navs:["프로필"]});
+          if(count[0] != 0){
+            reply_pg[1] = Math.ceil(count[0]/5);
+          }
+          if(count[1] != 0){
+            reply_pg[3] = Math.ceil(count[1]/5);
+          }
+          res.render('users/profile',{user:user, users:users,replyPage: reply_pg, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks,offerMax:count, navs:["프로필"]});
         });
       });
     });
   });
 });
 router.get('/feedback', function(req, res) {
-  // feedbakc ajax로 페이징 하는 부분
+  // feedback ajax로 페이징 하는 부분
   var id = req.param('id');
   var page = req.param('page');
-  var max = req.param('max'); // 댓글 총 갯수 확인
+  var max = req.param('max'); // feedback 총 갯수 확인
   var skipSize = (page-1)*5;
   var limitSize = skipSize + 5;
 
   if(max < skipSize+5) {limitSize = max*1;} // 댓글 갯수 보다 넘어가는 경우는 댓글 수로 맞춰줌 (몽고디비 쿼리에서 limit은 양의 정수여야함)
 
-  Feedback.findOne({_id: id}, {comments: {$slice: [skipSize, limitSize]}} , function(err, pageReply){
+  Feedback.findOne({_id: id} , function(err, pageReply){
       if(err) throw err;
-      res.send(pageReply.comments);
+      var a = pageReply;
+      a.comments = quickSort(pageReply.comments);
+      var limitFeedback =[];
+      for(var i =skipSize;i<limitSize;i++){
+        limitFeedback[i-skipSize] = pageReply.comments[i];
+      }
+      res.send(limitFeedback);
+  });
+});
+router.get('/offerFeedback', function(req, res) {
+  // feedback ajax로 페이징 하는 부분
+  var page = req.param('page');
+  var max = req.param('max');
+  var projectNumber = req.param('projectNumber');
+  var skipSize = (page-1)*5;
+  var limitSize = skipSize + 5;
+
+  if(max < skipSize+5) {limitSize = max*1;} // 댓글 갯수 보다 넘어가는 경우는 댓글 수로 맞춰줌 (몽고디비 쿼리에서 limit은 양의 정수여야함)
+
+  Feedback.find({$and: [{$or: [{user_Team :req.user.feedbackTeam1} ,{user_Team :req.user.feedbackTeam2}]}, {projectNumber:projectNumber}]},function(err, pageReply) {
+    if(err) throw err;
+    var a = pageReply;
+    var limitFeedback =[];
+    var j = 0;
+    for(var i = 0;i<pageReply.length;i++){
+      a[i].comments = quickSort(pageReply[i].comments);
+      for(var k = 0;k<pageReply[i].comments.length;k++){
+        if(pageReply[i].comments[k].userId==req.user._id){
+          limitFeedback[j] = pageReply[i].comments[k];
+          j++;
+        }
+      }
+    }
+    var limitOfferFeedback =[];
+    for(var i =skipSize;i<limitSize;i++){
+      limitOfferFeedback[i-skipSize] = limitFeedback[i];
+    }
+    res.send(limitOfferFeedback);
   });
 });
 router.put('/feedbackTeam', function(req, res, next) {

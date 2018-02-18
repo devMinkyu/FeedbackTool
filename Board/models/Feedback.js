@@ -8,6 +8,7 @@ var schema = new Schema({
     contents: String,
     user_Team: String,
     comments: [{
+        userTeam:String,
         name: String,
         userId: String,
         memo: String,

@@ -70,7 +70,7 @@ router.get('/comment', function(req, res) {
                 break;
             }
         }
-        feedback.comments.unshift({name:req.user.name, userId:req.user._id, memo: comment, page:page_num});
+        feedback.comments.unshift({name:req.user.name, userId:req.user._id, memo: comment, page:page_num, userTeam:feedback.user_Team});
         feedback.save(function(err){
             if(err) throw err;
         });
@@ -114,7 +114,7 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
         }
         if (feedback) {
           req.flash('danger', '팀 피드백이 이미 존재합니다.');
-          res.redirect('/feedbacks/choose?projectNumber='+projectNumber);
+          res.redirect('/feedbacks?mod=show&projectNumber='+projectNumber);
           return; 
         }
         if(!isPDF(upFile)){
@@ -125,7 +125,7 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
         if(mode == 'add') {
             if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
                 addProject(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team,projectNumber);
-                res.redirect('/feedbacks/choose?projectNumber='+projectNumber);
+                res.redirect('/feedbacks?mod=show&projectNumber='+projectNumber);
             } else {
               console.log("파일이 저장되지 않았습니다!");
             }

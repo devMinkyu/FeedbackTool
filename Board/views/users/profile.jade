@@ -39,7 +39,7 @@ block content
                                 .caption
                                     h3 과제
                                     p 
-                                        a(href="/feedbacks/offer?id=#{feedback.id}&mod=show")=feedback.title
+                                        a(href="/feedbacks/offer?id=#{feedback.id}&mod=show&projectNumber=1")=feedback.title
                         .col-sm-6.col-md-4
                             .thumbnail
                                 .caption
@@ -51,9 +51,9 @@ block content
                                                 th(scope='cols') 제공한 피드백
                                                 th(scope='cols') 팀
                                         tbody#offerProject1
+                                            -var j = 0;
                                             each offerFeedback in offerFeedbacks
                                                 if(offerFeedback.projectNumber == "1")
-                                                    -var j = 0;
                                                     each offerComment in offerFeedback.comments
                                                         if(offerComment.userId == user._id)
                                                             if(j<5)
@@ -64,9 +64,9 @@ block content
                                                                 -j++;
                                     nav
                                         ul.pagination
-                                            -for(var i = 1; i<=replyPage[2];i++)
+                                            -for(var i = 1; i<=replyPage[1];i++)
                                                 li
-                                                    a(onclick="chagefeedback(#{i});")=i
+                                                    a(onclick="chageOfferFeedback('1',#{i},'#{offerMax[0]}');")=i
                         .col-sm-6.col-md-4
                             .thumbnail
                                 .caption
@@ -90,7 +90,7 @@ block content
                                         ul.pagination
                                             -for(var i = 1; i<=replyPage[0];i++)
                                                 li
-                                                    a(onclick="chagefeedback('#{feedback._id}',1,'show',#{i},#{feedback.comments.length});")=i
+                                                    a(onclick="chageShowFeedback('#{feedback._id}',1,#{i},#{feedback.comments.length});")=i
             else
                 br
                 .ex1
@@ -101,7 +101,7 @@ block content
                                 .caption
                                     h3 과제
                                     p 
-                                        a(href="/feedbacks/offer?id=#{feedback.id}&mod=show")=feedback.title
+                                        a(href="/feedbacks/offer?id=#{feedback.id}&mod=show&projectNumber=2")=feedback.title
                         .col-sm-6.col-md-4
                             .thumbnail
                                 .caption
@@ -113,9 +113,9 @@ block content
                                                 th(scope='cols') 제공한 피드백
                                                 th(scope='cols') 팀
                                         tbody#offerProject2
+                                            -var j = 0;
                                             each offerFeedback in offerFeedbacks
                                                 if(offerFeedback.projectNumber == "2")
-                                                    -var j = 0;
                                                     each offerComment in offerFeedback.comments
                                                         if(offerComment.userId == user._id)
                                                             if(j<5)
@@ -128,7 +128,7 @@ block content
                                         ul.pagination
                                             -for(var i = 1; i<=replyPage[3];i++)
                                                 li
-                                                    a(onclick="chagefeedback(#{i});")=i
+                                                    a(onclick="chageOfferFeedback('2',#{i},'#{offerMax[1]}');")=i
                         .col-sm-6.col-md-4
                             .thumbnail
                                 .caption
@@ -150,12 +150,12 @@ block content
                                                     -j++;
                                     nav
                                         ul.pagination
-                                            -for(var i = 1; i<=replyPage[1];i++)
+                                            -for(var i = 1; i<=replyPage[2];i++)
                                                 li
-                                                    a(onclick="chagefeedback('#{feedback._id}',2,'show',#{i},#{feedback.comments.length});")=i
+                                                    a(onclick="chageShowFeedback('#{feedback._id}',2,#{i},#{feedback.comments.length});")=i
 
     script(type='text/javascript').
-        function chagefeedback(id, projectNumber,mod,page,max) {
+        function chageShowFeedback(id, projectNumber,page,max) {
             $.get('/users/feedback?id='+id+'&page='+page+"&max="+max, function(replyList) {
                 var output = '';
                 for(var i=0;i<replyList.length;i++) {
@@ -167,6 +167,21 @@ block content
                     $('#showProject1').html(output);
                 }else if(projectNumber == 2){
                     $('#showProject2').html(output);
+                }
+            });
+        }
+        function chageOfferFeedback(projectNumber,page,max) {
+            $.get('/users/offerFeedback?page='+page+"&max="+max+"&projectNumber="+projectNumber, function(replyList) {
+                var output = '';
+                for(var i=0;i<replyList.length;i++) {
+                    output += '<tr"><th>'+replyList[i].page+'</th>'
+                    output += '<td class="feedback">'+replyList[i].memo+'</td>';
+                    output += '<td class="name">'+replyList[i].userTeam+'</td></tr>';
+                }
+                if(projectNumber == "1"){
+                    $('#offerProject1').html(output);
+                }else if(projectNumber == "2"){
+                    $('#offerProject2').html(output);
                 }
             });
         }
