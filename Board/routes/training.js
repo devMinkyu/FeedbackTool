@@ -98,7 +98,6 @@ router.post('/example', upload.array('UploadExample'),function(req, res){
     } else {
         console.log("파일이 저장되지 않았습니다!");
     }
-    
 });
 module.exports = router;
 function addExample(upFile, mod,userId,exam){

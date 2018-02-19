@@ -15,7 +15,9 @@ var schema = new Schema({
     solution:{type: String},
     training:{type: String},
     sampleAnswer1:{type: String},
-    trainingExample:{type: String}
+    trainingExample:{type: String},
+    feedbackExample1:{type: String},
+    feedbackExample2:{type: String}
   },
   feedback:{type: String},
   feedbackTeam1: {type: String},

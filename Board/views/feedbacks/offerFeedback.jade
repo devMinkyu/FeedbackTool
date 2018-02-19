@@ -24,6 +24,10 @@ block content
                 tbody.beforefeedback
         div
             h1 제공하기
+            if(projectNumber == "1")
+                .ex1=user.feedbackExample1 
+            else if(projectNumber == "2")
+                .ex1=user.feedbackExample2
             .comment
                 textarea.form-control#feedbackComment(rows="10", cols="45")
             br
@@ -37,62 +41,107 @@ block content
     script(src='/javascripts/main.js')
 
     script(type='text/javascript').
+        var save = false;
         function saveComment() {
             var page_num = document.getElementById("page_num").innerHTML;
             var feedbackComment = document.getElementById("feedbackComment").value;
-            alert("피드백이 저장 되었습니다.");
-            $("#notice span").text("수정");
             $.get('/feedbacks/comment?id=#{feedback._id}&page_num='+page_num+'&feedbackComment='+feedbackComment, function() { 
+                if(save == false){
+                    save = true;
+                    alert("피드백이 저장 되었습니다.");
+                    $("#notice span").text("수정");
+                    save = false;
+                }
             });
         }
         function nextChange() {
+            var page_count = document.getElementById("page_count").innerHTML;
             var page_num = document.getElementById("page_num").innerHTML;
             var page = ++page_num;
-            $.get('/feedbacks/page?id=#{feedback._id}&page_num='+page, function(comment) { 
-                if(comment.length>0){
-                    var output = '';
-                    $('.comment').empty();
-                    output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+comment+'</textarea>'
-                    $('.comment').html(output);
-                    $("#notice span").text("수정");
-                }else{
+            if(page_num==(++page_count)) return;
+            $.get('/feedbacks/page?id=#{feedback._id}', function(replyList) { 
+                var count = 0;
+                for(var j = 0;j<replyList.length;j++){
+                    if(page == replyList[j].page){
+                        var output = '';
+                        $('.comment').empty();
+                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+replyList[j].memo+'</textarea>'
+                        $('.comment').html(output);
+                        $("#notice span").text("수정");
+                        count++;
+                        break;
+                    }
+                }
+                if(count==0){
                     var output = '';
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
                     $('.comment').html(output);
                     $("#notice span").text("게시");
                 }
+                var input = '';
+                for(var i=1;i<=3;i++) {
+                    if(page-(i+1) <0){
+                        break;
+                    }
+                    if(replyList[page-(i+1)].page >= page) {continue;}
+                    input += '<tr"><th>'+replyList[page-(i+1)].page+'</th>'
+                    input += '<td class="feedback">'+replyList[page-(i+1)].memo+'</td></tr>';
+                }
+                $('.beforefeedback').html(input);
             });
         }
         function prevChange() {
             var page_num = document.getElementById("page_num").innerHTML;
             if(page_num==1) return;
             var page = page_num-1;
-            $.get('/feedbacks/page?id=#{feedback._id}&page_num='+page, function(comment) { 
-                if(comment.length>0){
-                    var output = '';
-                    $('.comment').empty();
-                    output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+comment+'</textarea>'
-                    $('.comment').html(output);
-                    $("#notice span").text("수정");
-                }else{
+            $.get('/feedbacks/page?id=#{feedback._id}', function(replyList) { 
+                var count = 0;
+                for(var j = 0;j<replyList.length;j++){
+                    if(page == replyList[j].page){
+                        var output = '';
+                        $('.comment').empty();
+                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+replyList[j].memo+'</textarea>'
+                        $('.comment').html(output);
+                        $("#notice span").text("수정");
+                        count++;
+                        break;
+                    }
+                }
+                if(count==0){
                     var output = '';
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
                     $('.comment').html(output);
                     $("#notice span").text("게시");
                 }
+                var input = '';
+                for(var i=1;i<=3;i++) {
+                    if(page-(i+1) <0 ){
+                        break;
+                    }
+                    if(replyList[page-(i+1)].page >= page) {continue;}
+                    input += '<tr"><th>'+replyList[page-(i+1)].page+'</th>'
+                    input += '<td class="feedback">'+replyList[page-(i+1)].memo+'</td></tr>';
+                }
+                $('.beforefeedback').html(input);
             });
         }
         (function () {
-            $.get('/feedbacks/page?id=#{feedback._id}&page_num=1', function(comment) { 
-                if(comment.length>0){
-                    var output = '';
-                    $('.comment').empty();
-                    output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+comment+'</textarea>'
-                    $('.comment').html(output);
-                    $("#notice span").text("수정");
-                }else{
+            $.get('/feedbacks/page?id=#{feedback._id}', function(replyList) { 
+                var count = 0;
+                for(var j = 0;j<replyList.length;j++){
+                    if("1" == replyList[j].page){
+                        var output = '';
+                        $('.comment').empty();
+                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+replyList[j].memo+'</textarea>'
+                        $('.comment').html(output);
+                        $("#notice span").text("수정");
+                        count++;
+                        break;
+                    }
+                }
+                if(count==0){
                     var output = '';
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'

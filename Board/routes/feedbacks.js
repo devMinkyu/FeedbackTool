@@ -17,17 +17,21 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
     var mod = req.param('mod');
     var projectNumber = req.param('projectNumber');
-    if(mod == 'offer'){
-        Feedback.find({$or: [{$and: [ {user_Team :req.user.feedbackTeam1}, { projectNumber: projectNumber } ] },{$and: [ {user_Team :req.user.feedbackTeam2}, { projectNumber: projectNumber } ] }]}
-            ,function(err, feedbacks) {
-            if(err) throw err;
-            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:[projectNumber+"차 산출물 피드백 제공하기"]});
-        });
-    }else if(mod == 'show'){
-        Feedback.find({ $and: [ {user_Team:req.user.team}, { projectNumber: projectNumber } ] }, function(err, feedbacks){
-            if(err) throw err;
-            res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기"]});
-        });
+    if(req.user.admin == 0){
+        res.render('feedbacks/feedbackUpload', {projectNumber:projectNumber, navs:[projectNumber+"차 산출물 문제 제출하기"]});
+    }else{
+        if(mod == 'offer'){
+            Feedback.find({$or: [{$and: [ {user_Team :req.user.feedbackTeam1}, { projectNumber: projectNumber } ] },{$and: [ {user_Team :req.user.feedbackTeam2}, { projectNumber: projectNumber } ] }]}
+                ,function(err, feedbacks) {
+                if(err) throw err;
+                res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:[projectNumber+"차 산출물 피드백 제공하기"]});
+            });
+        }else if(mod == 'show'){
+            Feedback.find({ $and: [ {user_Team:req.user.team}, { projectNumber: projectNumber } ] }, function(err, feedbacks){
+                if(err) throw err;
+                res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기"]});
+            });
+        }
     }
 });
 router.get('/new', function(req, res, next) {
@@ -46,7 +50,12 @@ router.get('/offer', function(req, res, next) {
             if(err) throw err;
         });
         if(mod == 'offer'){
-            res.render('feedbacks/offerFeedback', {feedback:feedback, navs:[projectNumber+"차 산출물 피드백 제공하기", "피드백 제공하기"]});
+            User.findOne({admin:0}, function(err, user) {
+                if (err) {
+                  return next(err);
+                }
+                res.render('feedbacks/offerFeedback', {feedback:feedback,projectNumber:projectNumber,user:user.example, navs:[projectNumber+"차 산출물 피드백 제공하기", "피드백 제공하기"]});
+            });
         }else if(mod == 'show'){
             res.render('feedbacks/showFeedback', {feedback:feedback, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "피드백 받기"]});
         }
@@ -74,21 +83,26 @@ router.get('/comment', function(req, res) {
         feedback.save(function(err){
             if(err) throw err;
         });
+        res.send();
     });
 });
 router.get('/page', function(req, res) {
     // comment 내용을 ajax로 페이징 하는 부분
     var id = req.param('id');
-    var page_num = req.param('page_num');
     Feedback.findOne({_id: id}, function(err, feedback){
         if(err) throw err;
-        for(var i =0;i<feedback.comments.length;i++){
-            if(page_num == feedback.comments[i].page && feedback.comments[i].userId == req.user._id){
-                res.send(feedback.comments[i].memo);
-                return;
+        var a = feedback;
+        var limitFeedback =[];
+        var j = 0;
+        a.comments = quickSort(feedback.comments);
+        for(var k = 0;k<feedback.comments.length;k++){
+            if(feedback.comments[k].userId==req.user._id){
+                limitFeedback[j] = feedback.comments[k];
+                j++;
             }
         }
-        res.send();
+        console.log(limitFeedback)
+        res.send(limitFeedback);
     });
 });
 router.get('/feedback', function(req, res) {
@@ -130,6 +144,27 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
               console.log("파일이 저장되지 않았습니다!");
             }
         }
+    });
+});
+router.post('/example',function(req, res){
+    //field name은 form의 input file의 name과 같아야함
+    var projectNumber = req.param('projectNumber');
+    var exam = req.body.exam; 
+    User.findOne({_id: req.user._id}, function (err, user) {
+        if (err) throw err;
+        if(projectNumber == "1"){
+            user.example.feedbackExample1 = exam;
+            user.save(function (err) {
+                if (err) throw err;
+            });
+        }else if(projectNumber == "2"){
+            user.example.feedbackExample2 = exam;
+            user.save(function (err) {
+                if (err) throw err;
+            });
+        }
+        req.flash('success', "문제가 성공적으로 등록 되었습니다.");
+        res.redirect('/');
     });
 });
 router.delete('/delete', function(req, res, next) {
@@ -186,7 +221,18 @@ function addProject(title, writer, content, upFile, userTeam,projectNumber){
         });
     });
 }
-
+function quickSort(arr){
+    if(arr.length < 2)
+        return arr;
+  
+    var pivot = arr[Math.floor(arr.length/2)].page;
+    pivot *= 1;
+    var middle = arr.filter(function (data) {return data.page == pivot;});
+    var lows = quickSort(arr.filter(function (data) {return data.page < pivot;}));
+    var highs = quickSort(arr.filter(function (data) {return data.page > pivot;}));
+    
+    return lows.concat(middle).concat(highs);
+}
 function isPDF(upFile){
     var newFile = upFile; // 새로 들어 온 파일
     console.log(newFile);
