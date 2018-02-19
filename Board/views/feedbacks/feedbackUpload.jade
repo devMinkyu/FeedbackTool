@@ -1,0 +1,16 @@
+extends ../layout
+
+block content
+  .container
+    .row.main
+      .main-qa
+        include ../includes/nav
+        h1 #{projectNumber}차 산출물 문제
+        .write_form
+            form#writeAction(action='/feedbacks/example?projectNumber='+projectNumber, method='post')
+                .form-group
+                    label(for='name') 문제
+                    input.form-control(type='text', id='exam', name='exam', placeholder='문제')
+                #new.addBtngroup
+                    button.btn.btn-primary(type='submit') 제출
+                    a.btn.btn-default(href='javascript:window.history.back();') 취소

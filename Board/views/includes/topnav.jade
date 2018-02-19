@@ -22,24 +22,35 @@
                             a(href='/training/solution') 피드백 샘플
                         li
                             a(href='/training/training') 피드백 작성 훈련
-                li.dropdown
-                    a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                        | 팀 활동 
-                        span.caret
-                    ul.dropdown-menu(role='menu')
-                        li
-                            a(href='/feedbacks?mod=show&projectNumber=1') 1차 산출물
-                        li
-                            a(href='/feedbacks?mod=show&projectNumber=2') 2차 산출물
-                li.dropdown
-                    a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                        | 개인 활동 
-                        span.caret
-                    ul.dropdown-menu(role='menu')
-                        li
-                            a(href='/feedbacks?mod=offer&projectNumber=1') 1차 산출물
-                        li
-                            a(href='/feedbacks?mod=offer&projectNumber=2') 2차 산출물
+                if (currentUser.admin == 0)
+                    li.dropdown
+                        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                            | 산출물 활동 
+                            span.caret
+                        ul.dropdown-menu(role='menu')
+                            li
+                                a(href='/feedbacks?projectNumber=1') 1차 산출물
+                            li
+                                a(href='/feedbacks?projectNumber=2') 2차 산출물
+                else
+                    li.dropdown
+                        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                            | 팀 활동 
+                            span.caret
+                        ul.dropdown-menu(role='menu')
+                            li
+                                a(href='/feedbacks?mod=show&projectNumber=1') 1차 산출물
+                            li
+                                a(href='/feedbacks?mod=show&projectNumber=2') 2차 산출물
+                    li.dropdown
+                        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                            | 개인 활동 
+                            span.caret
+                        ul.dropdown-menu(role='menu')
+                            li
+                                a(href='/feedbacks?mod=offer&projectNumber=1') 1차 산출물
+                            li
+                                a(href='/feedbacks?mod=offer&projectNumber=2') 2차 산출물
         ul.nav.navbar-nav.navbar-right
             if (currentUser) 
                 li
