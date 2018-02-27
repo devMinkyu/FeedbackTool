@@ -8,24 +8,23 @@ block content
         h1 My Page
         br
         .ex1
-            h2 My Profile
             .row
                 .col-sm-6.col-md-4
                     .thumbnail
-                        .caption
+                        .caption.mypage
                             h3 프로필
                             p 이름: #{user.name}
                             p 팀: #{user.team}
                             p 피드백 팀: #{user.feedbackTeam1}, #{user.feedbackTeam2}
                 .col-sm-6.col-md-4
                     .thumbnail
-                        .caption
+                        .caption.mypage
                             h3 팀원
                             each teamUser in users
                                 p 이름: #{teamUser.name}
                 .col-sm-6.col-md-4
                     .thumbnail
-                        .caption
+                        .caption.mypage
                             h3 사전 훈련
                             p 답안: #{user.feedback}
         each feedback in showFeedbacks
@@ -36,13 +35,13 @@ block content
                     .row
                         .col-sm-6.col-md-4
                             .thumbnail
-                                .caption
+                                .caption.mypage
                                     h3 과제
                                     p 
                                         a(href="/feedbacks/offer?id=#{feedback.id}&mod=show&projectNumber=1")=feedback.title
                         .col-sm-6.col-md-4
                             .thumbnail
-                                .caption
+                                .caption.mypage
                                     h3 제공한 피드백
                                     table.type09
                                         thead
@@ -69,7 +68,7 @@ block content
                                                     a(onclick="chageOfferFeedback('1',#{i},'#{offerMax[0]}');")=i
                         .col-sm-6.col-md-4
                             .thumbnail
-                                .caption
+                                .caption.mypage
                                     h3 제공 받은 피드백
                                     table.type09
                                         thead
@@ -98,13 +97,13 @@ block content
                     .row
                         .col-sm-6.col-md-4
                             .thumbnail
-                                .caption
+                                .caption.mypage
                                     h3 과제
                                     p 
                                         a(href="/feedbacks/offer?id=#{feedback.id}&mod=show&projectNumber=2")=feedback.title
                         .col-sm-6.col-md-4
                             .thumbnail
-                                .caption
+                                .caption.mypage
                                     h3 제공한 피드백
                                     table.type09
                                         thead
@@ -131,7 +130,7 @@ block content
                                                     a(onclick="chageOfferFeedback('2',#{i},'#{offerMax[1]}');")=i
                         .col-sm-6.col-md-4
                             .thumbnail
-                                .caption
+                                .caption.mypage
                                     h3 제공 받은 피드백
                                     table.type09
                                         thead

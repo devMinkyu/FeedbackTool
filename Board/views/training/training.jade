@@ -8,31 +8,18 @@ block content
                 include ../includes/nav
                 h1 피드백 작성 연습
                 div
-                    table.table
-                        tbody
-                            tr 친구에게 제공할 수 있는 피드백 유형은 다음과 같습니다.
-                            tr
-                                td 강화적 피드백
-                                td
-                                    ul
-                                        li ~ 부분은 ~ 이유로 좋은 것 같아요.
-                                        li 이렇게 하면 효과적으로 전달될 것 같아요. 등
-                                        li 단순히 '좋아요'라고 작성하는 것이 아니라, 좋은 이유를 작성해야 함
-                            tr
-                                td 제안적 피드백
-                                td
-                                    ul
-                                        li ~ 부분은 ~ 이런 식으로 수정해야 할 것 같습니다. 등
-                            tr
-                                td 교정적 피드백
-                                td
-                                    ul
-                                        li ~ 하는 것이 더 좋을 것 같습니다.
-                                        li ~ 부분이 필요한 것 같습니다.
-                                        li ~ 을 추가하면 좋을 것 같습니다. 등                            
-                    button.btn.btn-lg.btn-primary.btn-block(onclick = "trainingFeedBack();") 연습하기
+                    ul
+                        li 친구에게 제공 할 수 있는 피드백 예시
+                    ol
+                        li 제안하기: ~하는 것이 더 좋을 것 같습니다. ~ 부분이 필요한 것 같습니다. ~을 추가하면 좋을 것 같습니다 등
+                        li 고쳐주기: ~부분은 ~식으로 수정해야 할 것 같습니다 등
+                        li 칭찬하기: ~부분은 ~이유로 좋은 것 같아요. 이렇게 하면 효과적으로 전달될 것 같아요 등 
+                            div (단순히 '좋아요'라고 작성하는 것이 아니라, 좋은 이류를 작성해야 함!!)
+                        li 질문하기: ~은 어떤 의도로 적은 것인가요? 이 활동의 구체적 내용은 무엇인가요? 등                            
                 br
-                a.btn.btn-lg.btn-danger.btn-exit(href='href='/'') 종료
+                .addBtngroup
+                    a.btn.btn-lg.btn-primary(onclick = "trainingFeedBack();") 연습하기
+                    a.btn.btn-lg.btn-danger(href='href='/'') 종료
         .main-sample.hidden
             div
                 include ../includes/nav

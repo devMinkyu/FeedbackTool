@@ -16,7 +16,6 @@ block content
             .content-text=question.contents
             .addBtngroup
                 if(question.user_Id == currentUser._id)
-                    a.btn.btn-warning(href='/question/modify?id=#{question._id}') 수정
                     a.btn.btn-warning(href='/question/delete?_method=DELETE&id=#{question._id}') 삭제
                 a.btn.btn-warning(href='javascript:window.history.back();') 확인
 
