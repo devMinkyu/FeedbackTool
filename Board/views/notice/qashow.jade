@@ -16,8 +16,8 @@ block content
             .content-text=question.contents
             .addBtngroup
                 if(question.user_Id == currentUser._id)
-                    a.btn.btn-warning(href='/question/delete?_method=DELETE&id=#{question._id}') 삭제
-                a.btn.btn-warning(href='javascript:window.history.back();') 확인
+                    a.btn.btn-default(href='/question/delete?_method=DELETE&id=#{question._id}') 삭제
+                a.btn.btn-default(href='javascript:window.history.back();') 확인
 
             h3 댓글
             table.table.table-striped
@@ -42,7 +42,7 @@ block content
              form#writeAction(action='/question/reply?id=#{question._id}', method='post')
                 .form-group
                     textarea.replyContents(name='addContents', rows='3')
-                    button.btn.btn-warning.replyButton(href='submit') 확인
+                    button.btn.btn-default.replyButton(href='submit') 확인
              nav
                 ul.pagination
                     -for(var i = 1; i<=replyPage;i++)
