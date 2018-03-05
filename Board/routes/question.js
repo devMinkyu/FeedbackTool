@@ -91,7 +91,9 @@ router.get('/reply', function(req, res) {
     var max = req.param('max'); // 댓글 총 갯수 확인
     var skipSize = (page-1)*5;
     var limitSize = skipSize + 5;
-
+    if(max == 0){
+        return;
+    }
     if(max < skipSize+5) {limitSize = max*1;} // 댓글 갯수 보다 넘어가는 경우는 댓글 수로 맞춰줌 (몽고디비 쿼리에서 limit은 양의 정수여야함)
 
     Question.findOne({_id: id}, {comments: {$slice: [skipSize, limitSize]}} , function(err, pageReply){

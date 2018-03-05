@@ -39,7 +39,7 @@ block content
                     else
                         tr
                             th 댓글이 없습니다.
-             form#writeAction(action='/question/reply?id=#{question._id}', method='post')
+             form(action='/question/reply?id=#{question._id}', method='post')
                 .form-group
                     textarea.replyContents(name='addContents', rows='3')
                     button.btn.btn-default.replyButton(href='submit') 확인
