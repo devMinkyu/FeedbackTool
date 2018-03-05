@@ -57,12 +57,11 @@
                     a(href='/notice') 공지사항
                 li
                     a(href='/question') Q&A
-                if (currentUser.admin == 0)
+                li
+                    a(href='/users/userlists') 학생 목록
+                if (currentUser.admin == 1)
                     li
-                        a(href='/users/userlists') UserList
-                else
-                    li
-                        a(href='/users/profile?id=#{currentUser._id}') My page
+                        a(href='/users/profile?id=#{currentUser._id}') 내활동정보
                 li
                     a(href='/signout') 로그아웃
             else

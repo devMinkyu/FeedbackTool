@@ -49,7 +49,7 @@ router.get('/profile', function(req, res, next) {
           if(count[1] != 0){
             reply_pg[3] = Math.ceil(count[1]/5);
           }
-          res.render('users/profile',{user:user, users:users,replyPage: reply_pg, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks,offerMax:count, navs:["프로필"]});
+          res.render('users/profile',{user:user, users:users,replyPage: reply_pg, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks,offerMax:count, navs:["내활동정보"]});
         });
       });
     });
