@@ -119,6 +119,7 @@ router.get('/reply/delete', function(req, res, next) {
       if (err) {
         return next(err);
       }
+      question.count--;
       question.comments.pull({_id:replyId});
       question.save(function(err){
           if(err) throw err;
