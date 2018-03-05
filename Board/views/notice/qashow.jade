@@ -18,7 +18,7 @@ block content
             .addBtngroup
                 if(question.user_Id == currentUser._id)
                     a.btn.btn-default(href='/question/delete?_method=DELETE&id=#{question._id}') 삭제
-                a.btn.btn-default(href='javascript:window.history.back();') 확인
+                a.btn.btn-default(href='/question') 확인
 
             h3 댓글
             table.table.table-striped
