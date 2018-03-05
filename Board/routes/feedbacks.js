@@ -65,7 +65,6 @@ router.get('/offer', function(req, res, next) {
             res.render('feedbacks/showFeedback', {feedback:feedback,projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "피드백 받기"]});
         }
     });
-
 });
 router.get('/comment', function(req, res) {
     // comment ajax로 페이징 하는 부분
@@ -78,9 +77,6 @@ router.get('/comment', function(req, res) {
         for(var i =0;i<feedback.comments.length;i++){
             if(page_num == feedback.comments[i].page && feedback.comments[i].userId == req.user._id){
                 feedback.comments.pull({ _id: feedback.comments[i]._id});   
-                feedback.save(function(err){
-                    if(err) throw err;
-                });
                 break;
             }
         }
