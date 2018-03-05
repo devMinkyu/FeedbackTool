@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 Question = require('../models/Question');
-var count = 0;
+var count = 1;
 
 router.get('/', function(req, res, next) {
     // 처음 index로 접속 했을시 나오는 부분
@@ -33,9 +33,12 @@ router.get('/new', function(req, res, next) {
     res.render('notice/qanew',{navs:["Q&A", "작성하기"]});
 });
 router.get('/show', function(req, res, next) {
+    if(!req.user){
+        res.redirect('/');
+        return;
+    }
     Question.findOne({_id:req.param('id')}, function(err, question){
         if(err) throw err;
-
         var reply_pg = Math.ceil(question.comments.length/5);
         res.render('notice/qashow', {question:question, replyPage: reply_pg, navs:["Q&A", "질문보기"]});
     });
@@ -44,7 +47,6 @@ router.get('/show', function(req, res, next) {
 router.get('/modify', function(req, res, next) {
     Question.findOne({_id:req.param('id')}, function(err, question){
         if(err) throw err;
-
         res.render('notice/qanew', {question:question, replyPage: reply_pg});
     });
 });

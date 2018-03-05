@@ -12,7 +12,7 @@ var _storage = multer.diskStorage({
   });
 var upload = multer({storage: _storage});
 var router = express.Router();
-var count = 0;
+var count = 1;
 
 router.get('/', function(req, res, next) {
     // 처음 index로 접속 했을시 나오는 부분

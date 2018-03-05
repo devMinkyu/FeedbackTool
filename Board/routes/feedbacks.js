@@ -41,7 +41,7 @@ router.get('/', function(req, res, next) {
 });
 router.get('/new', function(req, res, next) {
     var projectNumber = req.param('projectNumber');
-    res.render('feedbacks/new',{projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "게시하기"]});
+    res.render('feedbacks/new',{projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "게시하기"], title: projectNumber+"차 산출물 게시하기"});
 });
 
 router.get('/offer', function(req, res, next) {
@@ -106,7 +106,6 @@ router.get('/page', function(req, res) {
                 j++;
             }
         }
-        console.log(limitFeedback)
         res.send(limitFeedback);
     });
 });

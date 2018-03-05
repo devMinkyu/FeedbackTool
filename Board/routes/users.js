@@ -115,6 +115,8 @@ router.put('/feedbackTeam', function(req, res, next) {
     }
     if(teamCount == 2){
       for(var i = 0; i<users.length;i++){
+        users[i].feedbackTeam1 = 0;
+        users[i].feedbackTeam2 = 0;
         if(users[i].team == "1"){
           users[i].feedbackTeam1 = 2;
           users[i].save(function (err) {
@@ -128,6 +130,7 @@ router.put('/feedbackTeam', function(req, res, next) {
         }
       }
     }else{
+      var loopCount = 0;
       var feedbackCount = ((users.length-1)*2)/teamCount;
       var feedbackRemainder = ((users.length-1)*2)%teamCount;
       if(feedbackRemainder == 0){
@@ -141,6 +144,8 @@ router.put('/feedbackTeam', function(req, res, next) {
       for(var i = 0; i<users.length;i++){
         if(users[i].admin == 0){}
         else if(users[i].admin == 1){
+          users[i].feedbackTeam1 = 0;
+          users[i].feedbackTeam2 = 0;
           do{
             var feedbackTeam = Math.floor(Math.random() * ((max) - 1)) + 1;
             if(team[feedbackTeam-1] < (feedbackCount+feedbackRemainder-1) && users[i].team != feedbackTeam){

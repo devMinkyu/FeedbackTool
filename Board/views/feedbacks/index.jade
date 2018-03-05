@@ -28,7 +28,7 @@ block content
                             tr
                                 th(scope='row')=feedback.user_Team
                                 td(class="title")
-                                    a(href="/feedbacks/offer?id=#{feedback.id}&mod=#{mod}&projectNumber=#{projectNumber}") #{feedback.title} [#{feedback.count}]
+                                    a(href="/feedbacks/offer?id=#{feedback.id}&mod=#{mod}&projectNumber=#{projectNumber}") #{feedback.title}
                                 td=feedback.writer
             else
                 tr

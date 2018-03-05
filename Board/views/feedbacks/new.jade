@@ -5,7 +5,7 @@ block content
     .row.main
       .main-qa
         include ../includes/nav
-        h1 프로젝트 제출하기
+        h1=title
         .write_form
             form#writeAction(action='/feedbacks?mode=add&projectNumber=#{projectNumber}', method='post', enctype='multipart/form-data')
                 .form-group

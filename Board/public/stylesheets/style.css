@@ -395,3 +395,16 @@ background:#E0E0E0 !important;
 .main-training .hidden{
   display: none; 
 }
+
+.one {
+  display: block;
+  unicode-bidi: isolate;
+  -webkit-margin-before: 0.5em;
+  -webkit-margin-after: 0.5em;
+  -webkit-margin-start: auto;
+  -webkit-margin-end: auto;
+  width:100%;
+  overflow: hidden;
+  border-style: inset;
+  border-width: 1px;
+}
