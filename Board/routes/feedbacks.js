@@ -62,7 +62,7 @@ router.get('/offer', function(req, res, next) {
                 res.render('feedbacks/offerFeedback', {feedback:feedback,projectNumber:projectNumber,user:user.example, navs:[projectNumber+"차 산출물 피드백 제공하기", "피드백 제공하기"]});
             });
         }else if(mod == 'show'){
-            res.render('feedbacks/showFeedback', {feedback:feedback, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "피드백 받기"]});
+            res.render('feedbacks/showFeedback', {feedback:feedback,projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "피드백 받기"]});
         }
     });
 

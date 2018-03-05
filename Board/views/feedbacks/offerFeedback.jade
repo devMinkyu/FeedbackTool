@@ -7,6 +7,7 @@ block content
         div 
             br
             #pdfName=feedback.fileUp
+            #projectNumber=projectNumber
             button#prev(onclick='prevChange();') Previous
             button#next(onclick='nextChange();') Next
             span.pagenumber
@@ -86,7 +87,7 @@ block content
                     }
                     if(replyList[page-(i+1)].page >= page) {continue;}
                     input += '<tr"><th>'+replyList[page-(i+1)].page+'</th>'
-                    input += '<td class="feedback">'+replyList[page-(i+1)].memo+'</td></tr>';
+                    input += '<td class="beforeFeedback">'+replyList[page-(i+1)].memo+'</td></tr>';
                 }
                 $('.beforefeedback').html(input);
             });
@@ -122,7 +123,7 @@ block content
                     }
                     if(replyList[page-(i+1)].page >= page) {continue;}
                     input += '<tr"><th>'+replyList[page-(i+1)].page+'</th>'
-                    input += '<td class="feedback">'+replyList[page-(i+1)].memo+'</td></tr>';
+                    input += '<td class="beforeFeedback">'+replyList[page-(i+1)].memo+'</td></tr>';
                 }
                 $('.beforefeedback').html(input);
             });

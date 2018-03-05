@@ -2,6 +2,7 @@
 // header on that server.
 //var url = '//cdn.mozilla.net/pdfjs/tracemonkey.pdf';
 var pdfName = document.getElementById("pdfName").innerHTML;
+var projectNumber = document.getElementById("projectNumber").innerHTML;
 //var url = '/user/자기소개서+작성법.pdf';
 var url = '';
 url += '/user/';
@@ -14,7 +15,6 @@ var pdfDoc = null,
     pageNum = 1,
     pageRendering = false,
     pageNumPending = null,
-    scale = 1.2,
     canvas = document.getElementById('the-canvas'),
     ctx = canvas.getContext('2d');
 
@@ -26,6 +26,11 @@ function renderPage(num) {
   pageRendering = true;
   // Using promise to fetch the page
   pdfDoc.getPage(num).then(function(page) {
+    if(projectNumber == "1"){
+      scale = 1.2;
+    }else{
+      scale = 1.0;
+    }
     var viewport = page.getViewport(scale);
     canvas.height = viewport.height;
     canvas.width = viewport.width;
