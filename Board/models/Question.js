@@ -9,6 +9,7 @@ var schema = new Schema({
     user_Id: String,
     comments: [{
         name: String,
+        user_id: String,
         memo: String,
         date: {type: Date, default: Date.now}
     }],

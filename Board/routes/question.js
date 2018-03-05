@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 Question = require('../models/Question');
 var count = 1;
-
+ObjectId = require('mongodb').ObjectID;
 router.get('/', function(req, res, next) {
     // 처음 index로 접속 했을시 나오는 부분
     // db에서 게시글 리스트 가져와서 출력
@@ -76,10 +76,11 @@ router.post('/', function(req, res){
 router.post('/reply', function(req, res){
     // 댓글 다는 부분
     var reply_writer = req.user.name;
+    var reply_userId = req.user._id;
     var reply_comment = req.body.addContents;
     var reply_id = req.param('id');
 
-    addComment(reply_id, reply_writer, reply_comment);
+    addComment(reply_id, reply_writer, reply_comment, reply_userId);
 
     res.redirect('/question/show?id='+reply_id);
 });
@@ -110,13 +111,28 @@ router.delete('/delete', function(req, res, next) {
       res.redirect('/question');
     });
   });
+
+
+router.get('/reply/delete', function(req, res, next) {
+    var replyId = req.param('replyId')
+    Question.findOne({_id: req.param('id')}, function(err, question) {
+      if (err) {
+        return next(err);
+      }
+      question.comments.pull({_id:replyId});
+      question.save(function(err){
+          if(err) throw err;
+      });
+      res.redirect('back');
+    });
+  });
 module.exports = router;
 
-function addComment(id, writer, comment) {
+function addComment(id, writer, comment, userId) {
     Question.findOne({_id: id}, function(err, question){
         if(err) throw err;
         question.count++;
-        question.comments.unshift({name:writer, memo: comment});
+        question.comments.unshift({name:writer, memo: comment, user_id: userId});
         question.save(function(err){
             if(err) throw err;
         });

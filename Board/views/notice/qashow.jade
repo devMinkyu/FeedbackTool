@@ -5,6 +5,7 @@ block content
     .row.main
       .main-pdf
         include ../includes/nav
+        #pdfName=currentUser._id
         .content_detail
             -function dateFormatChange(date) {
                 -var newdate = new Date(date);
@@ -21,10 +22,11 @@ block content
 
             h3 댓글
             table.table.table-striped
-                thead
+                thead.reply
                     tr
                         th.reply 작성자
-                        th 내용
+                        th.title 내용
+                        th 작성일
                 tbody.reply_list
                     if(question.comments.length>0)
                         -var j = 0;
@@ -32,9 +34,8 @@ block content
                             if(j<5)
                                 tr
                                     th= comment.name
-                                    th #{comment.memo} / #{comment.date}
-                                        if(question.user_Id == currentUser._id)
-                                            a(href="/question/reply/delete") [삭제]
+                                    th= comment.memo
+                                    th= comment.date
                                 -j++;
                     else
                         tr
@@ -47,16 +48,21 @@ block content
                 ul.pagination
                     -for(var i = 1; i<=replyPage;i++)
                         li
-                            a(onclick="changePage(#{i});")=i
-
+                            a(onclick="changePage(#{i}, #{currentUser._id});")=i
 
     script(type='text/javascript').
-        function changePage(page) {
+        function changePage(page, id) {
             $.get('/question/reply?id=#{question._id}&page='+page+"&max=#{question.comments.length}", function(replyList) {
                 var output = '';
                 for(var i=0;i<replyList.length;i++) {
                     output += '<tr><th>'+replyList[i].name+'</th>'
-                    output += '<th>'+replyList[i].memo.replace(/\\r\\n/gi, " ")+' / '+ dateFormatChangeScript(replyList[i].date)+'</th></tr>';
+                    output += '<th>'+replyList[i].memo.replace(/\\r\\n/gi, " ")+'</th>';
+                    output += '<th>'+dateFormatChangeScript(replyList[i].date);
+                    if(replyList[i].user_id == id){
+                        output += '<a href="/question/reply/delete?id=#{question._id}&replyId='+ replyList[i]._id +'">[삭제]</a></th></tr>';
+                    }else{
+                        output += '</th></tr>';
+                    }
                 }
                 $('.reply_list').html(output);
             });
@@ -68,7 +74,13 @@ block content
                     var output = '';
                     for(var i=0;i<data.length;i++) {
                         output += '<tr><th>'+data[i].name+'</th>'
-                        output += '<th>'+data[i].memo.replace(/\\r\\n/gi, " ")+' / '+ dateFormatChangeScript(data[i].date)+'</th></tr>';
+                        output += '<th>'+data[i].memo.replace(/\\r\\n/gi, " ")+'</th>';
+                        output += '<th>'+dateFormatChangeScript(data[i].date);
+                        if(data[i].user_id == id){
+                            output += '<a href="/question/reply/delete?id=#{question._id}&replyId='+ data[i]._id +'">[삭제]</a></th></tr>';
+                        }else{
+                            output += '</th></tr>';
+                        }
                     }
                     $('.reply_list').html(output);
                 }
@@ -83,5 +95,6 @@ block content
             return newdate.toLocaleTimeString("ko-KR", options);
         }
         (function () {
-            changePage(1);
+            var pdfName = document.getElementById("pdfName").innerHTML;
+            changePage(1, pdfName);
         })()

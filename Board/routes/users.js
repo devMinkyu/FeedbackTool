@@ -63,7 +63,7 @@ router.get('/feedback', function(req, res) {
   var skipSize = (page-1)*5;
   var limitSize = skipSize + 5;
 
-  if(max < skipSize+5) {limitSize = max*1;} // 댓글 갯수 보다 넘어가는 경우는 댓글 수로 맞춰줌 (몽고디비 쿼리에서 limit은 양의 정수여야함)
+  if(max < skipSize+5) {limitSize = max*1;}
 
   Feedback.findOne({_id: id} , function(err, pageReply){
       if(err) throw err;
@@ -84,7 +84,7 @@ router.get('/offerFeedback', function(req, res) {
   var skipSize = (page-1)*5;
   var limitSize = skipSize + 5;
 
-  if(max < skipSize+5) {limitSize = max*1;} // 댓글 갯수 보다 넘어가는 경우는 댓글 수로 맞춰줌 (몽고디비 쿼리에서 limit은 양의 정수여야함)
+  if(max < skipSize+5) {limitSize = max*1;}
 
   Feedback.find({$and: [{$or: [{user_Team :req.user.feedbackTeam1} ,{user_Team :req.user.feedbackTeam2}]}, {projectNumber:projectNumber}]},function(err, pageReply) {
     if(err) throw err;

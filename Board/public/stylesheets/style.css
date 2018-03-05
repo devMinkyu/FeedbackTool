@@ -316,6 +316,9 @@ text-align: center;
     border-bottom: 1px solid #ccc;
     background: #f3f6f7;
   }
+  thead.reply .title{
+    width: 45% !important;
+  }
   table.type09 tbody .title {
     width: 65% !important;
   }
