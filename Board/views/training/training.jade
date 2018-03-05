@@ -46,7 +46,7 @@ block content
             div
                 include ../includes/nav
                 if(training.training)
-                    h1 피드백 샘플
+                    h1 피드백 작성 연습문제
                     div
                         #pdfName=training.training
                         #trainingExample=training.trainingExample
@@ -64,7 +64,7 @@ block content
                 a.btn.btn-lg.btn-default.btn-exit(href='/') 종료
     script#pdfTrainingViewExam(type='text/template').
         <div class="main-exam">
-            <h1>피드백 작성 문제</h1>
+            <h1>피드백 작성</h1>
             <div class="ex1"></div>
             <form action="/training", method='POST', id="solutionAction">
                 <textarea class="form-control current", id="tab_1", name="solution" rows="10" ></textarea>

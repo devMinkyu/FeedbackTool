@@ -12,7 +12,7 @@ router.get('/userlists', function(req, res, next) {
     if (err) {
       return next(err);
     }
-    res.render('users/userlist',{users:users, navs:["유저 목록"]});
+    res.render('users/userlist',{users:users, navs:["학생 목록"]});
   });
 });
 router.get('/profile', function(req, res, next) {
@@ -130,6 +130,9 @@ router.put('/feedbackTeam', function(req, res, next) {
     }else{
       var feedbackCount = ((users.length-1)*2)/teamCount;
       var feedbackRemainder = ((users.length-1)*2)%teamCount;
+      if(feedbackRemainder == 0){
+        feedbackRemainder = 1;
+      }
       var team = new Array();
       for(var j = 0; j<teamCount;j++){
         team[j] = 0;
@@ -196,7 +199,7 @@ router.post('/register', function(req, res, next) {
     var newUser = new User({
       name: req.body.name,
       email: req.body.email,
-      phone: req.body.phone,
+      team: "0",
       //admin: 0
       admin: 1, // 0이면 관리자. 1이면 일반 유저
     });

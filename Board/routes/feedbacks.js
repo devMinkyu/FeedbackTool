@@ -15,6 +15,11 @@ var router = express.Router();
 
 
 router.get('/', function(req, res, next) {
+    if(req.user.team == "0"){
+        req.flash('info', "권한이 없습니다.");
+        res.redirect('/');
+        return;
+    }
     var mod = req.param('mod');
     var projectNumber = req.param('projectNumber');
     if(req.user.admin == 0){
