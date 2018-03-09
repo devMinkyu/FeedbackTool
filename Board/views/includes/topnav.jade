@@ -29,28 +29,41 @@
                             span.caret
                         ul.dropdown-menu(role='menu')
                             li
-                                a(href='/feedbacks?projectNumber=1') 1차 산출물
+                                a(href='/feedbacks?projectNumber=1') 기획안
                             li
-                                a(href='/feedbacks?projectNumber=2') 2차 산출물
+                                a(href='/feedbacks?projectNumber=2') 컨테츠 내용
+                            li
+                                a(href='/feedbacks?projectNumber=3') 컨테츠 내용 수정안
                 else
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                            | 팀 활동 
+                            | 과제제출
                             span.caret
                         ul.dropdown-menu(role='menu')
                             li
-                                a(href='/feedbacks?mod=show&projectNumber=1') 1차 산출물
+                                a(href='/feedbacks/new?projectNumber=1') 기획안
                             li
-                                a(href='/feedbacks?mod=show&projectNumber=2') 2차 산출물
+                                a(href='/feedbacks/new?projectNumber=2') 컨테츠 내용
+                            li
+                                a(href='/feedbacks/new?projectNumber=3') 컨테츠 내용 수정안
                     li.dropdown
                         a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
-                            | 개인 활동 
+                            | 피드백 제공
                             span.caret
                         ul.dropdown-menu(role='menu')
                             li
-                                a(href='/feedbacks?mod=offer&projectNumber=1') 1차 산출물
+                                a(href='/feedbacks?mod=offer&projectNumber=1') 기획안
                             li
-                                a(href='/feedbacks?mod=offer&projectNumber=2') 2차 산출물
+                                a(href='/feedbacks?mod=offer&projectNumber=2') 컨테츠 내용
+                    li.dropdown
+                        a.dropdown-toggle(href='#', data-toggle='dropdown', role='button', aria-expanded='false')
+                            | 피드백 받기 
+                            span.caret
+                        ul.dropdown-menu(role='menu')
+                            li
+                                a(href='/feedbacks?mod=show&projectNumber=1') 기획안
+                            li
+                                a(href='/feedbacks?mod=show&projectNumber=2') 컨테츠 내용
         ul.nav.navbar-nav.navbar-right
             if (currentUser) 
                 li
@@ -61,7 +74,7 @@
                     a(href='/users/userlists') 학생 목록
                 if (currentUser.admin == 1)
                     li
-                        a(href='/users/profile?id=#{currentUser._id}') 내활동정보
+                        a(href='/users/profile?id=#{currentUser._id}') 나의 공간
                 li
                     a(href='/signout') 로그아웃
             else

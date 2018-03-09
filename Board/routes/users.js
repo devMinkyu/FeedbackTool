@@ -29,28 +29,7 @@ router.get('/profile', function(req, res, next) {
           reply_pg[i*2] = Math.ceil(showFeedbacks[i].comments.length/5);
           a[i].comments = quickSort(showFeedbacks[i].comments);
         }
-        Feedback.find({$or: [{user_Team :user.feedbackTeam1} ,{user_Team :user.feedbackTeam2} ] }).sort({projectNumber:1}).exec(function(err, offerFeedbacks) {
-          if(err) throw err;
-          var b = offerFeedbacks;
-          var count = [0, 0];
-          for(var j = 0;j<offerFeedbacks.length;j++){
-            b[j].comments = quickSort(offerFeedbacks[j].comments);
-            for(var k = 0;k<offerFeedbacks[j].comments.length;k++){
-              if(offerFeedbacks[j].comments[k].userId==user._id && offerFeedbacks[j].projectNumber == "1"){
-                count[0]++;
-              }else if(offerFeedbacks[j].comments[k].userId==user._id && offerFeedbacks[j].projectNumber == "2"){
-                count[1]++;
-              }
-            }
-          }
-          if(count[0] != 0){
-            reply_pg[1] = Math.ceil(count[0]/5);
-          }
-          if(count[1] != 0){
-            reply_pg[3] = Math.ceil(count[1]/5);
-          }
-          res.render('users/profile',{user:user, users:users,replyPage: reply_pg, showFeedbacks:showFeedbacks, offerFeedbacks:offerFeedbacks,offerMax:count, navs:["내활동정보"]});
-        });
+        res.render('users/profile',{user:user, users:users,replyPage: reply_pg, showFeedbacks:showFeedbacks, navs:["나의 공간"]});
       });
     });
   });
@@ -130,7 +109,6 @@ router.put('/feedbackTeam', function(req, res, next) {
         }
       }
     }else{
-      var loopCount = 0;
       var feedbackCount = ((users.length-1)*2)/teamCount;
       var feedbackRemainder = ((users.length-1)*2)%teamCount;
       if(feedbackRemainder == 0){

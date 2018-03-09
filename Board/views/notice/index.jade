@@ -21,10 +21,10 @@ block content
             else
                 tr
                     td(class="title") 공지사항이 없습니다.
-                
-        a.btn.btn-default(href='/') 뒤로가기
-        if (currentUser.admin == 0)
-          a.btn.btn-default(href="/notice/new") 게시하기
+        .addBtngroup       
+            if (currentUser.admin == 0)
+                a.btn.btn-default(href="/notice/new") 게시 
+            a.btn.btn-default(href='/') 종료
 
         nav
         ul.pagination

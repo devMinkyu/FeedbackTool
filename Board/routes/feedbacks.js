@@ -23,25 +23,47 @@ router.get('/', function(req, res, next) {
     var mod = req.param('mod');
     var projectNumber = req.param('projectNumber');
     if(req.user.admin == 0){
-        res.render('feedbacks/feedbackUpload', {projectNumber:projectNumber, navs:[projectNumber+"차 산출물 문제 제출하기"]});
+        if(projectNumber == "1"){
+            res.render('feedbacks/feedbackUpload', {projectNumber:projectNumber, navs:["기획안 문제 제출하기"]});
+        }else if(projectNumber == "2"){
+            res.render('feedbacks/feedbackUpload', {projectNumber:projectNumber, navs:["컨테츠 내용 문제 제출하기"]});
+        }else{
+            Feedback.find({projectNumber: projectNumber}, function(err, feedbacks){
+                res.render('feedbacks/index', {feedbacks:feedbacks, mod:"result", projectNumber:projectNumber, navs:["최종 컨텐츠 내용"]});
+            });
+        }
     }else{
         if(mod == 'offer'){
             Feedback.find({$or: [{$and: [ {user_Team :req.user.feedbackTeam1}, { projectNumber: projectNumber } ] },{$and: [ {user_Team :req.user.feedbackTeam2}, { projectNumber: projectNumber } ] }]}
                 ,function(err, feedbacks) {
                 if(err) throw err;
-                res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:[projectNumber+"차 산출물 피드백 제공하기"]});
+                if(projectNumber == "1"){
+                    res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:["기획안 피드백 제공"]});
+                }else{
+                    res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:["컨텐츠 내용 피드백 제공"]});
+                }
             });
         }else if(mod == 'show'){
             Feedback.find({ $and: [ {user_Team:req.user.team}, { projectNumber: projectNumber } ] }, function(err, feedbacks){
                 if(err) throw err;
-                res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기"]});
+                if(projectNumber == "1"){
+                    res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:["기획안 피드백 받기"]});
+                }else{
+                    res.render('feedbacks/index', {feedbacks:feedbacks, mod:mod, projectNumber:projectNumber, navs:["컨텐츠 내용 피드백 받기"]});
+                }
             });
         }
     }
 });
 router.get('/new', function(req, res, next) {
     var projectNumber = req.param('projectNumber');
-    res.render('feedbacks/new',{projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "게시하기"], title: projectNumber+"차 산출물 게시하기"});
+    if(projectNumber=="1"){
+        res.render('feedbacks/new',{projectNumber:projectNumber, navs:["기획안 게시", "게시하기"], title: "기획안 게시하기"});
+    }else if(projectNumber=="2"){
+        res.render('feedbacks/new',{projectNumber:projectNumber, navs:["컨텐츠 내용 게시", "게시하기"], title: "컨텐츠 내용 게시하기"});
+    }else if(projectNumber=="3"){
+        res.render('feedbacks/new',{projectNumber:projectNumber, navs:["컨텐츠 내용 수정안 게시", "게시하기"], title: "컨텐츠 내용 수정안 게시하기"});
+    }
 });
 
 router.get('/offer', function(req, res, next) {
@@ -59,10 +81,20 @@ router.get('/offer', function(req, res, next) {
                 if (err) {
                   return next(err);
                 }
-                res.render('feedbacks/offerFeedback', {feedback:feedback,projectNumber:projectNumber,user:user.example, navs:[projectNumber+"차 산출물 피드백 제공하기", "피드백 제공하기"]});
+                if(projectNumber == "1"){
+                    res.render('feedbacks/offerFeedback', {feedback:feedback,projectNumber:projectNumber,user:user.example, navs:["기획안 피드백 제공하기", "피드백 제공"]});
+                }else if(projectNumber == "2"){
+                    res.render('feedbacks/offerFeedback', {feedback:feedback,projectNumber:projectNumber,user:user.example, navs:["컨텐츠 내용 피드백 제공하기", "피드백 제공"]});
+                }
             });
         }else if(mod == 'show'){
-            res.render('feedbacks/showFeedback', {feedback:feedback,projectNumber:projectNumber, navs:[projectNumber+"차 산출물 게시 및 피드백 받기", "피드백 받기"]});
+            if(projectNumber == "1"){
+                res.render('feedbacks/showFeedback', {feedback:feedback,projectNumber:projectNumber, navs:["기획안 피드백 받기", "피드백 받기"]});
+            }else if(projectNumber == "2"){
+                res.render('feedbacks/showFeedback', {feedback:feedback,projectNumber:projectNumber, navs:["컨텐츠 내용 피드백 받기", "피드백 받기"]});
+            }
+        }else{
+            res.render('feedbacks/resultFeedback', {feedback:feedback,projectNumber:projectNumber, navs:["컨텐츠 내용 수정안", "최종 과제물"]});
         }
     });
 });
@@ -128,7 +160,7 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
         }
         if (feedback) {
           req.flash('danger', '팀 피드백이 이미 존재합니다.');
-          res.redirect('/feedbacks?mod=show&projectNumber='+projectNumber);
+          res.redirect('/');
           return; 
         }
         if(!isPDF(upFile)){
@@ -139,7 +171,7 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
         if(mode == 'add') {
             if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
                 addProject(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team,projectNumber);
-                res.redirect('/feedbacks?mod=show&projectNumber='+projectNumber);
+                res.redirect('/');
             } else {
               console.log("파일이 저장되지 않았습니다!");
             }

@@ -28,8 +28,10 @@ function renderPage(num) {
   pdfDoc.getPage(num).then(function(page) {
     if(projectNumber == "1"){
       scale = 1.2;
-    }else{
+    }else if(projectNumber == "2"){
       scale = 1.0;
+    }else{
+      scale = 1.5;
     }
     var viewport = page.getViewport(scale);
     canvas.height = viewport.height;

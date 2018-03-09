@@ -1,0 +1,23 @@
+extends ../layout
+
+block content
+  .container
+    .main-profile
+        include ../includes/nav
+        div 
+            br
+            #pdfName=feedback.fileUp
+            #projectNumber=projectNumber
+            button#prev(onclick='prevFeedback();') Previous
+            button#next(onclick='nextFeedback();') Next
+            span.pagenumber
+                | Page: 
+                span#page_num
+                |  / 
+                span#page_count
+            a.fa.fa-download.download(aria-hidden='true' onclick='downloadFiles("#{feedback.fileUp}");')
+        canvas#the-canvas
+
+    script(src='//mozilla.github.io/pdf.js/build/pdf.js')
+    script(src='/javascripts/pdfShow.js')
+    script(src='/javascripts/main.js')

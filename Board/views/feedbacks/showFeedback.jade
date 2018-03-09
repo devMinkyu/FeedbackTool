@@ -19,8 +19,6 @@ block content
         canvas#the-canvas
         br
         .addBtngroup
-            a.btn.btn-default(href='/feedbacks/delete?_method=DELETE&id=#{feedback._id}') 삭제
-            a.btn.btn-default(href='javascript:window.history.back();') 완료
     .main-offerfeedback
         div
             h1 Feedback 
@@ -45,6 +43,8 @@ block content
 
     script(type='text/javascript').
         function nextFeedback() {
+            var page_count = document.getElementById("page_count").innerHTML;
+            var projectNumber = document.getElementById("projectNumber").innerHTML;
             var page_num = document.getElementById("page_num").innerHTML;
             var page = ++page_num;
             $.get('/feedbacks/feedback?id=#{feedback._id}', function(comment) { 
@@ -70,6 +70,12 @@ block content
                     output += '<tr><td class="title"> 피드백이 없습니다.</td></tr>';
                     $('.comment').html(output);
                 }
+
+                if(page == page_count){
+                    var button = '';
+                    button += '<a class="btn btn-default" href="/feedbacks?mod=show&projectNumber='+projectNumber+'">종료</a>';
+                    $('.addBtngroup').html(button);
+                }
             });
         }
         function prevFeedback() {
@@ -79,6 +85,8 @@ block content
             $.get('/feedbacks/feedback?id=#{feedback._id}', function(comment) { 
                 var output = '';
                 var count = 0;
+                var button = '';
+                $('.addBtngroup').html(button);
                 if(comment.length>0){
                     $('.comment').empty();
                     for(var i=0;i<comment.length;i++) {

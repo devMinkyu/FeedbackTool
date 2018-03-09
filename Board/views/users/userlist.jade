@@ -38,6 +38,10 @@ block content
                                                 a(href='/users/team?_method=PUT&id='+user._id+'&teamNumber=3') 3
                                             li
                                                 a(href='/users/team?_method=PUT&id='+user._id+'&teamNumber=4') 4
+                                            li
+                                                a(href='/users/team?_method=PUT&id='+user._id+'&teamNumber=5') 5
+                                            li
+                                                a(href='/users/team?_method=PUT&id='+user._id+'&teamNumber=6') 6
                                 td #{user.feedbackTeam1} / #{user.feedbackTeam2}
         if(currentUser.admin == 0)
             .dropdown
@@ -51,3 +55,7 @@ block content
                         a(href='/users/feedbackTeam?_method=PUT&teamCount=3') 3팀
                     li
                         a(href='/users/feedbackTeam?_method=PUT&teamCount=4') 4팀
+                    li
+                        a(href='/users/feedbackTeam?_method=PUT&teamCount=5') 5팀
+                    li
+                        a(href='/users/feedbackTeam?_method=PUT&teamCount=6') 6팀

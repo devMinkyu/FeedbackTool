@@ -7,15 +7,16 @@ block content
         include ../includes/nav
         if(mod == "show")
             if(projectNumber == "1")
-                h1 1차 산출물 게시 및 피드백 받기
+                h1 기획안 피드백 받기
             else if(projectNumber == "2")
-                h1 2차 산출물 게시 및 피드백 받기
+                h1 컨텐츠 내용 피드백 받기
         else if(mod == "offer")
             if(projectNumber == "1")
-                h1 1차 산출물 피드백 제공하기
+                h1 기획안 피드백 제공
             else if(projectNumber == "2")
-                h1 2차 산출물 피드백 제공하기
-
+                h1 컨텐츠 내용 피드백 제공
+        else
+            h1 최종 컨텐츠 내용
         table.type09
             if(feedbacks.length > 0)
                 thead
@@ -33,10 +34,6 @@ block content
             else
                 tr
                     td(class="title") 게시물이 없습니다.
-            
-        a.btn.btn-default(href='/') 뒤로가기
-        if(mod == "show")
-            a.btn.btn-default(href="/feedbacks/new?projectNumber=#{projectNumber}") 게시하기
 
         nav
         ul.pagination

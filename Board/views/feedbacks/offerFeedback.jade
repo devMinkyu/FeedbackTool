@@ -32,8 +32,8 @@ block content
             .comment
                 textarea.form-control#feedbackComment(rows="10", cols="45")
             br
-            button.btn.btn-default#notice(onclick='saveComment();') 
-                span 게시
+            .addBtngroup
+                button.btn.btn-default#notice(onclick='saveComment();') 저장
 
 
 
@@ -50,7 +50,6 @@ block content
                 if(save == false){
                     save = true;
                     alert("피드백이 저장 되었습니다.");
-                    $("#notice span").text("수정");
                     save = false;
                 }
             });
@@ -68,7 +67,6 @@ block content
                         $('.comment').empty();
                         output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+replyList[j].memo+'</textarea>'
                         $('.comment').html(output);
-                        $("#notice span").text("수정");
                         count++;
                         break;
                     }
@@ -78,7 +76,6 @@ block content
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
                     $('.comment').html(output);
-                    $("#notice span").text("게시");
                 }
                 var input = '';
                 for(var i=1;i<=3;i++) {
@@ -104,7 +101,6 @@ block content
                         $('.comment').empty();
                         output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+replyList[j].memo+'</textarea>'
                         $('.comment').html(output);
-                        $("#notice span").text("수정");
                         count++;
                         break;
                     }
@@ -114,7 +110,6 @@ block content
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
                     $('.comment').html(output);
-                    $("#notice span").text("게시");
                 }
                 var input = '';
                 for(var i=1;i<=3;i++) {
@@ -137,7 +132,6 @@ block content
                         $('.comment').empty();
                         output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+replyList[j].memo+'</textarea>'
                         $('.comment').html(output);
-                        $("#notice span").text("수정");
                         count++;
                         break;
                     }
@@ -147,7 +141,6 @@ block content
                     $('.comment').empty();
                     output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45"></textarea>'
                     $('.comment').html(output);
-                    $("#notice span").text("게시");
                 }
             });
         })()
