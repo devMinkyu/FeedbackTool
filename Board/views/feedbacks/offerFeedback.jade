@@ -17,7 +17,7 @@ block content
                 span#page_count
         canvas#the-canvas
         br
-        a.btn.btn-lg.btn-default.btn-exit(href='javascript:window.history.back();') 종료
+        a.btn.btn-lg.btn-default.btn-exit(href='/') 종료
     .main-offerfeedback
         br
         div
@@ -46,6 +46,7 @@ block content
         function saveComment() {
             var page_num = document.getElementById("page_num").innerHTML;
             var feedbackComment = document.getElementById("feedbackComment").value;
+            feedbackComment = feedbackComment.replace(/(?:\r\n|\r|\n)/g, '<br>');
             $.get('/feedbacks/comment?id=#{feedback._id}&page_num='+page_num+'&feedbackComment='+feedbackComment, function() { 
                 if(save == false){
                     save = true;
@@ -65,7 +66,9 @@ block content
                     if(page == replyList[j].page){
                         var output = '';
                         $('.comment').empty();
-                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+replyList[j].memo+'</textarea>'
+                        var feedbackComment = replyList[j].memo;
+                        feedbackComment = feedbackComment.replace(/<br>/g, '\n');
+                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+feedbackComment+'</textarea>'
                         $('.comment').html(output);
                         count++;
                         break;
@@ -99,7 +102,9 @@ block content
                     if(page == replyList[j].page){
                         var output = '';
                         $('.comment').empty();
-                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+replyList[j].memo+'</textarea>'
+                        var feedbackComment = replyList[j].memo;
+                        feedbackComment = feedbackComment.replace(/<br>/g, '\n');
+                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+feedbackComment+'</textarea>'
                         $('.comment').html(output);
                         count++;
                         break;
@@ -130,7 +135,9 @@ block content
                     if("1" == replyList[j].page){
                         var output = '';
                         $('.comment').empty();
-                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+replyList[j].memo+'</textarea>'
+                        var feedbackComment = replyList[j].memo;
+                        feedbackComment = feedbackComment.replace(/<br>/g, '\n');
+                        output += '<textarea class="form-control", id="feedbackComment", rows="10", cols="45">'+feedbackComment+'</textarea>'
                         $('.comment').html(output);
                         count++;
                         break;

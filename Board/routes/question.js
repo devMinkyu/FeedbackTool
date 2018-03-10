@@ -58,6 +58,7 @@ router.post('/', function(req, res){
     var addNewWriter = req.user.name;
     var addNewUserId = req.user._id;
     var addNewContent = req.body.addContents;
+    addNewContent = addNewContent.replace(/(?:\r\n|\r|\n)/g, '<br>');
     if(mode == 'add') {
         var newQuestionContents = new Question();
             newQuestionContents.number = addNewNumber;
@@ -78,6 +79,7 @@ router.post('/reply', function(req, res){
     var reply_writer = req.user.name;
     var reply_userId = req.user._id;
     var reply_comment = req.body.addContents;
+    reply_comment = reply_comment.replace(/(?:\r\n|\r|\n)/g, '<br>');
     var reply_id = req.param('id');
 
     addComment(reply_id, reply_writer, reply_comment, reply_userId);

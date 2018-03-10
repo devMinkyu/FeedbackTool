@@ -5,7 +5,7 @@ block content
     .row.main
       .main-pdf
         include ../includes/nav
-        #pdfName=currentUser._id
+        #replyId=currentUser._id
         .content_detail
             -function dateFormatChange(date) {
                 -var newdate = new Date(date);
@@ -14,7 +14,7 @@ block content
             -}
             h3.content-title=question.title
             .content-info #{dateFormatChange(question.date)} / #{question.writer}
-            .content-text=question.contents
+            .content-text#contents=question.contents
             .addBtngroup
                 if(question.user_Id == currentUser._id)
                     a.btn.btn-default(href='/question/delete?_method=DELETE&id=#{question._id}') 삭제
@@ -95,6 +95,12 @@ block content
             return newdate.toLocaleTimeString("ko-KR", options);
         }
         (function () {
-            var pdfName = document.getElementById("pdfName").innerHTML;
-            changePage(1, pdfName);
+            var replyId = document.getElementById("replyId").innerHTML;
+            changePage(1, replyId);
+            var contentText = document.getElementById("contents").innerHTML;
+            contentText = contentText.replace(/&lt;br&gt;/g, '<br>');
+            var output = '';
+            $('.content-text').empty();
+            output += contentText;
+            $('.content-text').html(output);
         })()

@@ -71,11 +71,13 @@ router.post('/', function(req, res){
     var addNewNumber = count++;
     var addNewTitle = req.body.addContentSubject;
     var addNewContent = req.body.addContents;
+    addNewContent = addNewContent.replace(/(?:\r\n|\r|\n)/g, '<br>');
     if(mode == 'add') {
         var newNoticeContents = new Notice();
             newNoticeContents.number = addNewNumber;
             newNoticeContents.title = addNewTitle;
             newNoticeContents.contents = addNewContent;
+            
         newNoticeContents.save(function (err) {
             if (err) throw err;
         });

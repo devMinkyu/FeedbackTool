@@ -13,8 +13,21 @@ block content
             -}
             h3.content-title=notice.title
             .content-info #{dateFormatChange(notice.date)} 
-            .content-text=notice.contents
+            .content-text#contents=notice.contents
             .addBtngroup
                 if(0== currentUser.admin)
                     a.btn.btn-default(href='/notice/delete?_method=DELETE&id=#{notice._id}') 삭제
                 a.btn.btn-default(href='/') 확인
+
+
+
+
+    script(type='text/javascript').
+        (function () {
+            var contentText = document.getElementById("contents").innerHTML;
+            contentText = contentText.replace(/&lt;br&gt;/g, '<br>');
+            var output = '';
+            $('.content-text').empty();
+            output += contentText;
+            $('.content-text').html(output);
+        })()

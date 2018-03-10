@@ -23,7 +23,7 @@ block content
                     .thumbnail
                         .caption.mypage
                             h3 사전 훈련
-                            p 답안: #{user.feedback}
+                            p#comment=user.feedback
         each feedback in showFeedbacks
             if(feedback.projectNumber == "1")
                 br
@@ -112,3 +112,11 @@ block content
                 }
             });
         }
+        (function () {
+            var comment = document.getElementById("comment").innerHTML;
+            comment = comment.replace(/&lt;br&gt;/g, '<br>');
+            var output = '';
+            $('#comment').empty();
+            output += comment;
+            $('#comment').html(output);
+        })()

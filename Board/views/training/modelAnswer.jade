@@ -25,7 +25,17 @@ block content
             .main-sample2
                 h1 내가 쓴 답안
                 .ex1=training.trainingExample
-                .ex1=myUser.feedback
+                .ex1#comment=myUser.feedback
                 a.btn.btn-lg.btn-default(href='/') 종료
     script(src='//mozilla.github.io/pdf.js/build/pdf.js')
     script(src='/javascripts/pdfShow.js')
+
+    script(type='text/javascript').
+        (function () {
+            var comment = document.getElementById("comment").innerHTML;
+            comment = comment.replace(/&lt;br&gt;/g, '<br>');
+            var output = '';
+            $('#comment').empty();
+            output += comment;
+            $('#comment').html(output);
+        })()

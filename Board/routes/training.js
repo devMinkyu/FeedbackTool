@@ -67,8 +67,8 @@ router.post('/', function(req, res, next){
         if (err) {
           return next(err);
         }
-        var solution;
-        solution = req.body.solution; 
+        var solution = req.body.solution; 
+        solution = solution.replace(/(?:\r\n|\r|\n)/g, '<br>');
         user.feedback = solution;
         user.save(function (err) {
           if (err) throw err;

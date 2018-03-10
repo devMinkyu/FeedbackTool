@@ -374,7 +374,7 @@ text-align: center;
     margin-bottom: 10px;
     margin-top: 10px;
   }
-#pdfName, #trainingExample, #pdfName2, #projectNumber{
+#pdfName, #trainingExample, #pdfName2, #projectNumber, #replyId{
   display: none; 
 }
 .main-sample > div{
