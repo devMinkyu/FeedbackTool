@@ -88,7 +88,7 @@ router.get('/offerFeedback', function(req, res) {
 });
 router.put('/feedbackTeam', function(req, res, next) {
   var teamCount = req.param('teamCount');
-  User.find({}, function(err, users) {
+  User.find({admin:1}, function(err, users) {
     if (err) {
       return next(err);
     }
@@ -109,8 +109,8 @@ router.put('/feedbackTeam', function(req, res, next) {
         }
       }
     }else{
-      var feedbackCount = ((users.length-1)*2)/teamCount;
-      var feedbackRemainder = ((users.length-1)*2)%teamCount;
+      var feedbackCount = ((users.length)*2)/teamCount;
+      var feedbackRemainder = ((users.length)*2)%teamCount;
       if(feedbackRemainder == 0){
         feedbackRemainder = 1;
       }
@@ -124,28 +124,20 @@ router.put('/feedbackTeam', function(req, res, next) {
         else if(users[i].admin == 1){
           users[i].feedbackTeam1 = 0;
           users[i].feedbackTeam2 = 0;
-          do{
-            var feedbackTeam = Math.floor(Math.random() * ((max) - 1)) + 1;
-            if(team[feedbackTeam-1] < (feedbackCount+feedbackRemainder-1) && users[i].team != feedbackTeam){
-              team[feedbackTeam-1]++;
-              users[i].feedbackTeam1 = feedbackTeam;
-              users[i].save(function (err) {
-                if (err) throw err;
-              });
-              break;
-            }
-          }while(1);
-          do{
-            var feedbackTeam = Math.floor(Math.random() * ((max) - 1)) + 1;
-            if(team[feedbackTeam-1] < (feedbackCount+feedbackRemainder-1) && users[i].team != feedbackTeam && users[i].feedbackTeam1 != feedbackTeam){
-              team[feedbackTeam-1]++;
-              users[i].feedbackTeam2 = feedbackTeam;
-              users[i].save(function (err) {
-                if (err) throw err;
-              });
-              break;
-            }
-          }while(1);
+          var feedbackTeam1 = Math.floor(Math.random() * ((max) - 1)) + 1;
+          var feedbackTeam2 = Math.floor(Math.random() * ((max) - 1)) + 1;
+          while(feedbackTeam1==feedbackTeam2 || feedbackTeam1 == users[i].team || feedbackTeam2 == users[i].team || 
+            team[feedbackTeam1-1] > (feedbackCount+feedbackRemainder-1) || team[feedbackTeam2-1] > (feedbackCount+feedbackRemainder-1)){
+            feedbackTeam1 = Math.floor(Math.random() * ((max) - 1)) + 1;
+            feedbackTeam2 = Math.floor(Math.random() * ((max) - 1)) + 1;
+          }
+          team[feedbackTeam1-1]++;
+          team[feedbackTeam2-1]++;
+          users[i].feedbackTeam1 = feedbackTeam1;
+          users[i].feedbackTeam2 = feedbackTeam2;
+          users[i].save(function (err) {
+            if (err) throw err;
+          });
         }
       }
     }
