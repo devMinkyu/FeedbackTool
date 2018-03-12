@@ -59,8 +59,8 @@ block content
                                         ul.pagination
                                             -for(var i = 1; i<=replyPage[0];i++)
                                                 li
-                                                    a(onclick="chageShowFeedback('#{feedback._id}',1,#{i},#{feedback.comments.length});")=i
-            else
+                                                    a.project1(onclick="chageShowFeedback('#{feedback._id}',1,#{i},#{feedback.comments.length});")=i
+            else if(feedback.projectNumber == "2")
                 br
                 .ex1
                     h2 컨텐츠 내용
@@ -92,9 +92,9 @@ block content
                                                     -j++;
                                     nav
                                         ul.pagination
-                                            -for(var i = 1; i<=replyPage[2];i++)
+                                            -for(var i = 1; i<=replyPage[1];i++)
                                                 li
-                                                    a(onclick="chageShowFeedback('#{feedback._id}',2,#{i},#{feedback.comments.length});")=i
+                                                    a.project2(onclick="chageShowFeedback('#{feedback._id}',2,#{i},#{feedback.comments.length});")=i
 
     script(type='text/javascript').
         function chageShowFeedback(id, projectNumber,page,max) {
@@ -113,6 +113,8 @@ block content
             });
         }
         (function () {
+            $(".project1").first().trigger("click");
+            $(".project2").first().trigger("click");
             var comment = document.getElementById("comment").innerHTML;
             comment = comment.replace(/&lt;br&gt;/g, '<br>');
             var output = '';

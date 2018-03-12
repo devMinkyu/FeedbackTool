@@ -26,7 +26,7 @@ router.get('/profile', function(req, res, next) {
         var reply_pg = [];
         var a = showFeedbacks;
         for(var i = 0;i<showFeedbacks.length;i++){
-          reply_pg[i*2] = Math.ceil(showFeedbacks[i].comments.length/5);
+          reply_pg[i] = Math.ceil(showFeedbacks[i].comments.length/5);
           a[i].comments = quickSort(showFeedbacks[i].comments);
         }
         res.render('users/profile',{user:user, users:users,replyPage: reply_pg, showFeedbacks:showFeedbacks, navs:["나의 공간"]});
