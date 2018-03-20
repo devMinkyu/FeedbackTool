@@ -7,11 +7,11 @@ block content
         include ../includes/nav
         h1=title
         .write_form
-            form#writeAction(action='/feedbacks?mode=add&projectNumber=#{projectNumber}', method='post', enctype='multipart/form-data')
+            form#writeAction(action='/feedbacks?id=#{feedback._id}&_method=PUT', method='post', enctype='multipart/form-data')
                 .form-group
-                    input#addContentSubject.inputSubject(type='text', name='addContentSubject', placeholder='제목')
+                    input#addContentSubject.inputSubject(type='text', name='addContentSubject', placeholder='제목', value=feedback.title)
                 .form-group
-                    textarea#addContents.textContents(name='addContents', rows='20', cols='80')
+                    textarea#addContents.textContents(name='addContents', rows='20', cols='80')=feedback.contents
                 .form-group
                     input#UploadFeedback.inputFile(type='file', name='UploadFeedback', multiple='')
             #new.addBtngroup

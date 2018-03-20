@@ -50,9 +50,13 @@ block content
             $.get('/feedbacks/comment?id=#{feedback._id}&page_num='+page_num+'&feedbackComment='+feedbackComment, function() { 
                 if(save == false){
                     save = true;
-                    alert("피드백이 저장 되었습니다.");
+                    alert("다음 페이지에 피드백을 제공해주세요.");
                     save = false;
                 }
+                var input = '';
+                input += '<tr"><th>'+page_num+'</th>'
+                input += '<td class="beforeFeedback">'+feedbackComment+'</td></tr>';
+                $('.beforefeedback').prepend(input);
             });
         }
         function nextChange() {

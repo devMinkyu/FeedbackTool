@@ -26,11 +26,14 @@ block content
                 h1 내가 쓴 답안
                 .ex1=training.trainingExample
                 .ex1#comment=myUser.feedback
-                a.btn.btn-lg.btn-default(href='/') 종료
+                a.btn.btn-lg.btn-default.answer(href='/') 종료
     script(src='//mozilla.github.io/pdf.js/build/pdf.js')
     script(src='/javascripts/pdfShow.js')
 
     script(type='text/javascript').
+        $('.answer').click(function(){
+            alert("내가 작성한 답안은 나의 공간에서 확인할 수 있습니다.")
+        });
         (function () {
             var comment = document.getElementById("comment").innerHTML;
             comment = comment.replace(/&lt;br&gt;/g, '<br>');

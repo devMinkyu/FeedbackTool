@@ -57,15 +57,40 @@ router.get('/', function(req, res, next) {
 });
 router.get('/new', function(req, res, next) {
     var projectNumber = req.param('projectNumber');
-    if(projectNumber=="1"){
-        res.render('feedbacks/new',{projectNumber:projectNumber, navs:["기획안 게시", "게시하기"], title: "기획안 게시하기"});
-    }else if(projectNumber=="2"){
-        res.render('feedbacks/new',{projectNumber:projectNumber, navs:["컨텐츠 내용 게시", "게시하기"], title: "컨텐츠 내용 게시하기"});
-    }else if(projectNumber=="3"){
-        res.render('feedbacks/new',{projectNumber:projectNumber, navs:["컨텐츠 내용 수정안 게시", "게시하기"], title: "컨텐츠 내용 수정안 게시하기"});
-    }
+    Feedback.findOne({ $and: [ {user_Team:req.user.team}, { projectNumber: projectNumber } ] }, function(err, feedback) {
+        if (err) {
+          return next(err);
+        }
+        if (feedback) {
+            req.flash('danger', '팀 피드백이 이미 존재합니다.');
+            res.redirect('/');
+            return; 
+        }else{
+            if(projectNumber=="1"){
+                res.render('feedbacks/new',{projectNumber:projectNumber, navs:["기획안 게시", "게시하기"], title: "기획안 게시하기"});
+            }else if(projectNumber=="2"){
+                res.render('feedbacks/new',{projectNumber:projectNumber, navs:["컨텐츠 내용 게시", "게시하기"], title: "컨텐츠 내용 게시하기"});
+            }else if(projectNumber=="3"){
+                res.render('feedbacks/new',{projectNumber:projectNumber, navs:["컨텐츠 내용 수정안 게시", "게시하기"], title: "컨텐츠 내용 수정안 게시하기"});
+            }
+        }
+    });
 });
-
+router.get('/edit', function(req, res, next) {
+    var projectNumber = req.param('projectNumber');
+    Feedback.findOne({ $and: [ {user_Team:req.user.team}, { projectNumber: projectNumber } ] }, function(err, feedback) {
+        if (err) {
+          return next(err);
+        }
+        if(projectNumber=="1"){
+            res.render('feedbacks/edit',{projectNumber:projectNumber, navs:["기획안 게시", "게시하기"], title: "기획안 게시하기", feedback:feedback});
+        }else if(projectNumber=="2"){
+            res.render('feedbacks/edit',{projectNumber:projectNumber, navs:["컨텐츠 내용 게시", "게시하기"], title: "컨텐츠 내용 게시하기", feedback:feedback});
+        }else if(projectNumber=="3"){
+            res.render('feedbacks/edit',{projectNumber:projectNumber, navs:["컨텐츠 내용 수정안 게시", "게시하기"], title: "컨텐츠 내용 수정안 게시하기", feedback:feedback});
+        }
+    });
+});
 router.get('/offer', function(req, res, next) {
     var id = req.param('id');
     var mod = req.param('mod');
@@ -145,6 +170,26 @@ router.get('/feedback', function(req, res) {
         res.send(feedback.comments);
     });
 });
+router.put('/', upload.array('UploadFeedback'),function(req, res){
+    //field name은 form의 input file의 name과 같아야함
+    var id = req.param('id');
+    var addNewTitle = req.body.addContentSubject;
+    var addNewWriter = req.user.name;
+    var addNewContent = req.body.addContents;
+    var upFile = req.files; // 업로드 된 파일을 받아옴
+    if(!isPDF(upFile)){
+        req.flash('info', "PDF 파일이 아닙니다.");
+        res.redirect('/feedbacks/new');
+        return;
+    }
+    if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
+        modiProject(addNewTitle, addNewContent, upFile, addNewWriter, id);
+        req.flash('success', "과제가 성공적으로 수정 되었습니다.");
+        res.redirect('/');
+    } else {
+        console.log("파일이 저장되지 않았습니다!");
+    }
+});
 router.post('/', upload.array('UploadFeedback'),function(req, res){
     //field name은 form의 input file의 name과 같아야함
     var mode = req.param('mode');
@@ -158,11 +203,6 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
         if (err) {
           return next(err);
         }
-        if (feedback) {
-          req.flash('danger', '팀 피드백이 이미 존재합니다.');
-          res.redirect('/');
-          return; 
-        }
         if(!isPDF(upFile)){
             req.flash('info', "PDF 파일이 아닙니다.");
             res.redirect('/feedbacks/new');
@@ -171,6 +211,7 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
         if(mode == 'add') {
             if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
                 addProject(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team,projectNumber);
+                req.flash('success', "과제가 성공적으로 등록 되었습니다.");
                 res.redirect('/');
             } else {
               console.log("파일이 저장되지 않았습니다!");
@@ -243,14 +284,37 @@ function addProject(title, writer, content, upFile, userTeam,projectNumber){
                         }
                     });
                 }
-
-                for (var j = 0; j < upFile.length; j++) {
-                    Feedback.update({_id: newBoardId.id}, {$push: {fileUp: renaming.fullname[j]}}, function (err) {
-                        if (err) throw err;
-                    });
-                }
+                newBoardId.fileUp = renaming.fullname[0];
+                newBoardId.save(function (err) {
+                    if (err) throw err;
+                });
             }
         });
+    });
+}
+function modiProject(title, content, upFile, name, id){
+    Feedback.findOne({_id: id}, {_id: 1}, function (err, feedback) {
+        if (err) throw err;
+
+        if (upFile != null) {
+            var renaming = renameUploadFile(feedback.id, upFile);
+
+            for (var i = 0; i < upFile.length; i++) {
+                fs.rename(renaming.tmpname[i], renaming.fsname[i], function (err) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                });
+            }
+            feedback.title = title;
+            feedback.contents = content;
+            feedback.writer = name;
+            feedback.fileUp = renaming.fullname[0];
+            feedback.save(function (err) {
+                if (err) throw err;
+            });
+        }
     });
 }
 function quickSort(arr){

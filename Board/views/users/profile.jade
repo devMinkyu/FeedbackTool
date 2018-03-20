@@ -36,6 +36,9 @@ block content
                                     h3 과제
                                     p 
                                         a(href="/feedbacks/offer?id=#{feedback.id}&mod=show&projectNumber=1")=feedback.title
+                                    br
+                                    a.btn.btn-default(href='/feedbacks/edit?projectNumber=1') 수정
+                                    a.btn.btn-default(href='/feedbacks/delete?_method=DELETE&id=#{feedback._id}') 삭제
                         .col-sm-6.col-md-9
                             .thumbnail
                                 .caption.mypage
@@ -71,6 +74,9 @@ block content
                                     h3 과제
                                     p 
                                         a(href="/feedbacks/offer?id=#{feedback.id}&mod=show&projectNumber=2")=feedback.title
+                                    br
+                                    a.btn.btn-default(href='/feedbacks/edit?projectNumber=2') 수정
+                                    a.btn.btn-default(href='/feedbacks/delete?_method=DELETE&id=#{feedback._id}') 삭제
                         .col-sm-6.col-md-9
                             .thumbnail
                                 .caption.mypage
@@ -112,6 +118,8 @@ block content
                 }
             });
         }
+        var a = document.getElementById('yourlinkId'); //or grab it by tagname etc
+        a.href = "somelink url"
         (function () {
             $(".project1").first().trigger("click");
             $(".project2").first().trigger("click");
