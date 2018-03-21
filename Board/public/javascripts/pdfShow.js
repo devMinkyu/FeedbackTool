@@ -9,7 +9,7 @@ url += '/user/';
 url += pdfName;
 // alert(url);
 // The workerSrc property shall be specified.
-pdfjsDistBuildPdf.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
+pdfjsLib.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.js';
 
 var pdfDoc = null,
     pageNum = 1,
@@ -97,7 +97,7 @@ document.getElementById('next').addEventListener('click', onNextPage);
 /**
  * Asynchronously downloads PDF.
  */
-pdfjsDistBuildPdf.getDocument(url).then(function(pdfDoc_) {
+pdfjsLib.getDocument(url).then(function(pdfDoc_) {
   pdfDoc = pdfDoc_;
   document.getElementById('page_count').textContent = pdfDoc.numPages; // 전체 페이지 수
 

@@ -19,6 +19,13 @@ block content
                                     sapn  #{teamUser.name}, 
                                 span )
                             p 피드백을 제공할 팀: #{user.feedbackTeam1}팀, #{user.feedbackTeam2}팀
+                            each feedback in showFeedbacks
+                                if(feedback.projectNumber == "3")
+                                    p 최종 제출물: 
+                                        a(href="/feedbacks/offer?id=#{feedback.id}")=feedback.title
+                                    br
+                                    a.btn.btn-default(href='/feedbacks/edit?projectNumber=3') 수정
+                                    a.btn.btn-default(href='/feedbacks/delete?_method=DELETE&id=#{feedback._id}') 삭제
                 .col-sm-6.col-md-8
                     .thumbnail
                         .caption.mypage
@@ -37,8 +44,8 @@ block content
                                     p 
                                         a(href="/feedbacks/offer?id=#{feedback.id}&mod=show&projectNumber=1")=feedback.title
                                     br
-                                    a.btn.btn-default(href='/feedbacks/edit?projectNumber=1') 수정
-                                    a.btn.btn-default(href='/feedbacks/delete?_method=DELETE&id=#{feedback._id}') 삭제
+                                    a.btn.btn-default(onclick="askModify(1);") 수정
+                                    a.btn.btn-default(onclick="askDelete('#{feedback._id}');") 삭제
                         .col-sm-6.col-md-9
                             .thumbnail
                                 .caption.mypage
@@ -75,8 +82,8 @@ block content
                                     p 
                                         a(href="/feedbacks/offer?id=#{feedback.id}&mod=show&projectNumber=2")=feedback.title
                                     br
-                                    a.btn.btn-default(href='/feedbacks/edit?projectNumber=2') 수정
-                                    a.btn.btn-default(href='/feedbacks/delete?_method=DELETE&id=#{feedback._id}') 삭제
+                                    a.btn.btn-default(onclick="askModify(2);") 수정
+                                    a.btn.btn-default(onclick="askDelete('#{feedback._id}');") 삭제
                         .col-sm-6.col-md-9
                             .thumbnail
                                 .caption.mypage
@@ -118,8 +125,21 @@ block content
                 }
             });
         }
-        var a = document.getElementById('yourlinkId'); //or grab it by tagname etc
-        a.href = "somelink url"
+        $(".delete").click(function() {
+           
+        });
+        function askDelete(id){
+            var r = confirm("삭제시 지금까지 제공된 피드백이 삭제 될 수 있습니다.");
+            if (r == true) {
+                location.href='/feedbacks/delete?_method=DELETE&id='+id;
+            }
+        }
+        function askModify(projectNumber){
+            var r = confirm("수정시 지금까지 제공된 피드백이 삭제 될 수 있습니다.");
+            if (r == true) {
+                location.href='/feedbacks/edit?projectNumber='+projectNumber;
+            }
+        }
         (function () {
             $(".project1").first().trigger("click");
             $(".project2").first().trigger("click");

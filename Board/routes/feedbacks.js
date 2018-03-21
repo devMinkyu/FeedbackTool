@@ -211,7 +211,7 @@ router.post('/', upload.array('UploadFeedback'),function(req, res){
         if(mode == 'add') {
             if (isSaved(upFile)) { // 파일이 제대로 업로드 되었는지 확인 후 디비에 저장시키게 됨
                 addProject(addNewTitle, addNewWriter, addNewContent, upFile, req.user.team,projectNumber);
-                req.flash('success', "과제가 성공적으로 등록 되었습니다.");
+                req.flash('success', "과제가 성공적으로 등록 되었습니다. 과제는 나의 공간에서 확인 할 수 있습니다.");
                 res.redirect('/');
             } else {
               console.log("파일이 저장되지 않았습니다!");
