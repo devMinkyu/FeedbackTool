@@ -14,18 +14,20 @@ block content
                         .caption.mypage
                             h3 프로필
                             p 이름: #{user.name}
-                            p 내가 속한 팀: #{user.team}팀 (팀원:
-                                each teamUser in users
-                                    sapn  #{teamUser.name}, 
-                                span )
-                            p 피드백을 제공할 팀: #{user.feedbackTeam1}팀, #{user.feedbackTeam2}팀
-                            each feedback in showFeedbacks
-                                if(feedback.projectNumber == "3")
-                                    p 최종 제출물: 
-                                        a(href="/feedbacks/offer?id=#{feedback.id}")=feedback.title
-                                    br
-                                    a.btn.btn-default(href='/feedbacks/edit?projectNumber=3') 수정
-                                    a.btn.btn-default(href='/feedbacks/delete?_method=DELETE&id=#{feedback._id}') 삭제
+                            if(user.team == "0")
+                            else
+                                p 내가 속한 팀: #{user.team}팀 (팀원:
+                                    each teamUser in users
+                                        sapn  #{teamUser.name}, 
+                                    span )
+                                p 피드백을 제공할 팀: #{user.feedbackTeam1}팀, #{user.feedbackTeam2}팀
+                                each feedback in showFeedbacks
+                                    if(feedback.projectNumber == "3")
+                                        p 최종 제출물: 
+                                            a(href="/feedbacks/offer?id=#{feedback.id}")=feedback.title
+                                        br
+                                        a.btn.btn-default(href='/feedbacks/edit?projectNumber=3') 수정
+                                        a.btn.btn-default(href='/feedbacks/delete?_method=DELETE&id=#{feedback._id}') 삭제
                 .col-sm-6.col-md-8
                     .thumbnail
                         .caption.mypage
