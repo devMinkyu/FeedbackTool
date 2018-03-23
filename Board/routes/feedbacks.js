@@ -57,6 +57,11 @@ router.get('/', function(req, res, next) {
 });
 router.get('/new', function(req, res, next) {
     var projectNumber = req.param('projectNumber');
+    if(req.user.team == "0"){
+        req.flash('info', "권한이 없습니다.");
+        res.redirect('/');
+        return;
+    }
     Feedback.findOne({ $and: [ {user_Team:req.user.team}, { projectNumber: projectNumber } ] }, function(err, feedback) {
         if (err) {
           return next(err);
