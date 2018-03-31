@@ -29,7 +29,7 @@ function renderPage(num) {
     if(projectNumber == "3"){
       scale = 1.2;
     }else if(projectNumber == "2" || projectNumber == "1"){
-      scale = 1.0;
+      scale = 0.8;
     }else{
       scale = 1.5;
     }
