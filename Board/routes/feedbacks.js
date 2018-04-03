@@ -2,7 +2,6 @@ var express = require('express');
 Feedback = require('../models/Feedback');
 var multer = require('multer');
 var fs = require('fs');
-var iconv  = require('iconv-lite');
 
 var _storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -137,10 +136,6 @@ router.get('/comment', function(req, res) {
     var comment = req.param('feedbackComment'); // 피드백 내용
 
     var count = 0;
-    
-    check = /[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/;
-    var commentBin = new Buffer(comment, 'binary');  
-    var commentUtf8 = iconv.decode(commentBin, 'EUC-KR').toString();
 
     Feedback.findOne({_id: id}, function(err, feedback){
         if(err) throw err;
@@ -150,11 +145,7 @@ router.get('/comment', function(req, res) {
                 break;
             }
         }        
-        if(check.test(comment)){
-            feedback.comments.unshift({name:req.user.name, userId:req.user._id, memo: comment, page:page_num, userTeam:feedback.user_Team});
-        }else{
-            feedback.comments.unshift({name:req.user.name, userId:req.user._id, memo: commentUtf8, page:page_num, userTeam:feedback.user_Team});
-        }
+        feedback.comments.unshift({name:req.user.name, userId:req.user._id, memo: comment, page:page_num, userTeam:feedback.user_Team});
         feedback.save(function(err){
             if(err) throw err;
         });
