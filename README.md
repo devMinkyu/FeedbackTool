@@ -1,4 +1,4 @@
-## Ourmemories - 남기고 싶은 추억
+## FeedbackTool - 피드백 주는 페이지
 
 ## 주요 기술 및 설명
 
