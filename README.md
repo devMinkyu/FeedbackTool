@@ -3,7 +3,7 @@
 ## 주요 기술 및 설명
 
 ##### web
-+ Ndoe.js의 프레임워크인 express.js를 사용하여 웹 설계
++ Node.js의 프레임워크인 express.js를 사용하여 웹 설계
 + MVC Pattern을 사용
 + MongoDB를 통해 서버에 데이터 저장
 + pdf.js 라이브러리를 사용하여 페이지에 바로 pdf를 보이도록 설정
