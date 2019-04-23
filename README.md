@@ -2,7 +2,7 @@
 
 ## 주요 기술 및 설명
 
-##### web
+### web
 + Node.js의 프레임워크인 express.js를 사용하여 웹 설계
 + MVC Pattern을 사용
 + MongoDB를 통해 서버에 데이터 저장
